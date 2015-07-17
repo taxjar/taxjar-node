@@ -92,7 +92,7 @@ taxjar.updateOrder({
   'line_items': [
     {
       'quantity': 1,
-      'product_identifier': '12-34243--',
+      'product_identifier': '12-34243-0',
       'description': 'Heavy Widget',
       'unit_price': 15.0,
       'discount': 0.0,
