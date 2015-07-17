@@ -1,0 +1,37 @@
+{
+  "name": "taxjar",
+  "version": "1.0.0",
+  "description": "TaxJar Sales Tax API for Node",
+  "homepage": "https://github.com/taxjar/taxjar-node",
+  "author": "TaxJar <jake@taxjar.com> (http://www.taxjar.com/)",
+  "license": "MIT",
+  "bugs": "https://github.com/taxjar/taxjar-node/issues",
+  "contributors": [
+    "Jake Johnson <jake@taxjar.com>"
+  ],
+  "keywords": [
+    "taxjar",
+    "sales tax",
+    "sales tax calculations",
+    "sales tax rates",
+    "api"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/taxjar/taxjar-node.git"
+  },
+  "engines": {
+    "node": ">= v0.10.0"
+  },
+  "main": "lib/taxjar.js",
+  "devDependencies": {
+    "mocha": "~2.1.0"
+  },
+  "dependencies": {
+    "bluebird": "^2.9.34",
+    "restler": "^3.3.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  }
+}
