@@ -1,0 +1,57 @@
+'use strict';
+
+var nock = require('nock');
+
+var TEST_API_HOST = 'https://mockapi.taxjar.com';
+
+var TAX_RES = {
+  "tax": {
+    "order_total_amount": 16.5,
+    "amount_to_collect": 1.16,
+    "has_nexus": true,
+    "freight_taxable": true,
+    "tax_source": "destination",
+    "breakdown": {
+      "shipping": {
+        "state_amount": 0.11,
+        "state_sales_tax_rate": 0.07,
+        "county_amount": 0,
+        "county_tax_rate": 0,
+        "city_amount": 0,
+        "city_tax_rate": 0,
+        "special_district_amount": 0,
+        "special_tax_rate": 0
+      },
+      "state_taxable_amount": 16.5,
+      "state_tax_collectable": 1.16,
+      "county_taxable_amount": 0,
+      "county_tax_collectable": 0,
+      "city_taxable_amount": 0,
+      "city_tax_collectable": 0,
+      "special_district_taxable_amount": 0,
+      "special_district_tax_collectable": 0,
+      "line_items": [
+        {
+          "id": "1",
+          "state_taxable_amount": 15,
+          "state_sales_tax_rate": 0.07,
+          "county_taxable_amount": 0,
+          "county_tax_rate": 0,
+          "city_taxable_amount": 0,
+          "city_tax_rate": 0,
+          "special_district_taxable_amount": 0,
+          "special_tax_rate": 0
+        }
+      ]
+    }
+  }
+};
+
+nock(TEST_API_HOST)
+  .matchHeader('Authorization', /Bearer.*/)
+  .post('/v2/taxes')
+  .reply(200, function(uri, body) {
+    return TAX_RES;
+  });
+
+module.exports.TAX_RES = TAX_RES;
