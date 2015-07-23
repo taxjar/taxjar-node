@@ -54,6 +54,25 @@ taxjar.taxForOrder({
 });
 ```
 
+### List order transactions
+
+```javascript
+taxjar.listOrders({
+  from_transaction_date: '2015/05/01',
+  to_transaction_date: '2015/05/31'
+}).then(function(res) {
+  res.orders; // Orders object
+});
+```
+
+### Show order transaction
+
+```javascript
+taxjar.showOrder('123').then(function(res) {
+  res.order; // Order object
+});
+```
+
 ### Create order transaction
 
 ```javascript
@@ -101,6 +120,25 @@ taxjar.updateOrder({
   ]
 }).then(function(res) {
   res.order; // Order object
+});
+```
+
+### List refund transactions
+
+```javascript
+taxjar.listRefunds({
+  from_transaction_date: '2015/05/01',
+  to_transaction_date: '2015/05/31'
+}).then(function(res) {
+  res.refunds; // Refunds object
+});
+```
+
+### Show refund transaction
+
+```javascript
+taxjar.showRefund('321').then(function(res) {
+  res.refund; // Refund object
 });
 ```
 
