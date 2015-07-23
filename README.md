@@ -15,7 +15,7 @@ npm install taxjar
 ## Authentication
 
 ```javascript
-var taxjar = require('taxjar')(__env.TAXJAR_API_KEY);
+var taxjar = require('taxjar')(process.env.TAXJAR_API_KEY);
 ```
 
 ## Usage
@@ -31,7 +31,7 @@ taxjar.categories().then(function(res) {
 ### List tax rates for a location (by zip/postal code)
 
 ```javascript
-taxjar.ratesForLocation(90002).then(function(res) {
+taxjar.ratesForLocation('90002').then(function(res) {
   res.rate; // Rate object
 });
 ```
@@ -123,6 +123,14 @@ taxjar.updateOrder({
 });
 ```
 
+### Delete order transaction
+
+```javascript
+taxjar.deleteOrder('123').then(function(res) {
+  res.order; // Order object
+});
+```
+
 ### List refund transactions
 
 ```javascript
@@ -190,4 +198,20 @@ taxjar.updateRefund({
 }).then(function(res) {
   res.refund; // Refund object
 });
+```
+
+### Delete refund transaction
+
+```javascript
+taxjar.deleteRefund('123').then(function(res) {
+  res.refund; // Refund object
+});
+```
+
+## Testing
+
+To run tests you'll need to provide a TaxJar API key:
+
+```
+TAXJAR_TEST_API_KEY=YOUR_KEY npm test
 ```
