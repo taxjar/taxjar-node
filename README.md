@@ -1,4 +1,4 @@
-# TaxJar Sales Tax API for Node
+# TaxJar Sales Tax API for Node [![NPM Module](http://img.shields.io/npm/v/taxjar.svg?style=flat-square)](https://npmjs.org/package/taxjar) [![Build Status](http://img.shields.io/travis/taxjar/taxjar-node.svg?style=flat-square)](https://travis-ci.org/taxjar/taxjar-node)
 
 Official Node client for Sales Tax API v2. For the REST documentation, please visit [http://developers.taxjar.com/api](http://developers.taxjar.com/api).
 
