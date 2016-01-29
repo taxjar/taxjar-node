@@ -40,14 +40,14 @@ taxjar.ratesForLocation('90002').then(function(res) {
 
 ```javascript
 taxjar.taxForOrder({
-  'from_country': 'US',
-  'from_zip': '07001',
-  'from_state': 'NJ',
-  'to_country': 'US',
-  'to_zip': '07446',
-  'to_state': 'NJ',
-  'amount': 16.50,
-  'shipping': 1.5
+  from_country: 'US',
+  from_zip: '07001',
+  from_state: 'NJ',
+  to_country: 'US',
+  to_zip: '07446',
+  to_state: 'NJ',
+  amount: 16.50,
+  shipping: 1.5
 }).then(function(res) {
   res.tax; // Tax object
   res.tax.amount_to_collect; // Amount to collect
@@ -77,23 +77,23 @@ taxjar.showOrder('123').then(function(res) {
 
 ```javascript
 taxjar.createOrder({
-  'transaction_id': '123',
-  'transaction_date': '2015/05/14',
-  'to_country': 'US',
-  'to_zip': '90002',
-  'to_state': 'CA',
-  'to_city': 'Los Angeles',
-  'to_street': '123 Palm Grove Ln',
-  'amount': 17.45,
-  'shipping': 1.5,
-  'sales_tax': 0.95,
-  'line_items': [
+  transaction_id: '123',
+  transaction_date: '2015/05/14',
+  to_country: 'US',
+  to_zip: '90002',
+  to_state: 'CA',
+  to_city: 'Los Angeles',
+  to_street: '123 Palm Grove Ln',
+  amount: 17.45,
+  shipping: 1.5,
+  sales_tax: 0.95,
+  line_items: [
     {
-      'quantity': 1,
-      'product_identifier': '12-34243-9',
-      'description': 'Fuzzy Widget',
-      'unit_price': 15.0,
-      'sales_tax': 0.95
+      quantity: 1,
+      product_identifier: '12-34243-9',
+      description: 'Fuzzy Widget',
+      unit_price: 15.0,
+      sales_tax: 0.95
     }
   ]
 }).then(function(res) {
@@ -105,17 +105,17 @@ taxjar.createOrder({
 
 ```javascript
 taxjar.updateOrder({
-  'transaction_id': '123',
-  'amount': 17.45,
-  'shipping': 1.5,
-  'line_items': [
+  transaction_id: '123',
+  amount: 17.45,
+  shipping: 1.5,
+  line_items: [
     {
-      'quantity': 1,
-      'product_identifier': '12-34243-0',
-      'description': 'Heavy Widget',
-      'unit_price': 15.0,
-      'discount': 0.0,
-      'sales_tax': 0.95
+      quantity: 1,
+      product_identifier: '12-34243-0',
+      description: 'Heavy Widget',
+      unit_price: 15.0,
+      discount: 0.0,
+      sales_tax: 0.95
     }
   ]
 }).then(function(res) {
@@ -154,24 +154,24 @@ taxjar.showRefund('321').then(function(res) {
 
 ```javascript
 taxjar.createRefund({
-  'transaction_id': '123',
-  'transaction_date': '2015/05/14',
-  'transaction_reference_id': '123',
-  'to_country': 'US',
-  'to_zip': '90002',
-  'to_state': 'CA',
-  'to_city': 'Los Angeles',
-  'to_street': '123 Palm Grove Ln',
-  'amount': 17.45,
-  'shipping': 1.5,
-  'sales_tax': 0.95,
-  'line_items': [
+  transaction_id: '123',
+  transaction_date: '2015/05/14',
+  transaction_reference_id: '123',
+  to_country: 'US',
+  to_zip: '90002',
+  to_state: 'CA',
+  to_city: 'Los Angeles',
+  to_street: '123 Palm Grove Ln',
+  amount: 17.45,
+  shipping: 1.5,
+  sales_tax: 0.95,
+  line_items: [
     {
-      'quantity': 1,
-      'product_identifier': '12-34243-9',
-      'description': 'Fuzzy Widget',
-      'unit_price': 15.0,
-      'sales_tax': 0.95
+      quantity: 1,
+      product_identifier: '12-34243-9',
+      description: 'Fuzzy Widget',
+      unit_price: 15.0,
+      sales_tax: 0.95
     }
   ]
 }).then(function(res) {
@@ -183,16 +183,16 @@ taxjar.createRefund({
 
 ```javascript
 taxjar.updateRefund({
-  'transaction_id': '123',
-  'amount': 17.95,
-  'shipping': 2.0,
-  'line_items': [
+  transaction_id: '123',
+  amount: 17.95,
+  shipping: 2.0,
+  line_items: [
     {
-      'quantity': 1,
-      'product_identifier': '12-34243-0',
-      'description': 'Heavy Widget',
-      'unit_price': 15.0,
-      'sales_tax': 0.95
+      quantity: 1,
+      product_identifier: '12-34243-0',
+      description: 'Heavy Widget',
+      unit_price: 15.0,
+      sales_tax: 0.95
     }
   ]
 }).then(function(res) {
