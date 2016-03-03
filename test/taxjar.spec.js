@@ -8,6 +8,8 @@ var rateMock = require('./mocks/rates');
 var taxMock = require('./mocks/taxes');
 var orderMock = require('./mocks/orders');
 var refundMock = require('./mocks/refunds');
+var validationMock = require('./mocks/validations');
+var summaryRateMock = require('./mocks/summary_rates');
 
 taxjar.setApiConfig('host', 'https://mockapi.taxjar.com');
 
@@ -187,6 +189,20 @@ describe('TaxJar API', function() {
     it('should delete a refund transaction', function() {
       taxjar.deleteRefund('321').then(function(res) {
         assert.deepEqual(res, refundMock.DELETE_REFUND_RES, 'invalid response');
+      });
+    });
+    
+    it('should validate a VAT number', function() {
+      taxjar.validate({
+        vat: 'FR40303265045'
+      }).then(function(res) {
+        assert.deepEqual(res, validationMock.VALIDATION_RES, 'invalid response');
+      });
+    });
+    
+    it('should list summarized rates', function() {
+      taxjar.summaryRates().then(function(res) {
+        assert.deepEqual(res, summaryRateMock.SUMMARY_RATES_RES, 'invalid response');
       });
     });
 
