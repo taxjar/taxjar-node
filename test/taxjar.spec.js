@@ -8,6 +8,8 @@ var rateMock = require('./mocks/rates');
 var taxMock = require('./mocks/taxes');
 var orderMock = require('./mocks/orders');
 var refundMock = require('./mocks/refunds');
+var validationMock = require('./mocks/validations');
+var summaryRateMock = require('./mocks/summary_rates');
 
 taxjar.setApiConfig('host', 'https://mockapi.taxjar.com');
 
@@ -15,10 +17,10 @@ describe('TaxJar API', function() {
 
   describe('categories', function() {
 
-    it('should list tax categories', function() {
+    it('lists tax categories', function() {
       taxjar.categories().then(function(res) {
         assert(res, 'no categories');
-        assert.deepEqual(res, categoryMock.CATEGORY_RES, 'invalid response');
+        assert.deepEqual(res, categoryMock.CATEGORY_RES);
       });
     });
 
@@ -26,10 +28,10 @@ describe('TaxJar API', function() {
 
   describe('rates', function() {
 
-    it('should show tax rates for a location', function() {
+    it('shows tax rates for a location', function() {
       taxjar.ratesForLocation('90002').then(function(res) {
         assert(res, 'no rates');
-        assert.deepEqual(res, rateMock.RATE_RES, 'invalid response');
+        assert.deepEqual(res, rateMock.RATE_RES);
       });
     });
 
@@ -37,7 +39,7 @@ describe('TaxJar API', function() {
 
   describe('taxes', function() {
 
-    it('should calculate sales tax for an order', function() {
+    it('calculates sales tax for an order', function() {
       taxjar.taxForOrder({
         'from_country': 'US',
         'from_zip': '07001',
@@ -48,7 +50,7 @@ describe('TaxJar API', function() {
         'amount': 16.50,
         'shipping': 1.5
       }).then(function(res) {
-        assert.deepEqual(res, taxMock.TAX_RES, 'invalid response');
+        assert.deepEqual(res, taxMock.TAX_RES);
       });
     });
 
@@ -56,22 +58,22 @@ describe('TaxJar API', function() {
 
   describe('transactions', function() {
 
-    it('should list order transactions', function() {
+    it('lists order transactions', function() {
       taxjar.listOrders({
         'from_transaction_date': '2015/05/01',
         'to_transaction_date': '2015/05/31'
       }).then(function(res) {
-        assert.deepEqual(res, orderMock.LIST_ORDER_RES, 'invalid response');
+        assert.deepEqual(res, orderMock.LIST_ORDER_RES);
       });
     });
 
-    it('should show an order transaction', function() {
+    it('shows an order transaction', function() {
       taxjar.showOrder('123').then(function(res) {
-        assert.deepEqual(res, orderMock.SHOW_ORDER_RES, 'invalid response');
+        assert.deepEqual(res, orderMock.SHOW_ORDER_RES);
       });
     });
 
-    it('should create an order transaction', function() {
+    it('creates an order transaction', function() {
       taxjar.createOrder({
         'transaction_id': '123',
         'transaction_date': '2015/05/14',
@@ -93,11 +95,11 @@ describe('TaxJar API', function() {
           }
         ]
       }).then(function(res) {
-        assert.deepEqual(res, orderMock.CREATE_ORDER_RES, 'invalid response');
+        assert.deepEqual(res, orderMock.CREATE_ORDER_RES);
       });
     });
 
-    it('should update an order transaction', function() {
+    it('updates an order transaction', function() {
       taxjar.updateOrder({
         'transaction_id': '123',
         'amount': 17.45,
@@ -113,32 +115,32 @@ describe('TaxJar API', function() {
           }
         ]
       }).then(function(res) {
-        assert.deepEqual(res, orderMock.UPDATE_ORDER_RES, 'invalid response');
+        assert.deepEqual(res, orderMock.UPDATE_ORDER_RES);
       });
     });
 
-    it('should delete an order transaction', function() {
+    it('deletes an order transaction', function() {
       taxjar.deleteOrder('123').then(function(res) {
-        assert.deepEqual(res, orderMock.DELETE_ORDER_RES, 'invalid response');
+        assert.deepEqual(res, orderMock.DELETE_ORDER_RES);
       });
     });
 
-    it('should list refund transactions', function() {
+    it('lists refund transactions', function() {
       taxjar.listRefunds({
         'from_transaction_date': '2015/05/01',
         'to_transaction_date': '2015/05/31'
       }).then(function(res) {
-        assert.deepEqual(res, refundMock.LIST_REFUND_RES, 'invalid response');
+        assert.deepEqual(res, refundMock.LIST_REFUND_RES);
       });
     });
 
-    it('should show a refund transaction', function() {
+    it('shows a refund transaction', function() {
       taxjar.showRefund('321').then(function(res) {
-        assert.deepEqual(res, refundMock.SHOW_REFUND_RES, 'invalid response');
+        assert.deepEqual(res, refundMock.SHOW_REFUND_RES);
       });
     });
 
-    it('should create a refund transaction', function() {
+    it('creates a refund transaction', function() {
       taxjar.createRefund({
         'transaction_id': '123',
         'transaction_date': '2015/05/14',
@@ -161,11 +163,11 @@ describe('TaxJar API', function() {
           }
         ]
       }).then(function(res) {
-        assert.deepEqual(res, refundMock.CREATE_REFUND_RES, 'invalid response');
+        assert.deepEqual(res, refundMock.CREATE_REFUND_RES);
       });
     });
 
-    it('should update a refund transaction', function() {
+    it('updates a refund transaction', function() {
       taxjar.updateRefund({
         'transaction_id': '321',
         'amount': 17.95,
@@ -180,13 +182,27 @@ describe('TaxJar API', function() {
           }
         ]
       }).then(function(res) {
-        assert.deepEqual(res, refundMock.UPDATE_REFUND_RES, 'invalid response');
+        assert.deepEqual(res, refundMock.UPDATE_REFUND_RES);
       });
     });
 
-    it('should delete a refund transaction', function() {
+    it('deletes a refund transaction', function() {
       taxjar.deleteRefund('321').then(function(res) {
-        assert.deepEqual(res, refundMock.DELETE_REFUND_RES, 'invalid response');
+        assert.deepEqual(res, refundMock.DELETE_REFUND_RES);
+      });
+    });
+    
+    it('validates a VAT number', function() {
+      taxjar.validate({
+        vat: 'FR40303265045'
+      }).then(function(res) {
+        assert.deepEqual(res, validationMock.VALIDATION_RES);
+      });
+    });
+    
+    it('lists summarized rates', function() {
+      taxjar.summaryRates().then(function(res) {
+        assert.deepEqual(res, summaryRateMock.SUMMARY_RATES_RES);
       });
     });
 

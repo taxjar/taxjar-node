@@ -215,6 +215,24 @@ taxjar.deleteRefund('123').then(function(res) {
 });
 ```
 
+### Validate a VAT number
+
+```javascript
+taxjar.validate({
+  vat: 'FR40303265045'
+}).then(function(res) {
+  res.validation; // Validation object
+});
+```
+
+### Summarize tax rates for all regions
+
+```javascript
+taxjar.summaryRates().then(function(res) {
+  res.summary_rates; // Array of summarized rates
+});
+```
+
 ## Testing
 
 To run tests you'll need to provide a TaxJar API key:
