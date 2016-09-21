@@ -8,6 +8,7 @@ var rateMock = require('./mocks/rates');
 var taxMock = require('./mocks/taxes');
 var orderMock = require('./mocks/orders');
 var refundMock = require('./mocks/refunds');
+var nexusRegionMock = require('./mocks/nexus_regions');
 var validationMock = require('./mocks/validations');
 var summaryRateMock = require('./mocks/summary_rates');
 
@@ -201,6 +202,20 @@ describe('TaxJar API', function() {
         assert.deepEqual(res, refundMock.DELETE_REFUND_RES);
       });
     });
+
+  });
+  
+  describe('nexus', function() {
+
+    it('lists nexus regions', function() {
+      taxjar.nexusRegions().then(function(res) {
+        assert.deepEqual(res, validationMock.NEXUS_REGIONS_RES);
+      });
+    });
+    
+  });
+  
+  describe('validations', function() {
     
     it('validates a VAT number', function() {
       taxjar.validate({
@@ -209,7 +224,11 @@ describe('TaxJar API', function() {
         assert.deepEqual(res, validationMock.VALIDATION_RES);
       });
     });
-    
+
+  });
+  
+  describe('summarized rates', function() {
+
     it('lists summarized rates', function() {
       taxjar.summaryRates().then(function(res) {
         assert.deepEqual(res, summaryRateMock.SUMMARY_RATES_RES);
