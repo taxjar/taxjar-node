@@ -215,6 +215,14 @@ taxjar.deleteRefund('123').then(function(res) {
 });
 ```
 
+### List nexus regions
+
+```javascript
+taxjar.nexusRegions().then(function(res) {
+  res.regions; // Array of nexus regions
+});
+```
+
 ### Validate a VAT number
 
 ```javascript
