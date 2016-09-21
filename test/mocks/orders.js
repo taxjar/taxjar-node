@@ -45,6 +45,7 @@ var DELETE_ORDER_RES = SHOW_ORDER_RES;
 nock(TEST_API_HOST)
   .matchHeader('Authorization', /Bearer.*/)
   .get('/v2/transactions/orders')
+  .query(true)
   .reply(200, function(uri, body) {
     return LIST_ORDER_RES;
   });

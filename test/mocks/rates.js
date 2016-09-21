@@ -21,6 +21,7 @@ var RATE_RES = {
 nock(TEST_API_HOST)
   .matchHeader('Authorization', /Bearer.*/)
   .get('/v2/rates/' + RATE_RES.rate.zip)
+  .query(true)
   .reply(200, function(uri, body) {
     return RATE_RES;
   });

@@ -34,6 +34,16 @@ describe('TaxJar API', function() {
         assert.deepEqual(res, rateMock.RATE_RES);
       });
     });
+    
+    it('shows tax rates for a location with additional params', function() {
+      taxjar.ratesForLocation('90002', {
+        city: 'Los Angeles',
+        country: 'US'
+      }).then(function(res) {
+        assert(res, 'no rates');
+        assert.deepEqual(res, rateMock.RATE_RES);
+      });
+    });
 
   });
 

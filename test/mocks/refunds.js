@@ -46,6 +46,7 @@ var DELETE_REFUND_RES = SHOW_REFUND_RES;
 nock(TEST_API_HOST)
   .matchHeader('Authorization', /Bearer.*/)
   .get('/v2/transactions/refunds')
+  .query(true)
   .reply(200, function(uri, body) {
     return LIST_REFUND_RES;
   });
