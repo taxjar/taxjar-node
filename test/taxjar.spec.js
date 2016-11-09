@@ -3,7 +3,6 @@
 var assert = require('assert');
 var taxjar = require('../lib/taxjar')(process.env.TAXJAR_TEST_API_KEY);
 
-var categoryMock = require('./mocks/categories');
 var rateMock = require('./mocks/rates');
 var taxMock = require('./mocks/taxes');
 var orderMock = require('./mocks/orders');
@@ -16,9 +15,35 @@ taxjar.setApiConfig('host', 'https://mockapi.taxjar.com');
 
 describe('TaxJar API', function() {
 
+  describe('client', function() {
+    
+    it('instantiates client with API token', function() {
+      assert(taxjar, 'no client');
+    });
+
+    it('returns error with no API token', function() {
+      assert.throws(function() {
+        var taxjar = require('../lib/taxjar')();
+      }, /Please provide a TaxJar API key/);
+    });
+
+    it('rejects promise on API error', function() {
+      var errorMocks = require('./mocks/errors');
+
+      taxjar.categories().catch(function(err) {
+        assert.deepEqual(err, errorMocks.CATEGORY_ERROR_RES);
+        assert.equal(err.detail, "Not authorized for route 'GET /v2/categories'");
+        assert.equal(err.status, 401);
+      });
+    });
+
+  });
+
   describe('categories', function() {
 
     it('lists tax categories', function() {
+      var categoryMock = require('./mocks/categories');
+
       taxjar.categories().then(function(res) {
         assert(res, 'no categories');
         assert.deepEqual(res, categoryMock.CATEGORY_RES);
