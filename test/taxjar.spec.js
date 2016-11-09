@@ -1,7 +1,7 @@
 'use strict';
 
 var assert = require('assert');
-var taxjar = require('../lib/taxjar')(process.env.TAXJAR_TEST_API_KEY);
+var taxjar = require('../lib/taxjar')('VALID_API_KEY');
 
 var rateMock = require('./mocks/rates');
 var taxMock = require('./mocks/taxes');

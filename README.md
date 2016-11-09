@@ -243,8 +243,6 @@ taxjar.summaryRates().then(function(res) {
 
 ## Testing
 
-To run tests you'll need to provide a TaxJar API key:
-
 ```
-TAXJAR_TEST_API_KEY=YOUR_KEY npm test
+npm test
 ```
