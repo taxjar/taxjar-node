@@ -47,8 +47,6 @@ var CATEGORY_RES = {
 nock(TEST_API_HOST)
   .matchHeader('Authorization', /Bearer.*/)
   .get('/v2/categories')
-  .reply(200, function(uri, body) {
-    return CATEGORY_RES;
-  });
+  .reply(200, CATEGORY_RES);
 
 module.exports.CATEGORY_RES = CATEGORY_RES;

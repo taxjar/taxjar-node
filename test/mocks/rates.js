@@ -22,8 +22,15 @@ nock(TEST_API_HOST)
   .matchHeader('Authorization', /Bearer.*/)
   .get('/v2/rates/' + RATE_RES.rate.zip)
   .query(true)
-  .reply(200, function(uri, body) {
-    return RATE_RES;
-  });
+  .reply(200, RATE_RES);
+
+nock(TEST_API_HOST)
+  .matchHeader('Authorization', /Bearer.*/)
+  .get('/v2/rates/' + RATE_RES.rate.zip)
+  .query({
+    city: 'Los Angeles',
+    country: 'US'
+  })
+  .reply(200, RATE_RES);
 
 module.exports.RATE_RES = RATE_RES;

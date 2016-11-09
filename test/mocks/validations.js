@@ -26,8 +26,6 @@ nock(TEST_API_HOST)
   .query({
     vat: 'FR40303265045'
   })
-  .reply(200, function(uri, body) {
-    return VALIDATION_RES;
-  });
+  .reply(200, VALIDATION_RES);
 
 module.exports.VALIDATION_RES = VALIDATION_RES;

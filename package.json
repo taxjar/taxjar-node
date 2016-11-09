@@ -25,13 +25,13 @@
   },
   "main": "lib/taxjar.js",
   "devDependencies": {
-    "mocha": "~2.4.5",
     "chai": "~3.5.0",
-    "nock": "~7.3.0"
+    "mocha": "~3.1.2",
+    "nock": "~9.0.2"
   },
   "dependencies": {
-    "bluebird": "^2.9.34",
-    "restler": "^3.3.0"
+    "bluebird": "^3.4.6",
+    "restler": "^3.4.0"
   },
   "scripts": {
     "test": "mocha"

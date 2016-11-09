@@ -30,8 +30,6 @@ var NEXUS_REGIONS_RES = {
 nock(TEST_API_HOST)
   .matchHeader('Authorization', /Bearer.*/)
   .get('/v2/nexus/regions')
-  .reply(200, function(uri, body) {
-    return NEXUS_REGIONS_RES;
-  });
+  .reply(200, NEXUS_REGIONS_RES);
 
 module.exports.NEXUS_REGIONS_RES = NEXUS_REGIONS_RES;

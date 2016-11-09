@@ -54,8 +54,6 @@ var SUMMARY_RATES_RES = {
 nock(TEST_API_HOST)
   .matchHeader('Authorization', /Bearer.*/)
   .get('/v2/summary_rates')
-  .reply(200, function(uri, body) {
-    return SUMMARY_RATES_RES;
-  });
+  .reply(200, SUMMARY_RATES_RES);
 
 module.exports.SUMMARY_RATES_RES = SUMMARY_RATES_RES;

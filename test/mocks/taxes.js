@@ -49,9 +49,16 @@ var TAX_RES = {
 
 nock(TEST_API_HOST)
   .matchHeader('Authorization', /Bearer.*/)
-  .post('/v2/taxes')
-  .reply(200, function(uri, body) {
-    return TAX_RES;
-  });
+  .post('/v2/taxes', {
+    from_country: 'US',
+    from_zip: '07001',
+    from_state: 'NJ',
+    to_country: 'US',
+    to_zip: '07446',
+    to_state: 'NJ',
+    amount: 16.5,
+    shipping: 1.5
+  })
+  .reply(200, TAX_RES);
 
 module.exports.TAX_RES = TAX_RES;
