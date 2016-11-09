@@ -209,7 +209,7 @@ describe('TaxJar API', function() {
 
     it('lists nexus regions', function() {
       taxjar.nexusRegions().then(function(res) {
-        assert.deepEqual(res, validationMock.NEXUS_REGIONS_RES);
+        assert.deepEqual(res, nexusRegionMock.NEXUS_REGIONS_RES);
       });
     });
     
