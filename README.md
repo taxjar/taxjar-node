@@ -241,6 +241,34 @@ taxjar.summaryRates().then(function(res) {
 });
 ```
 
+## Error Handling
+
+```javascript
+taxjar.taxForOrder({
+  from_country: 'US',
+  from_zip: '07001',
+  from_state: 'NJ',
+  to_country: 'US',
+  to_zip: '07446',
+  to_state: 'NJ',
+  amount: 16.50,
+  shipping: 1.5,
+  line_items: [
+    {
+      quantity: 1,
+      unit_price: 15.0,
+      product_tax_code: 31000
+    }
+  ]
+}).then(function(res) {
+  res.tax; // Tax object
+  res.tax.amount_to_collect; // Amount to collect
+}).catch(function(err) {
+  err.detail; // Error detail
+  err.status; // Error status code
+});
+```
+
 ## Testing
 
 ```
