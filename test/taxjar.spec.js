@@ -31,6 +31,7 @@ describe('TaxJar API', function() {
       var errorMocks = require('./mocks/errors');
 
       taxjar.categories().catch(function(err) {
+        assert.equal(err instanceof Error, true);
         assert.deepEqual(err, errorMocks.CATEGORY_ERROR_RES);
         assert.equal(err.detail, "Not authorized for route 'GET /v2/categories'");
         assert.equal(err.status, 401);
