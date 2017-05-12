@@ -18,6 +18,8 @@ npm install taxjar
 var taxjar = require('taxjar')(process.env.TAXJAR_API_KEY);
 ```
 
+**Warning:** Never expose your API token in client-side JavaScript. This is insecure and could put your TaxJar account at risk.
+
 ## Usage
 
 ### List all tax categories
