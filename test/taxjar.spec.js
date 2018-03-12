@@ -23,6 +23,7 @@ describe('TaxJar API', function () {
 
     it('returns error with no API token', function () {
       assert.throws(function () {
+        /*eslint no-unused-vars: ["error", { "varsIgnorePattern": "taxjar" }]*/
         var taxjar = require('../lib/taxjar')();
       }, /Please provide a TaxJar API key/);
     });
