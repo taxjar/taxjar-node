@@ -13,24 +13,24 @@ var summaryRateMock = require('./mocks/summary_rates');
 
 taxjar.setApiConfig('host', 'https://mockapi.taxjar.com');
 
-describe('TaxJar API', function() {
+describe('TaxJar API', function () {
 
-  describe('client', function() {
-    
-    it('instantiates client with API token', function() {
+  describe('client', function () {
+
+    it('instantiates client with API token', function () {
       assert(taxjar, 'no client');
     });
 
-    it('returns error with no API token', function() {
-      assert.throws(function() {
+    it('returns error with no API token', function () {
+      assert.throws(function () {
         var taxjar = require('../lib/taxjar')();
       }, /Please provide a TaxJar API key/);
     });
 
-    it('rejects promise on API error', function() {
+    it('rejects promise on API error', function () {
       var errorMocks = require('./mocks/errors');
 
-      taxjar.categories().catch(function(err) {
+      taxjar.categories().catch(function (err) {
         assert.equal(err instanceof Error, true);
         assert.deepEqual(err, errorMocks.CATEGORY_ERROR_RES);
         assert.equal(err.detail, "Not authorized for route 'GET /v2/categories'");
@@ -40,12 +40,12 @@ describe('TaxJar API', function() {
 
   });
 
-  describe('categories', function() {
+  describe('categories', function () {
 
-    it('lists tax categories', function() {
+    it('lists tax categories', function () {
       var categoryMock = require('./mocks/categories');
 
-      taxjar.categories().then(function(res) {
+      taxjar.categories().then(function (res) {
         assert(res, 'no categories');
         assert.deepEqual(res, categoryMock.CATEGORY_RES);
       });
@@ -53,20 +53,20 @@ describe('TaxJar API', function() {
 
   });
 
-  describe('rates', function() {
+  describe('rates', function () {
 
-    it('shows tax rates for a location', function() {
-      taxjar.ratesForLocation('90002').then(function(res) {
+    it('shows tax rates for a location', function () {
+      taxjar.ratesForLocation('90002').then(function (res) {
         assert(res, 'no rates');
         assert.deepEqual(res, rateMock.RATE_RES);
       });
     });
-    
-    it('shows tax rates for a location with additional params', function() {
+
+    it('shows tax rates for a location with additional params', function () {
       taxjar.ratesForLocation('90002', {
         city: 'Los Angeles',
         country: 'US'
-      }).then(function(res) {
+      }).then(function (res) {
         assert(res, 'no rates');
         assert.deepEqual(res, rateMock.RATE_RES);
       });
@@ -74,9 +74,9 @@ describe('TaxJar API', function() {
 
   });
 
-  describe('taxes', function() {
+  describe('taxes', function () {
 
-    it('calculates sales tax for an order', function() {
+    it('calculates sales tax for an order', function () {
       taxjar.taxForOrder({
         'from_country': 'US',
         'from_zip': '07001',
@@ -86,31 +86,31 @@ describe('TaxJar API', function() {
         'to_state': 'NJ',
         'amount': 16.50,
         'shipping': 1.5
-      }).then(function(res) {
+      }).then(function (res) {
         assert.deepEqual(res, taxMock.TAX_RES);
       });
     });
 
   });
 
-  describe('transactions', function() {
+  describe('transactions', function () {
 
-    it('lists order transactions', function() {
+    it('lists order transactions', function () {
       taxjar.listOrders({
         'from_transaction_date': '2015/05/01',
         'to_transaction_date': '2015/05/31'
-      }).then(function(res) {
+      }).then(function (res) {
         assert.deepEqual(res, orderMock.LIST_ORDER_RES);
       });
     });
 
-    it('shows an order transaction', function() {
-      taxjar.showOrder('123').then(function(res) {
+    it('shows an order transaction', function () {
+      taxjar.showOrder('123').then(function (res) {
         assert.deepEqual(res, orderMock.SHOW_ORDER_RES);
       });
     });
 
-    it('creates an order transaction', function() {
+    it('creates an order transaction', function () {
       taxjar.createOrder({
         'transaction_id': '123',
         'transaction_date': '2015/05/14',
@@ -131,12 +131,12 @@ describe('TaxJar API', function() {
             'sales_tax': 0.95
           }
         ]
-      }).then(function(res) {
+      }).then(function (res) {
         assert.deepEqual(res, orderMock.CREATE_ORDER_RES);
       });
     });
 
-    it('updates an order transaction', function() {
+    it('updates an order transaction', function () {
       taxjar.updateOrder({
         'transaction_id': '123',
         'amount': 17.45,
@@ -151,33 +151,33 @@ describe('TaxJar API', function() {
             'sales_tax': 0.95
           }
         ]
-      }).then(function(res) {
+      }).then(function (res) {
         assert.deepEqual(res, orderMock.UPDATE_ORDER_RES);
       });
     });
 
-    it('deletes an order transaction', function() {
-      taxjar.deleteOrder('123').then(function(res) {
+    it('deletes an order transaction', function () {
+      taxjar.deleteOrder('123').then(function (res) {
         assert.deepEqual(res, orderMock.DELETE_ORDER_RES);
       });
     });
 
-    it('lists refund transactions', function() {
+    it('lists refund transactions', function () {
       taxjar.listRefunds({
         'from_transaction_date': '2015/05/01',
         'to_transaction_date': '2015/05/31'
-      }).then(function(res) {
+      }).then(function (res) {
         assert.deepEqual(res, refundMock.LIST_REFUND_RES);
       });
     });
 
-    it('shows a refund transaction', function() {
-      taxjar.showRefund('321').then(function(res) {
+    it('shows a refund transaction', function () {
+      taxjar.showRefund('321').then(function (res) {
         assert.deepEqual(res, refundMock.SHOW_REFUND_RES);
       });
     });
 
-    it('creates a refund transaction', function() {
+    it('creates a refund transaction', function () {
       taxjar.createRefund({
         'transaction_id': '123',
         'transaction_date': '2015/05/14',
@@ -199,12 +199,12 @@ describe('TaxJar API', function() {
             'sales_tax': 0.95
           }
         ]
-      }).then(function(res) {
+      }).then(function (res) {
         assert.deepEqual(res, refundMock.CREATE_REFUND_RES);
       });
     });
 
-    it('updates a refund transaction', function() {
+    it('updates a refund transaction', function () {
       taxjar.updateRefund({
         'transaction_id': '321',
         'amount': 17.95,
@@ -218,45 +218,45 @@ describe('TaxJar API', function() {
             'sales_tax': 0.95
           }
         ]
-      }).then(function(res) {
+      }).then(function (res) {
         assert.deepEqual(res, refundMock.UPDATE_REFUND_RES);
       });
     });
 
-    it('deletes a refund transaction', function() {
-      taxjar.deleteRefund('321').then(function(res) {
+    it('deletes a refund transaction', function () {
+      taxjar.deleteRefund('321').then(function (res) {
         assert.deepEqual(res, refundMock.DELETE_REFUND_RES);
       });
     });
 
   });
-  
-  describe('nexus', function() {
 
-    it('lists nexus regions', function() {
-      taxjar.nexusRegions().then(function(res) {
+  describe('nexus', function () {
+
+    it('lists nexus regions', function () {
+      taxjar.nexusRegions().then(function (res) {
         assert.deepEqual(res, nexusRegionMock.NEXUS_REGIONS_RES);
       });
     });
-    
+
   });
-  
-  describe('validations', function() {
-    
-    it('validates a VAT number', function() {
+
+  describe('validations', function () {
+
+    it('validates a VAT number', function () {
       taxjar.validate({
         vat: 'FR40303265045'
-      }).then(function(res) {
+      }).then(function (res) {
         assert.deepEqual(res, validationMock.VALIDATION_RES);
       });
     });
 
   });
-  
-  describe('summarized rates', function() {
 
-    it('lists summarized rates', function() {
-      taxjar.summaryRates().then(function(res) {
+  describe('summarized rates', function () {
+
+    it('lists summarized rates', function () {
+      taxjar.summaryRates().then(function (res) {
         assert.deepEqual(res, summaryRateMock.SUMMARY_RATES_RES);
       });
     });
