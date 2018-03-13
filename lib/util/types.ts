@@ -18,4 +18,27 @@ export namespace TaxjarTypes {
     state?: string,
     country?: string
   }
+
+  export interface TaxParams {
+    from_country?: string,
+    from_zip?: string,
+    from_state?: string,
+    from_city?: string,
+    from_street?: string,
+    to_country: string,
+    to_zip?: string,
+    to_state?: string,
+    to_city?: string,
+    to_street?: string,
+    amount?: number,
+    shipping: number,
+    nexus_addresses?: object,
+    line_items?: object
+  }
+
+  export interface TransactionListParams {
+    transaction_date?: string,
+    from_transaction_date?: string,
+    to_transaction_date?: string
+  }
 }

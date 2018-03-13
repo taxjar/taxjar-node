@@ -47,7 +47,7 @@ class Taxjar {
     });
   }
 
-  ratesForLocation(zip: string, params: TaxjarTypes.RateParams) {
+  ratesForLocation(zip: string, params: TaxjarTypes.RateParams): object {
     return this.request.api({
       method: 'GET',
       url: 'rates/' + zip,
@@ -55,7 +55,7 @@ class Taxjar {
     });
   }
 
-  taxForOrder(params: object) {
+  taxForOrder(params: TaxjarTypes.TaxParams): object {
     return this.request.api({
       method: 'POST',
       url: 'taxes',
@@ -63,7 +63,7 @@ class Taxjar {
     });
   }
 
-  listOrders(params: object) {
+  listOrders(params: TaxjarTypes.TransactionListParams): object {
     return this.request.api({
       method: 'GET',
       url: 'transactions/orders',
@@ -71,14 +71,14 @@ class Taxjar {
     });
   }
 
-  showOrder(transactionId: string) {
+  showOrder(transactionId: string): object {
     return this.request.api({
       method: 'GET',
       url: 'transactions/orders/' + transactionId
     });
   }
 
-  createOrder(params) {
+  createOrder(params: object): object {
     return this.request.api({
       method: 'POST',
       url: 'transactions/orders',
@@ -86,22 +86,22 @@ class Taxjar {
     });
   }
 
-  updateOrder(params) {
+  updateOrder(params: object): object {
     return this.request.api({
       method: 'put',
-      url: 'transactions/orders/' + params.transaction_id,
+      url: 'transactions/orders/' + params['transaction_id'],
       data: params
     });
   }
 
-  deleteOrder(transactionId: string) {
+  deleteOrder(transactionId: string): object {
     return this.request.api({
       method: 'DELETE',
       url: 'transactions/orders/' + transactionId
     });
   }
 
-  listRefunds(params) {
+  listRefunds(params: TaxjarTypes.TransactionListParams): object {
     return this.request.api({
       method: 'GET',
       url: 'transactions/refunds',
@@ -109,14 +109,14 @@ class Taxjar {
     });
   }
 
-  showRefund(transactionId: string) {
+  showRefund(transactionId: string): object {
     return this.request.api({
       method: 'GET',
       url: 'transactions/refunds/' + transactionId
     });
   }
 
-  createRefund(params) {
+  createRefund(params: object): object {
     return this.request.api({
       method: 'POST',
       url: 'transactions/refunds',
@@ -124,29 +124,29 @@ class Taxjar {
     });
   }
 
-  updateRefund(params) {
+  updateRefund(params: object): object {
     return this.request.api({
       method: 'put',
-      url: 'transactions/refunds/' + params.transaction_id,
+      url: 'transactions/refunds/' + params['transaction_id'],
       data: params
     });
   }
 
-  deleteRefund(transactionId: string) {
+  deleteRefund(transactionId: string): object {
     return this.request.api({
       method: 'DELETE',
       url: 'transactions/refunds/' + transactionId
     });
   }
 
-  nexusRegions() {
+  nexusRegions(): object {
     return this.request.api({
       method: 'GET',
       url: 'nexus/regions'
     });
   }
 
-  validate(params) {
+  validate(params: object): object {
     return this.request.api({
       method: 'GET',
       url: 'validation',
@@ -154,7 +154,7 @@ class Taxjar {
     });
   }
 
-  summaryRates() {
+  summaryRates(): object {
     return this.request.api({
       method: 'GET',
       url: 'summary_rates'
