@@ -1,10 +1,10 @@
 'use strict';
 
-var nock = require('nock');
+const nock = require('nock');
 
-var TEST_API_HOST = 'https://mockapi.taxjar.com';
+const TEST_API_HOST = 'https://mockapi.taxjar.com';
 
-var CATEGORY_ERROR_RES = {
+const CATEGORY_ERROR_RES = {
   "error": "Unauthorized",
   "detail": "Not authorized for route 'GET /v2/categories'",
   "status": 401

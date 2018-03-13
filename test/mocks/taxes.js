@@ -1,10 +1,10 @@
 'use strict';
 
-var nock = require('nock');
+const nock = require('nock');
 
-var TEST_API_HOST = 'https://mockapi.taxjar.com';
+const TEST_API_HOST = 'https://mockapi.taxjar.com';
 
-var TAX_RES = {
+const TAX_RES = {
   "tax": {
     "order_total_amount": 16.5,
     "amount_to_collect": 1.16,

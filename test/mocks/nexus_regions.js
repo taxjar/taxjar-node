@@ -1,10 +1,10 @@
 'use strict';
 
-var nock = require('nock');
+const nock = require('nock');
 
-var TEST_API_HOST = 'https://mockapi.taxjar.com';
+const TEST_API_HOST = 'https://mockapi.taxjar.com';
 
-var NEXUS_REGIONS_RES = {
+const NEXUS_REGIONS_RES = {
   "regions": [
     {
       "country_code": "US",

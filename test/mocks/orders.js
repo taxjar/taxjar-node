@@ -1,17 +1,17 @@
 'use strict';
 
-var nock = require('nock');
+const nock = require('nock');
 
-var TEST_API_HOST = 'https://mockapi.taxjar.com';
+const TEST_API_HOST = 'https://mockapi.taxjar.com';
 
-var LIST_ORDER_RES = {
+const LIST_ORDER_RES = {
   "orders": [
     "123",
     "456"
   ]
 };
 
-var SHOW_ORDER_RES = {
+const SHOW_ORDER_RES = {
   "order": {
     "transaction_id": "123",
     "user_id": 10649,
@@ -38,9 +38,9 @@ var SHOW_ORDER_RES = {
   }
 };
 
-var CREATE_ORDER_RES = SHOW_ORDER_RES;
-var UPDATE_ORDER_RES = SHOW_ORDER_RES;
-var DELETE_ORDER_RES = SHOW_ORDER_RES;
+const CREATE_ORDER_RES = SHOW_ORDER_RES;
+const UPDATE_ORDER_RES = SHOW_ORDER_RES;
+const DELETE_ORDER_RES = SHOW_ORDER_RES;
 
 nock(TEST_API_HOST)
   .matchHeader('Authorization', /Bearer.*/)

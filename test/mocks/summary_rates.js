@@ -1,10 +1,10 @@
 'use strict';
 
-var nock = require('nock');
+const nock = require('nock');
 
-var TEST_API_HOST = 'https://mockapi.taxjar.com';
+const TEST_API_HOST = 'https://mockapi.taxjar.com';
 
-var SUMMARY_RATES_RES = {
+const SUMMARY_RATES_RES = {
   "summary_rates": [
     {
       "country_code": "US",

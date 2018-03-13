@@ -1,10 +1,10 @@
 'use strict';
 
-var nock = require('nock');
+const nock = require('nock');
 
-var TEST_API_HOST = 'https://mockapi.taxjar.com';
+const TEST_API_HOST = 'https://mockapi.taxjar.com';
 
-var CATEGORY_RES = {
+const CATEGORY_RES = {
   "categories": [
     {
       "name": "Digital Goods",
