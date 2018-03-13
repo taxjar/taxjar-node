@@ -78,7 +78,7 @@ class Taxjar {
     });
   }
 
-  createOrder(params: object): object {
+  createOrder(params: TaxjarTypes.CreateOrderParams): object {
     return this.request.api({
       method: 'POST',
       url: 'transactions/orders',
@@ -86,7 +86,7 @@ class Taxjar {
     });
   }
 
-  updateOrder(params: object): object {
+  updateOrder(params: TaxjarTypes.UpdateOrderParams): object {
     return this.request.api({
       method: 'put',
       url: 'transactions/orders/' + params['transaction_id'],
@@ -116,7 +116,7 @@ class Taxjar {
     });
   }
 
-  createRefund(params: object): object {
+  createRefund(params: TaxjarTypes.CreateRefundParams): object {
     return this.request.api({
       method: 'POST',
       url: 'transactions/refunds',
@@ -124,7 +124,7 @@ class Taxjar {
     });
   }
 
-  updateRefund(params: object): object {
+  updateRefund(params: TaxjarTypes.UpdateRefundParams): object {
     return this.request.api({
       method: 'put',
       url: 'transactions/refunds/' + params['transaction_id'],
@@ -146,7 +146,7 @@ class Taxjar {
     });
   }
 
-  validate(params: object): object {
+  validate(params: TaxjarTypes.ValidateParams): object {
     return this.request.api({
       method: 'GET',
       url: 'validation',
