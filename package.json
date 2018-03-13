@@ -23,7 +23,8 @@
   "engines": {
     "node": ">= v0.10.0"
   },
-  "main": "lib/taxjar.js",
+  "main": "dist/taxjar.js",
+  "types": "dist/taxjar.d.ts",
   "devDependencies": {
     "@types/bluebird": "^3.5.20",
     "@types/request-promise": "^4.1.41",
@@ -38,6 +39,8 @@
     "request-promise": "^4.2.2"
   },
   "scripts": {
-    "test": "mocha"
+    "prepublish": "npm run build",
+    "build": "tsc",
+    "test": "tsc && mocha"
   }
 }
