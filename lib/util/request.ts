@@ -14,14 +14,14 @@ export default class Request {
 
     return new Promise((resolve, reject) => {
       let options = Object.assign({
-        uri: self.client.getApiConfig('api_url') + params.url,
+        uri: self.client.getApiConfig('apiUrl') + params.url,
         formData: JSON.stringify(params.data),
         qs: params.query,
         json: true
       }, params);
 
       options.headers = params.headers || {};
-      options.headers['Authorization'] = 'Bearer ' + self.client.getApiConfig('api_key');
+      options.headers['Authorization'] = 'Bearer ' + self.client.getApiConfig('apiKey');
       options.headers['Content-Type'] = 'application/json';
 
       RequestPromise(options.uri, options).then(result => {

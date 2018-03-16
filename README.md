@@ -22,7 +22,7 @@ const Taxjar = require('taxjar');
 import Taxjar from 'taxjar';
 
 const client = new Taxjar({
-  api_key: process.env.TAXJAR_API_KEY
+  apiKey: process.env.TAXJAR_API_KEY
 });
 ```
 

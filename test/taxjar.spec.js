@@ -12,8 +12,8 @@ const validationMock = require('./mocks/validations');
 const summaryRateMock = require('./mocks/summary_rates');
 
 let taxjarClient = new Taxjar({
-  api_url: 'https://mockapi.taxjar.com',
-  api_key: 'test123'
+  apiKey: 'test123',
+  apiUrl: 'https://mockapi.taxjar.com'
 });
 
 describe('TaxJar API', () => {

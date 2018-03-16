@@ -6,22 +6,22 @@ class Taxjar {
   public static API_VERSION = 'v2';
 
   private config: TaxjarTypes.Config;
-  private request: any;
+  private request: Request;
 
-  constructor(config: object) {
-    if (!config || !config['api_key']) {
+  constructor(config: TaxjarTypes.Config) {
+    let apiUrl = Taxjar.DEFAULT_API_URL + '/' + Taxjar.API_VERSION + '/';
+
+    if (!config || !config['apiKey']) {
       throw new Error('Please provide a TaxJar API key');
     }
 
-    let api_url = Taxjar.DEFAULT_API_URL + '/' + Taxjar.API_VERSION + '/';
-
-    if (config && config['api_url']) {
-      api_url = config['api_url'] + '/' + Taxjar.API_VERSION + '/';
+    if (config && config['apiUrl']) {
+      apiUrl = config['apiUrl'] + '/' + Taxjar.API_VERSION + '/';
     }
 
     this.config = {
-      api_url: api_url,
-      api_key: config['api_key']
+      apiUrl: apiUrl,
+      apiKey: config['apiKey']
     };
 
     this.request = new Request(this);
@@ -32,7 +32,7 @@ class Taxjar {
   }
 
   setApiConfig(index: string, value: any): void {
-    if (index === 'api_url') {
+    if (index === 'apiUrl') {
       value += '/' + Taxjar.API_VERSION + '/';
     }
 
