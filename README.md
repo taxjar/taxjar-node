@@ -251,6 +251,31 @@ taxjar.summaryRates().then(res => {
 });
 ```
 
+## Sandbox Environment
+
+You can easily configure the client to use the [TaxJar Sandbox](https://developers.taxjar.com/api/reference/#sandbox-environment):
+
+```javascript
+// ES5 Import
+const Taxjar = require('taxjar');
+
+// ES6/7 Import
+import Taxjar from 'taxjar';
+
+const client = new Taxjar({
+  apiKey: process.env.TAXJAR_SANDBOX_API_KEY,
+  apiUrl: Taxjar.SANDBOX_API_URL
+});
+```
+
+For testing specific [error response codes](https://developers.taxjar.com/api/reference/#errors), pass the custom `X-TJ-Expected-Response` header:
+
+```javascript
+client.setApiConfig('headers', {
+  'X-TJ-Expected-Response' => '422'
+});
+```
+
 ## Error Handling
 
 ```javascript

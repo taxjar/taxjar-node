@@ -3,6 +3,7 @@ import { TaxjarTypes } from './util/types';
 
 class Taxjar {
   public static DEFAULT_API_URL = 'https://api.taxjar.com';
+  public static SANDBOX_API_URL = 'https://api.sandbox.taxjar.com';
   public static API_VERSION = 'v2';
 
   private config: TaxjarTypes.Config;
@@ -21,7 +22,8 @@ class Taxjar {
 
     this.config = {
       apiUrl: apiUrl,
-      apiKey: config['apiKey']
+      apiKey: config['apiKey'],
+      headers: config['headers']
     };
 
     this.request = new Request(this);

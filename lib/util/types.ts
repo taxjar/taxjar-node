@@ -1,7 +1,8 @@
 export namespace TaxjarTypes {
   export interface Config {
     apiKey: string,
-    apiUrl?: string
+    apiUrl?: string,
+    headers?: object
   }
 
   export interface RequestParams {

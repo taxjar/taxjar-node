@@ -1,6 +1,6 @@
 'use strict';
 
-const assert = require('assert');
+const assert = require('chai').assert;
 const Taxjar = require('../dist/taxjar');
 
 const rateMock = require('./mocks/rates');
@@ -39,6 +39,30 @@ describe('TaxJar API', () => {
         assert.equal(err.detail, "Not authorized for route 'GET /v2/categories'");
         assert.equal(err.status, 401);
       });
+    });
+
+    it('gets api config', () => {
+      assert.equal(taxjarClient.getApiConfig('apiUrl'), 'https://mockapi.taxjar.com/v2/');
+    });
+
+    it('sets api config', () => {
+      taxjarClient.setApiConfig('apiUrl', 'https://api.sandbox.taxjar.com');
+      assert.equal(taxjarClient.getApiConfig('apiUrl'), 'https://api.sandbox.taxjar.com/v2/');
+    });
+
+    it('sets custom headers via instantiation', () => {
+      taxjarClient = new Taxjar({
+        apiKey: 'test123',
+        headers: {
+          'X-TJ-Expected-Response': '422'
+        }
+      });
+      assert.include(taxjarClient.getApiConfig('headers'), { 'X-TJ-Expected-Response': '422' });
+    });
+
+    it('sets custom headers via api config', () => {
+      taxjarClient.setApiConfig('headers', { 'X-TJ-Expected-Response': '422' });
+      assert.include(taxjarClient.getApiConfig('headers'), { 'X-TJ-Expected-Response': '422' });
     });
 
   });
