@@ -15,7 +15,15 @@ npm install taxjar
 ## Authentication
 
 ```javascript
-var taxjar = require('taxjar')(process.env.TAXJAR_API_KEY);
+// ES5 Import
+const Taxjar = require('taxjar');
+
+// ES6/7 Import
+import Taxjar from 'taxjar';
+
+const client = new Taxjar({
+  apiKey: process.env.TAXJAR_API_KEY
+});
 ```
 
 **Warning:** Never expose your API token in client-side JavaScript. This is insecure and could put your TaxJar account at risk.
@@ -25,7 +33,7 @@ var taxjar = require('taxjar')(process.env.TAXJAR_API_KEY);
 ### List all tax categories
 
 ```javascript
-taxjar.categories().then(function(res) {
+taxjar.categories().then(res => {
   res.categories; // Array of categories
 });
 ```
@@ -33,7 +41,7 @@ taxjar.categories().then(function(res) {
 ### List tax rates for a location (by zip/postal code)
 
 ```javascript
-taxjar.ratesForLocation('90002').then(function(res) {
+taxjar.ratesForLocation('90002').then(res => {
   res.rate; // Rate object
 });
 ```
@@ -57,7 +65,7 @@ taxjar.taxForOrder({
       product_tax_code: 31000
     }
   ]
-}).then(function(res) {
+}).then(res => {
   res.tax; // Tax object
   res.tax.amount_to_collect; // Amount to collect
 });
@@ -69,7 +77,7 @@ taxjar.taxForOrder({
 taxjar.listOrders({
   from_transaction_date: '2015/05/01',
   to_transaction_date: '2015/05/31'
-}).then(function(res) {
+}).then(res => {
   res.orders; // Orders object
 });
 ```
@@ -77,7 +85,7 @@ taxjar.listOrders({
 ### Show order transaction
 
 ```javascript
-taxjar.showOrder('123').then(function(res) {
+taxjar.showOrder('123').then(res => {
   res.order; // Order object
 });
 ```
@@ -105,7 +113,7 @@ taxjar.createOrder({
       sales_tax: 0.95
     }
   ]
-}).then(function(res) {
+}).then(res => {
   res.order; // Order object
 });
 ```
@@ -127,7 +135,7 @@ taxjar.updateOrder({
       sales_tax: 0.95
     }
   ]
-}).then(function(res) {
+}).then(res => {
   res.order; // Order object
 });
 ```
@@ -135,7 +143,7 @@ taxjar.updateOrder({
 ### Delete order transaction
 
 ```javascript
-taxjar.deleteOrder('123').then(function(res) {
+taxjar.deleteOrder('123').then(res => {
   res.order; // Order object
 });
 ```
@@ -146,7 +154,7 @@ taxjar.deleteOrder('123').then(function(res) {
 taxjar.listRefunds({
   from_transaction_date: '2015/05/01',
   to_transaction_date: '2015/05/31'
-}).then(function(res) {
+}).then(res => {
   res.refunds; // Refunds object
 });
 ```
@@ -154,7 +162,7 @@ taxjar.listRefunds({
 ### Show refund transaction
 
 ```javascript
-taxjar.showRefund('321').then(function(res) {
+taxjar.showRefund('321').then(res => {
   res.refund; // Refund object
 });
 ```
@@ -183,7 +191,7 @@ taxjar.createRefund({
       sales_tax: 0.95
     }
   ]
-}).then(function(res) {
+}).then(res => {
   res.refund; // Refund object
 });
 ```
@@ -204,7 +212,7 @@ taxjar.updateRefund({
       sales_tax: 0.95
     }
   ]
-}).then(function(res) {
+}).then(res => {
   res.refund; // Refund object
 });
 ```
@@ -212,7 +220,7 @@ taxjar.updateRefund({
 ### Delete refund transaction
 
 ```javascript
-taxjar.deleteRefund('123').then(function(res) {
+taxjar.deleteRefund('123').then(res => {
   res.refund; // Refund object
 });
 ```
@@ -220,7 +228,7 @@ taxjar.deleteRefund('123').then(function(res) {
 ### List nexus regions
 
 ```javascript
-taxjar.nexusRegions().then(function(res) {
+taxjar.nexusRegions().then(res => {
   res.regions; // Array of nexus regions
 });
 ```
@@ -230,7 +238,7 @@ taxjar.nexusRegions().then(function(res) {
 ```javascript
 taxjar.validate({
   vat: 'FR40303265045'
-}).then(function(res) {
+}).then(res => {
   res.validation; // Validation object
 });
 ```
@@ -238,7 +246,7 @@ taxjar.validate({
 ### Summarize tax rates for all regions
 
 ```javascript
-taxjar.summaryRates().then(function(res) {
+taxjar.summaryRates().then(res => {
   res.summary_rates; // Array of summarized rates
 });
 ```
@@ -262,10 +270,10 @@ taxjar.taxForOrder({
       product_tax_code: 31000
     }
   ]
-}).then(function(res) {
+}).then(res => {
   res.tax; // Tax object
   res.tax.amount_to_collect; // Amount to collect
-}).catch(function(err) {
+}).catch(err => {
   err.detail; // Error detail
   err.status; // Error status code
 });

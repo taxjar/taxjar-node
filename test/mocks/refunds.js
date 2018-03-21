@@ -1,17 +1,17 @@
 'use strict';
 
-var nock = require('nock');
+const nock = require('nock');
 
-var TEST_API_HOST = 'https://mockapi.taxjar.com';
+const TEST_API_HOST = 'https://mockapi.taxjar.com';
 
-var LIST_REFUND_RES = {
+const LIST_REFUND_RES = {
   "refunds": [
     "321",
     "654"
   ]
 };
 
-var SHOW_REFUND_RES = {
+const SHOW_REFUND_RES = {
   "refund": {
     "transaction_id": "321",
     "user_id": 10649,
@@ -39,9 +39,9 @@ var SHOW_REFUND_RES = {
   }
 };
 
-var CREATE_REFUND_RES = SHOW_REFUND_RES;
-var UPDATE_REFUND_RES = SHOW_REFUND_RES;
-var DELETE_REFUND_RES = SHOW_REFUND_RES;
+const CREATE_REFUND_RES = SHOW_REFUND_RES;
+const UPDATE_REFUND_RES = SHOW_REFUND_RES;
+const DELETE_REFUND_RES = SHOW_REFUND_RES;
 
 nock(TEST_API_HOST)
   .matchHeader('Authorization', /Bearer.*/)

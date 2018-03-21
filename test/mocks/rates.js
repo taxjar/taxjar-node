@@ -1,10 +1,10 @@
 'use strict';
 
-var nock = require('nock');
+const nock = require('nock');
 
-var TEST_API_HOST = 'https://mockapi.taxjar.com';
+const TEST_API_HOST = 'https://mockapi.taxjar.com';
 
-var RATE_RES = {
+const RATE_RES = {
   "rate": {
     "zip": "90002",
     "state": "CA",

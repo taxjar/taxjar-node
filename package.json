@@ -23,18 +23,25 @@
   "engines": {
     "node": ">= v0.10.0"
   },
-  "main": "lib/taxjar.js",
+  "main": "dist/taxjar.js",
+  "types": "dist/taxjar.d.ts",
   "devDependencies": {
+    "@types/bluebird": "^3.5.20",
+    "@types/request-promise": "^4.1.41",
     "chai": "~3.5.0",
     "eslint": "^4.18.2",
     "mocha": "~3.1.2",
-    "nock": "~9.0.2"
+    "nock": "~9.0.2",
+    "typescript": "^2.7.2"
   },
   "dependencies": {
     "bluebird": "^3.4.6",
-    "restler": "^3.4.0"
+    "request": "^2.85.0",
+    "request-promise": "^4.2.2"
   },
   "scripts": {
-    "test": "mocha"
+    "prepublish": "npm run build",
+    "build": "tsc",
+    "test": "tsc && mocha"
   }
 }
