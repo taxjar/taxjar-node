@@ -4,7 +4,7 @@ Official Node client for Sales Tax API v2. For the REST documentation, please vi
 
 ## Requirements
 
-- Node 0.10.0 and later.
+- Node.js v4.0 and later.
 
 ## Installation
 
