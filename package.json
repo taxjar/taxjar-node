@@ -21,7 +21,7 @@
     "url": "git://github.com/taxjar/taxjar-node.git"
   },
   "engines": {
-    "node": ">= v0.10.0"
+    "node": ">= 4"
   },
   "main": "dist/taxjar.js",
   "types": "dist/taxjar.d.ts",
