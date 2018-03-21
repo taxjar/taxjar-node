@@ -20,7 +20,7 @@ export default class Request {
         json: true
       }, params);
 
-      options.headers = params.headers || {};
+      options.headers = self.client.getApiConfig('headers') || {};
       options.headers['Authorization'] = 'Bearer ' + self.client.getApiConfig('apiKey');
       options.headers['Content-Type'] = 'application/json';
 
