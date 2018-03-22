@@ -19,6 +19,8 @@ npm install taxjar
 const Taxjar = require('taxjar');
 
 // ES6/7 Import
+// Using TypeScript? Pass `esModuleInterop` in tsconfig.json
+// https://www.typescriptlang.org/docs/handbook/compiler-options.html
 import Taxjar from 'taxjar';
 
 const client = new Taxjar({
