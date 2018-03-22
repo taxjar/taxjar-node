@@ -15,7 +15,7 @@ export default class Request {
     return new Promise((resolve, reject) => {
       let options = Object.assign({
         uri: self.client.getApiConfig('apiUrl') + params.url,
-        formData: JSON.stringify(params.data),
+        body: params.data,
         qs: params.query,
         json: true
       }, params);
