@@ -33,7 +33,7 @@ const client = new Taxjar({
 ### List all tax categories
 
 ```javascript
-taxjar.categories().then(res => {
+client.categories().then(res => {
   res.categories; // Array of categories
 });
 ```
@@ -41,7 +41,7 @@ taxjar.categories().then(res => {
 ### List tax rates for a location (by zip/postal code)
 
 ```javascript
-taxjar.ratesForLocation('90002').then(res => {
+client.ratesForLocation('90002').then(res => {
   res.rate; // Rate object
 });
 ```
@@ -49,7 +49,7 @@ taxjar.ratesForLocation('90002').then(res => {
 ### Calculate sales tax for an order
 
 ```javascript
-taxjar.taxForOrder({
+client.taxForOrder({
   from_country: 'US',
   from_zip: '07001',
   from_state: 'NJ',
@@ -74,7 +74,7 @@ taxjar.taxForOrder({
 ### List order transactions
 
 ```javascript
-taxjar.listOrders({
+client.listOrders({
   from_transaction_date: '2015/05/01',
   to_transaction_date: '2015/05/31'
 }).then(res => {
@@ -85,7 +85,7 @@ taxjar.listOrders({
 ### Show order transaction
 
 ```javascript
-taxjar.showOrder('123').then(res => {
+client.showOrder('123').then(res => {
   res.order; // Order object
 });
 ```
@@ -93,7 +93,7 @@ taxjar.showOrder('123').then(res => {
 ### Create order transaction
 
 ```javascript
-taxjar.createOrder({
+client.createOrder({
   transaction_id: '123',
   transaction_date: '2015/05/14',
   to_country: 'US',
@@ -121,7 +121,7 @@ taxjar.createOrder({
 ### Update order transaction
 
 ```javascript
-taxjar.updateOrder({
+client.updateOrder({
   transaction_id: '123',
   amount: 17.45,
   shipping: 1.5,
@@ -143,7 +143,7 @@ taxjar.updateOrder({
 ### Delete order transaction
 
 ```javascript
-taxjar.deleteOrder('123').then(res => {
+client.deleteOrder('123').then(res => {
   res.order; // Order object
 });
 ```
@@ -151,7 +151,7 @@ taxjar.deleteOrder('123').then(res => {
 ### List refund transactions
 
 ```javascript
-taxjar.listRefunds({
+client.listRefunds({
   from_transaction_date: '2015/05/01',
   to_transaction_date: '2015/05/31'
 }).then(res => {
@@ -162,7 +162,7 @@ taxjar.listRefunds({
 ### Show refund transaction
 
 ```javascript
-taxjar.showRefund('321').then(res => {
+client.showRefund('321').then(res => {
   res.refund; // Refund object
 });
 ```
@@ -170,7 +170,7 @@ taxjar.showRefund('321').then(res => {
 ### Create refund transaction
 
 ```javascript
-taxjar.createRefund({
+client.createRefund({
   transaction_id: '123',
   transaction_date: '2015/05/14',
   transaction_reference_id: '123',
@@ -199,7 +199,7 @@ taxjar.createRefund({
 ### Update refund transaction
 
 ```javascript
-taxjar.updateRefund({
+client.updateRefund({
   transaction_id: '123',
   amount: 17.95,
   shipping: 2.0,
@@ -220,7 +220,7 @@ taxjar.updateRefund({
 ### Delete refund transaction
 
 ```javascript
-taxjar.deleteRefund('123').then(res => {
+client.deleteRefund('123').then(res => {
   res.refund; // Refund object
 });
 ```
@@ -228,7 +228,7 @@ taxjar.deleteRefund('123').then(res => {
 ### List nexus regions
 
 ```javascript
-taxjar.nexusRegions().then(res => {
+client.nexusRegions().then(res => {
   res.regions; // Array of nexus regions
 });
 ```
@@ -236,7 +236,7 @@ taxjar.nexusRegions().then(res => {
 ### Validate a VAT number
 
 ```javascript
-taxjar.validate({
+client.validate({
   vat: 'FR40303265045'
 }).then(res => {
   res.validation; // Validation object
@@ -246,7 +246,7 @@ taxjar.validate({
 ### Summarize tax rates for all regions
 
 ```javascript
-taxjar.summaryRates().then(res => {
+client.summaryRates().then(res => {
   res.summary_rates; // Array of summarized rates
 });
 ```
@@ -279,7 +279,7 @@ client.setApiConfig('headers', {
 ## Error Handling
 
 ```javascript
-taxjar.taxForOrder({
+client.taxForOrder({
   from_country: 'US',
   from_zip: '07001',
   from_state: 'NJ',
