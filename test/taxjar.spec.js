@@ -11,9 +11,13 @@ const nexusRegionMock = require('./mocks/nexus_regions');
 const validationMock = require('./mocks/validations');
 const summaryRateMock = require('./mocks/summary_rates');
 
-let taxjarClient = new Taxjar({
-  apiKey: 'test123',
-  apiUrl: 'https://mockapi.taxjar.com'
+let taxjarClient = {};
+
+beforeEach(function() {
+  taxjarClient = new Taxjar({
+    apiKey: process.env.TAXJAR_API_KEY || 'test123',
+    apiUrl: 'https://mockapi.taxjar.com'
+  });
 });
 
 describe('TaxJar API', () => {
@@ -69,41 +73,67 @@ describe('TaxJar API', () => {
 
   describe('categories', () => {
 
-    it('lists tax categories', () => {
+    it('lists tax categories', (done) => {
       const categoryMock = require('./mocks/categories');
 
       taxjarClient.categories().then(res => {
         assert(res, 'no categories');
         assert.deepEqual(res, categoryMock.CATEGORY_RES);
+        done();
       });
     });
+
+    if (process.env.TAXJAR_API_URL) {
+      it('returns successful response in sandbox', (done) => {
+        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+        taxjarClient.categories().then(res => {
+          assert.isOk(res.categories);
+          done();
+        });
+      });
+    }
 
   });
 
   describe('rates', () => {
 
-    it('shows tax rates for a location', () => {
+    it('shows tax rates for a location', (done) => {
       taxjarClient.ratesForLocation('90002').then(res => {
         assert(res, 'no rates');
         assert.deepEqual(res, rateMock.RATE_RES);
+        done();
       });
     });
 
-    it('shows tax rates for a location with additional params', () => {
+    it('shows tax rates for a location with additional params', (done) => {
       taxjarClient.ratesForLocation('90002', {
         city: 'Los Angeles',
         country: 'US'
       }).then(res => {
         assert(res, 'no rates');
         assert.deepEqual(res, rateMock.RATE_RES);
+        done();
       });
     });
+
+    if (process.env.TAXJAR_API_URL) {
+      it('returns successful response in sandbox', (done) => {
+        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+        taxjarClient.ratesForLocation('90002', {
+          city: 'Los Angeles',
+          country: 'US'
+        }).then(res => {
+          assert.isOk(res.rate);
+          done();
+        });
+      });
+    }
 
   });
 
   describe('taxes', () => {
 
-    it('calculates sales tax for an order', () => {
+    it('calculates sales tax for an order', (done) => {
       taxjarClient.taxForOrder({
         'from_country': 'US',
         'from_zip': '07001',
@@ -115,29 +145,74 @@ describe('TaxJar API', () => {
         'shipping': 1.5
       }).then(res => {
         assert.deepEqual(res, taxMock.TAX_RES);
+        done();
       });
     });
+
+    if (process.env.TAXJAR_API_URL) {
+      it('returns successful response in sandbox', (done) => {
+        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+        taxjarClient.taxForOrder({
+          'from_country': 'US',
+          'from_zip': '07001',
+          'from_state': 'NJ',
+          'to_country': 'US',
+          'to_zip': '07446',
+          'to_state': 'NJ',
+          'amount': 16.50,
+          'shipping': 1.5
+        }).then(res => {
+          assert.isOk(res.tax);
+          done();
+        });
+      });
+    }
 
   });
 
   describe('transactions', () => {
 
-    it('lists order transactions', () => {
+    it('lists order transactions', (done) => {
       taxjarClient.listOrders({
         'from_transaction_date': '2015/05/01',
         'to_transaction_date': '2015/05/31'
       }).then(res => {
         assert.deepEqual(res, orderMock.LIST_ORDER_RES);
+        done();
       });
     });
 
-    it('shows an order transaction', () => {
+    if (process.env.TAXJAR_API_URL) {
+      it('listOrders returns successful response in sandbox', (done) => {
+        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+        taxjarClient.listOrders({
+          'from_transaction_date': '2015/05/01',
+          'to_transaction_date': '2015/05/31'
+        }).then(res => {
+          assert.isOk(res.orders);
+          done();
+        });
+      });
+    }
+
+    it('shows an order transaction', (done) => {
       taxjarClient.showOrder('123').then(res => {
         assert.deepEqual(res, orderMock.SHOW_ORDER_RES);
+        done();
       });
     });
 
-    it('creates an order transaction', () => {
+    if (process.env.TAXJAR_API_URL) {
+      it('showOrder returns successful response in sandbox', (done) => {
+        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+        taxjarClient.showOrder('123').then(res => {
+          assert.isOk(res.order);
+          done();
+        });
+      });
+    }
+
+    it('creates an order transaction', (done) => {
       taxjarClient.createOrder({
         'transaction_id': '123',
         'transaction_date': '2015/05/14',
@@ -146,7 +221,7 @@ describe('TaxJar API', () => {
         'to_state': 'CA',
         'to_city': 'Los Angeles',
         'to_street': '123 Palm Grove Ln',
-        'amount': 17.45,
+        'amount': 16.5,
         'shipping': 1.5,
         'sales_tax': 0.95,
         'line_items': [
@@ -160,13 +235,44 @@ describe('TaxJar API', () => {
         ]
       }).then(res => {
         assert.deepEqual(res, orderMock.CREATE_ORDER_RES);
+        done();
       });
     });
 
-    it('updates an order transaction', () => {
+    if (process.env.TAXJAR_API_URL) {
+      it('createOrder returns successful response in sandbox', (done) => {
+        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+        taxjarClient.createOrder({
+          'transaction_id': '123',
+          'transaction_date': '2015/05/14',
+          'to_country': 'US',
+          'to_zip': '90002',
+          'to_state': 'CA',
+          'to_city': 'Los Angeles',
+          'to_street': '123 Palm Grove Ln',
+          'amount': 16.5,
+          'shipping': 1.5,
+          'sales_tax': 0.95,
+          'line_items': [
+            {
+              'quantity': 1,
+              'product_identifier': '12-34243-9',
+              'description': 'Fuzzy Widget',
+              'unit_price': 15.0,
+              'sales_tax': 0.95
+            }
+          ]
+        }).then(res => {
+          assert.isOk(res.order);
+          done();
+        });
+      });
+    }
+
+    it('updates an order transaction', (done) => {
       taxjarClient.updateOrder({
         'transaction_id': '123',
-        'amount': 17.45,
+        'amount': 16.5,
         'shipping': 1.5,
         'line_items': [
           {
@@ -180,31 +286,92 @@ describe('TaxJar API', () => {
         ]
       }).then(res => {
         assert.deepEqual(res, orderMock.UPDATE_ORDER_RES);
+        done();
       });
     });
 
-    it('deletes an order transaction', () => {
+    if (process.env.TAXJAR_API_URL) {
+      it('updateOrder returns successful response in sandbox', (done) => {
+        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+        taxjarClient.updateOrder({
+          'transaction_id': '123',
+          'amount': 16.5,
+          'shipping': 1.5,
+          'line_items': [
+            {
+              'quantity': 1,
+              'product_identifier': '12-34243-0',
+              'description': 'Heavy Widget',
+              'unit_price': 15.0,
+              'discount': 0.0,
+              'sales_tax': 0.95
+            }
+          ]
+        }).then(res => {
+          assert.isOk(res.order);
+          done();
+        });
+      });
+    }
+
+    it('deletes an order transaction', (done) => {
       taxjarClient.deleteOrder('123').then(res => {
         assert.deepEqual(res, orderMock.DELETE_ORDER_RES);
+        done();
       });
     });
 
-    it('lists refund transactions', () => {
+    if (process.env.TAXJAR_API_URL) {
+      it('deleteOrder returns successful response in sandbox', (done) => {
+        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+        taxjarClient.deleteOrder('123').then(res => {
+          assert.isOk(res.order);
+          done();
+        });
+      });
+    }
+
+    it('lists refund transactions', (done) => {
       taxjarClient.listRefunds({
         'from_transaction_date': '2015/05/01',
         'to_transaction_date': '2015/05/31'
       }).then(res => {
         assert.deepEqual(res, refundMock.LIST_REFUND_RES);
+        done();
       });
     });
 
-    it('shows a refund transaction', () => {
+    if (process.env.TAXJAR_API_URL) {
+      it('listRefunds returns successful response in sandbox', (done) => {
+        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+        taxjarClient.listRefunds({
+          'from_transaction_date': '2015/05/01',
+          'to_transaction_date': '2015/05/31'
+        }).then(res => {
+          assert.isOk(res.refunds);
+          done();
+        });
+      });
+    }
+
+    it('shows a refund transaction', (done) => {
       taxjarClient.showRefund('321').then(res => {
         assert.deepEqual(res, refundMock.SHOW_REFUND_RES);
+        done();
       });
     });
 
-    it('creates a refund transaction', () => {
+    if (process.env.TAXJAR_API_URL) {
+      it('showRefund returns successful response in sandbox', (done) => {
+        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+        taxjarClient.showRefund('321').then(res => {
+          assert.isOk(res.refund);
+          done();
+        });
+      });
+    }
+
+    it('creates a refund transaction', (done) => {
       taxjarClient.createRefund({
         'transaction_id': '123',
         'transaction_date': '2015/05/14',
@@ -214,7 +381,7 @@ describe('TaxJar API', () => {
         'to_state': 'CA',
         'to_city': 'Los Angeles',
         'to_street': '123 Palm Grove Ln',
-        'amount': 17.45,
+        'amount': 16.5,
         'shipping': 1.5,
         'sales_tax': 0.95,
         'line_items': [
@@ -228,13 +395,45 @@ describe('TaxJar API', () => {
         ]
       }).then(res => {
         assert.deepEqual(res, refundMock.CREATE_REFUND_RES);
+        done();
       });
     });
 
-    it('updates a refund transaction', () => {
+    if (process.env.TAXJAR_API_URL) {
+      it('createRefund returns successful response in sandbox', (done) => {
+        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+        taxjarClient.createRefund({
+          'transaction_id': '123',
+          'transaction_date': '2015/05/14',
+          'transaction_reference_id': '123',
+          'to_country': 'US',
+          'to_zip': '90002',
+          'to_state': 'CA',
+          'to_city': 'Los Angeles',
+          'to_street': '123 Palm Grove Ln',
+          'amount': 16.5,
+          'shipping': 1.5,
+          'sales_tax': 0.95,
+          'line_items': [
+            {
+              'quantity': 1,
+              'product_identifier': '12-34243-9',
+              'description': 'Fuzzy Widget',
+              'unit_price': 15.0,
+              'sales_tax': 0.95
+            }
+          ]
+        }).then(res => {
+          assert.isOk(res.refund);
+          done();
+        });
+      });
+    }
+
+    it('updates a refund transaction', (done) => {
       taxjarClient.updateRefund({
         'transaction_id': '321',
-        'amount': 17.95,
+        'amount': 17,
         'shipping': 2.0,
         'line_items': [
           {
@@ -247,46 +446,116 @@ describe('TaxJar API', () => {
         ]
       }).then(res => {
         assert.deepEqual(res, refundMock.UPDATE_REFUND_RES);
+        done();
       });
     });
 
-    it('deletes a refund transaction', () => {
+    if (process.env.TAXJAR_API_URL) {
+      it('updateRefund returns successful response in sandbox', (done) => {
+        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+        taxjarClient.updateRefund({
+          'transaction_id': '321',
+          'amount': 17,
+          'shipping': 2.0,
+          'line_items': [
+            {
+              'quantity': 1,
+              'product_identifier': '12-34243-0',
+              'description': 'Heavy Widget',
+              'unit_price': 15.0,
+              'sales_tax': 0.95
+            }
+          ]
+        }).then(res => {
+          assert.isOk(res.refund);
+          done();
+        });
+      });
+    }
+
+    it('deletes a refund transaction', (done) => {
       taxjarClient.deleteRefund('321').then(res => {
         assert.deepEqual(res, refundMock.DELETE_REFUND_RES);
+        done();
       });
     });
+
+    if (process.env.TAXJAR_API_URL) {
+      it('deleteRefund returns successful response in sandbox', (done) => {
+        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+        taxjarClient.deleteRefund('321').then(res => {
+          assert.isOk(res.refund);
+          done();
+        });
+      });
+    }
 
   });
 
   describe('nexus', () => {
 
-    it('lists nexus regions', () => {
+    it('lists nexus regions', (done) => {
       taxjarClient.nexusRegions().then(res => {
         assert.deepEqual(res, nexusRegionMock.NEXUS_REGIONS_RES);
+        done();
       });
     });
+
+    if (process.env.TAXJAR_API_URL) {
+      it('returns successful response in sandbox', (done) => {
+        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+        taxjarClient.nexusRegions().then(res => {
+          assert.isOk(res.regions);
+          done();
+        });
+      });
+    }
 
   });
 
   describe('validations', () => {
 
-    it('validates a VAT number', () => {
+    it('validates a VAT number', (done) => {
       taxjarClient.validate({
         vat: 'FR40303265045'
       }).then(res => {
         assert.deepEqual(res, validationMock.VALIDATION_RES);
+        done();
       });
     });
+
+    if (process.env.TAXJAR_API_URL) {
+      it('returns successful response in sandbox', (done) => {
+        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+        taxjarClient.validate({
+          vat: 'FR40303265045'
+        }).then(res => {
+          assert.isOk(res.validation);
+          done();
+        });
+      }).timeout(5000);
+    }
 
   });
 
   describe('summarized rates', () => {
 
-    it('lists summarized rates', () => {
+    it('lists summarized rates', (done) => {
       taxjarClient.summaryRates().then(res => {
         assert.deepEqual(res, summaryRateMock.SUMMARY_RATES_RES);
+        done();
       });
     });
+
+    if (process.env.TAXJAR_API_URL) {
+      it('returns successful response in sandbox', (done) => {
+        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+        taxjarClient.summaryRates().then(res => {
+          assert.isOk(res.summary_rates);
+          done();
+        });
+      });
+    }
 
   });
 
