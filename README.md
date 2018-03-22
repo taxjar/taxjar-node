@@ -315,5 +315,7 @@ npm test
 To validate API methods in the TaxJar sandbox environment, pass the following environment variables:
 
 ```
-TAXJAR_API_KEY=9e0cd62a22f451701f29c3bde214 TAXJAR_API_URL="https://api.sandbox.taxjar.com" npm test
+TAXJAR_API_URL="https://api.sandbox.taxjar.com" \
+TAXJAR_API_KEY=9e0cd62a22f451701f29c3bde214 \
+npm test
 ```
