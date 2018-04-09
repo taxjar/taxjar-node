@@ -121,6 +121,18 @@ export namespace TaxjarTypes {
     line_items?: object
   }
 
+  export interface CustomerParams {
+    customer_id: string,
+    exemption_type: string,
+    exempt_regions: object,
+    name: string,
+    country?: string,
+    state?: string,
+    zip?: string,
+    city?: string,
+    street?: string
+  }
+
   export interface ValidateParams {
     vat: string
   }

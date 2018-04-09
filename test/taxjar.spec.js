@@ -5,6 +5,7 @@ const Taxjar = require('../dist/taxjar');
 
 const rateMock = require('./mocks/rates');
 const taxMock = require('./mocks/taxes');
+const customerMock = require('./mocks/customers');
 const orderMock = require('./mocks/orders');
 const refundMock = require('./mocks/refunds');
 const nexusRegionMock = require('./mocks/nexus_regions');
@@ -489,6 +490,163 @@ describe('TaxJar API', () => {
         });
       });
     }
+
+  });
+
+  describe('customers', () => {
+
+    it('lists customers', (done) => {
+      taxjarClient.listCustomers().then(res => {
+        assert.deepEqual(res, customerMock.LIST_CUSTOMER_RES);
+        done();
+      });
+    });
+
+    // if (process.env.TAXJAR_API_URL) {
+    //   it('listCustomers returns successful response in sandbox', (done) => {
+    //     taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+    //     taxjarClient.listCustomers().then(res => {
+    //       assert.isOk(res.customers);
+    //       done();
+    //     });
+    //   });
+    // }
+
+    it('shows a customer', (done) => {
+      taxjarClient.showCustomer('123').then(res => {
+        assert.deepEqual(res, customerMock.SHOW_CUSTOMER_RES);
+        done();
+      });
+    });
+
+    // if (process.env.TAXJAR_API_URL) {
+    //   it('showCustomer returns successful response in sandbox', (done) => {
+    //     taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+    //     taxjarClient.showCustomer('123').then(res => {
+    //       assert.isOk(res.customer);
+    //       done();
+    //     });
+    //   });
+    // }
+
+    it('creates a customer', (done) => {
+      taxjarClient.createCustomer({
+        customer_id: '123',
+        exemption_type: 'wholesale',
+        name: 'Dunder Mifflin Paper Company',
+        exempt_regions: [
+          {
+            country: 'US',
+            state: 'FL'
+          },
+          {
+            country: 'US',
+            state: 'PA'
+          }
+        ],
+        country: 'US',
+        state: 'PA',
+        zip: '18504',
+        city: 'Scranton',
+        street: '1725 Slough Avenue'
+      }).then(res => {
+        assert.deepEqual(res, customerMock.CREATE_CUSTOMER_RES);
+        done();
+      });
+    });
+
+    // if (process.env.TAXJAR_API_URL) {
+    //   it('createCustomer returns successful response in sandbox', (done) => {
+    //     taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+    //     taxjarClient.createCustomer({
+    //       customer_id: '123',
+    //       exemption_type: 'wholesale',
+    //       name: 'Dunder Mifflin Paper Company',
+    //       exempt_regions: [
+    //         {
+    //           country: 'US',
+    //           state: 'FL'
+    //         },
+    //         {
+    //           country: 'US',
+    //           state: 'PA'
+    //         }
+    //       ],
+    //       country: 'US',
+    //       state: 'PA',
+    //       zip: '18504',
+    //       city: 'Scranton',
+    //       street: '1725 Slough Avenue'
+    //     }).then(res => {
+    //       assert.isOk(res.customer);
+    //       done();
+    //     });
+    //   });
+    // }
+
+    it('updates a customer', (done) => {
+      taxjarClient.updateCustomer({
+        customer_id: '123',
+        exemption_type: 'wholesale',
+        name: 'Sterling Cooper',
+        exempt_regions: [
+          {
+            country: 'US',
+            state: 'NY'
+          }
+        ],
+        country: 'US',
+        state: 'NY',
+        zip: '10010',
+        city: 'New York',
+        street: '405 Madison Ave'
+      }).then(res => {
+        assert.deepEqual(res, customerMock.UPDATE_CUSTOMER_RES);
+        done();
+      });
+    });
+
+    // if (process.env.TAXJAR_API_URL) {
+    //   it('updateCustomer returns successful response in sandbox', (done) => {
+    //     taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+    //     taxjarClient.updateCustomer({
+    //       customer_id: '123',
+    //       exemption_type: 'wholesale',
+    //       name: 'Sterling Cooper',
+    //       exempt_regions: [
+    //         {
+    //           country: 'US',
+    //           state: 'NY'
+    //         }
+    //       ],
+    //       country: 'US',
+    //       state: 'NY',
+    //       zip: '10010',
+    //       city: 'New York',
+    //       street: '405 Madison Ave'
+    //     }).then(res => {
+    //       assert.isOk(res.customer);
+    //       done();
+    //     });
+    //   });
+    // }
+
+    it('deletes a customer', (done) => {
+      taxjarClient.deleteCustomer('123').then(res => {
+        assert.deepEqual(res, customerMock.DELETE_CUSTOMER_RES);
+        done();
+      });
+    });
+
+    // if (process.env.TAXJAR_API_URL) {
+    //   it('deleteCustomer returns successful response in sandbox', (done) => {
+    //     taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+    //     taxjarClient.deleteCustomer('123').then(res => {
+    //       assert.isOk(res.customer);
+    //       done();
+    //     });
+    //   });
+    // }
 
   });
 

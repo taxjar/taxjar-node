@@ -141,6 +141,44 @@ class Taxjar {
     });
   }
 
+  listCustomers(params: object): object {
+    return this.request.api({
+      method: 'GET',
+      url: 'customers',
+      query: params
+    });
+  }
+
+  showCustomer(customerId: string): object {
+    return this.request.api({
+      method: 'GET',
+      url: 'customers/' + customerId
+    });
+  }
+
+  createCustomer(params: TaxjarTypes.CustomerParams): object {
+    return this.request.api({
+      method: 'POST',
+      url: 'customers',
+      data: params
+    });
+  }
+
+  updateCustomer(params: TaxjarTypes.CustomerParams): object {
+    return this.request.api({
+      method: 'put',
+      url: 'customers/' + params['customer_id'],
+      data: params
+    });
+  }
+
+  deleteCustomer(customerId: string): object {
+    return this.request.api({
+      method: 'DELETE',
+      url: 'customers/' + customerId
+    });
+  }
+
   nexusRegions(): object {
     return this.request.api({
       method: 'GET',
