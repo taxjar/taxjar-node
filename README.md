@@ -227,6 +227,80 @@ client.deleteRefund('123').then(res => {
 });
 ```
 
+### List customers
+
+```javascript
+client.listCustomers().then(res => {
+  res.customers; // Customers object
+});
+```
+
+### Show customer
+
+```javascript
+client.showCustomer('123').then(res => {
+  res.customer; // Customer object
+});
+```
+
+### Create customer
+
+```javascript
+client.createCustomer({
+  customer_id: '123',
+  exemption_type: 'wholesale',
+  name: 'Dunder Mifflin Paper Company',
+  exempt_regions: [
+    {
+      country: 'US',
+      state: 'FL'
+    },
+    {
+      country: 'US',
+      state: 'PA'
+    }
+  ],
+  country: 'US',
+  state: 'PA',
+  zip: '18504',
+  city: 'Scranton',
+  street: '1725 Slough Avenue'
+}).then(res => {
+  res.customer; // Customer object
+});
+```
+
+### Update customer
+
+```javascript
+client.updateCustomer({
+  customer_id: '123',
+  exemption_type: 'wholesale',
+  name: 'Sterling Cooper',
+  exempt_regions: [
+    {
+      country: 'US',
+      state: 'NY'
+    }
+  ],
+  country: 'US',
+  state: 'NY',
+  zip: '10010',
+  city: 'New York',
+  street: '405 Madison Ave'
+}).then(res => {
+  res.customer; // Customer object
+});
+```
+
+### Delete customer
+
+```javascript
+client.deleteCustomer('123').then(res => {
+  res.customer; // Customer object
+});
+```
+
 ### List nexus regions
 
 ```javascript
