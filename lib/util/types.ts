@@ -33,6 +33,7 @@ export namespace TaxjarTypes {
     to_street?: string,
     amount?: number,
     shipping: number,
+    customer_id?: string,
     nexus_addresses?: object,
     line_items?: object
   }
@@ -59,6 +60,7 @@ export namespace TaxjarTypes {
     amount: number,
     shipping: number,
     sales_tax: number,
+    customer_id?: string,
     line_items?: object
   }
 
@@ -78,6 +80,7 @@ export namespace TaxjarTypes {
     amount?: number,
     shipping?: number,
     sales_tax?: number,
+    customer_id?: string,
     line_items?: object
   }
 
@@ -98,6 +101,7 @@ export namespace TaxjarTypes {
     amount: number,
     shipping: number,
     sales_tax: number,
+    customer_id?: string,
     line_items?: object
   }
 
@@ -118,6 +122,7 @@ export namespace TaxjarTypes {
     amount?: number,
     shipping?: number,
     sales_tax?: number,
+    customer_id?: string,
     line_items?: object
   }
 
