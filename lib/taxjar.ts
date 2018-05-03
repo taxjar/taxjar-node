@@ -49,7 +49,7 @@ class Taxjar {
     });
   }
 
-  ratesForLocation(zip: string, params: TaxjarTypes.RateParams): object {
+  ratesForLocation(zip: string, params?: TaxjarTypes.RateParams): object {
     return this.request.api({
       method: 'GET',
       url: 'rates/' + zip,
@@ -65,7 +65,7 @@ class Taxjar {
     });
   }
 
-  listOrders(params: TaxjarTypes.TransactionListParams): object {
+  listOrders(params?: TaxjarTypes.TransactionListParams): object {
     return this.request.api({
       method: 'GET',
       url: 'transactions/orders',
@@ -103,7 +103,7 @@ class Taxjar {
     });
   }
 
-  listRefunds(params: TaxjarTypes.TransactionListParams): object {
+  listRefunds(params?: TaxjarTypes.TransactionListParams): object {
     return this.request.api({
       method: 'GET',
       url: 'transactions/refunds',
@@ -141,7 +141,7 @@ class Taxjar {
     });
   }
 
-  listCustomers(params: object): object {
+  listCustomers(params?: object): object {
     return this.request.api({
       method: 'GET',
       url: 'customers',
