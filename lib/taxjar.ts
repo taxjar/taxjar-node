@@ -1,3 +1,4 @@
+import * as Promise from 'bluebird';
 import Request from './util/request';
 import { TaxjarTypes } from './util/types';
 
@@ -42,14 +43,14 @@ class Taxjar {
     this.request = new Request(this);
   }
 
-  categories(): object {
+  categories(): Promise<any> {
     return this.request.api({
       method: 'GET',
       url: 'categories'
     });
   }
 
-  ratesForLocation(zip: string, params: TaxjarTypes.RateParams): object {
+  ratesForLocation(zip: string, params?: TaxjarTypes.RateParams): Promise<any> {
     return this.request.api({
       method: 'GET',
       url: 'rates/' + zip,
@@ -57,7 +58,7 @@ class Taxjar {
     });
   }
 
-  taxForOrder(params: TaxjarTypes.TaxParams): object {
+  taxForOrder(params: TaxjarTypes.TaxParams): Promise<any> {
     return this.request.api({
       method: 'POST',
       url: 'taxes',
@@ -65,7 +66,7 @@ class Taxjar {
     });
   }
 
-  listOrders(params: TaxjarTypes.TransactionListParams): object {
+  listOrders(params?: TaxjarTypes.TransactionListParams): Promise<any> {
     return this.request.api({
       method: 'GET',
       url: 'transactions/orders',
@@ -73,14 +74,14 @@ class Taxjar {
     });
   }
 
-  showOrder(transactionId: string): object {
+  showOrder(transactionId: string): Promise<any> {
     return this.request.api({
       method: 'GET',
       url: 'transactions/orders/' + transactionId
     });
   }
 
-  createOrder(params: TaxjarTypes.CreateOrderParams): object {
+  createOrder(params: TaxjarTypes.CreateOrderParams): Promise<any> {
     return this.request.api({
       method: 'POST',
       url: 'transactions/orders',
@@ -88,7 +89,7 @@ class Taxjar {
     });
   }
 
-  updateOrder(params: TaxjarTypes.UpdateOrderParams): object {
+  updateOrder(params: TaxjarTypes.UpdateOrderParams): Promise<any> {
     return this.request.api({
       method: 'put',
       url: 'transactions/orders/' + params['transaction_id'],
@@ -96,14 +97,14 @@ class Taxjar {
     });
   }
 
-  deleteOrder(transactionId: string): object {
+  deleteOrder(transactionId: string): Promise<any> {
     return this.request.api({
       method: 'DELETE',
       url: 'transactions/orders/' + transactionId
     });
   }
 
-  listRefunds(params: TaxjarTypes.TransactionListParams): object {
+  listRefunds(params?: TaxjarTypes.TransactionListParams): Promise<any> {
     return this.request.api({
       method: 'GET',
       url: 'transactions/refunds',
@@ -111,14 +112,14 @@ class Taxjar {
     });
   }
 
-  showRefund(transactionId: string): object {
+  showRefund(transactionId: string): Promise<any> {
     return this.request.api({
       method: 'GET',
       url: 'transactions/refunds/' + transactionId
     });
   }
 
-  createRefund(params: TaxjarTypes.CreateRefundParams): object {
+  createRefund(params: TaxjarTypes.CreateRefundParams): Promise<any> {
     return this.request.api({
       method: 'POST',
       url: 'transactions/refunds',
@@ -126,7 +127,7 @@ class Taxjar {
     });
   }
 
-  updateRefund(params: TaxjarTypes.UpdateRefundParams): object {
+  updateRefund(params: TaxjarTypes.UpdateRefundParams): Promise<any> {
     return this.request.api({
       method: 'put',
       url: 'transactions/refunds/' + params['transaction_id'],
@@ -134,14 +135,14 @@ class Taxjar {
     });
   }
 
-  deleteRefund(transactionId: string): object {
+  deleteRefund(transactionId: string): Promise<any> {
     return this.request.api({
       method: 'DELETE',
       url: 'transactions/refunds/' + transactionId
     });
   }
 
-  listCustomers(params: object): object {
+  listCustomers(params?: object): Promise<any> {
     return this.request.api({
       method: 'GET',
       url: 'customers',
@@ -149,14 +150,14 @@ class Taxjar {
     });
   }
 
-  showCustomer(customerId: string): object {
+  showCustomer(customerId: string): Promise<any> {
     return this.request.api({
       method: 'GET',
       url: 'customers/' + customerId
     });
   }
 
-  createCustomer(params: TaxjarTypes.CustomerParams): object {
+  createCustomer(params: TaxjarTypes.CustomerParams): Promise<any> {
     return this.request.api({
       method: 'POST',
       url: 'customers',
@@ -164,7 +165,7 @@ class Taxjar {
     });
   }
 
-  updateCustomer(params: TaxjarTypes.CustomerParams): object {
+  updateCustomer(params: TaxjarTypes.CustomerParams): Promise<any> {
     return this.request.api({
       method: 'put',
       url: 'customers/' + params['customer_id'],
@@ -172,21 +173,21 @@ class Taxjar {
     });
   }
 
-  deleteCustomer(customerId: string): object {
+  deleteCustomer(customerId: string): Promise<any> {
     return this.request.api({
       method: 'DELETE',
       url: 'customers/' + customerId
     });
   }
 
-  nexusRegions(): object {
+  nexusRegions(): Promise<any> {
     return this.request.api({
       method: 'GET',
       url: 'nexus/regions'
     });
   }
 
-  validate(params: TaxjarTypes.ValidateParams): object {
+  validate(params: TaxjarTypes.ValidateParams): Promise<any> {
     return this.request.api({
       method: 'GET',
       url: 'validation',
@@ -194,7 +195,7 @@ class Taxjar {
     });
   }
 
-  summaryRates(): object {
+  summaryRates(): Promise<any> {
     return this.request.api({
       method: 'GET',
       url: 'summary_rates'
