@@ -26,15 +26,16 @@
   "main": "dist/taxjar.js",
   "types": "dist/taxjar.d.ts",
   "devDependencies": {
-    "@types/bluebird": "^3.5.20",
-    "@types/request-promise": "^4.1.41",
     "chai": "~3.5.0",
-    "eslint": "^4.18.2",
+    "eslint": "^4.19.1",
     "mocha": "~3.1.2",
     "nock": "~9.0.2",
-    "typescript": "^2.7.2"
+    "typescript": "^2.8.3"
   },
   "dependencies": {
+    "@types/bluebird": "^3.5.20",
+    "@types/request": "^2.47.0",
+    "@types/request-promise": "^4.1.41",
     "bluebird": "^3.4.6",
     "request": "^2.85.0",
     "request-promise": "^4.2.2"
