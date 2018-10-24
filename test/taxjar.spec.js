@@ -673,6 +673,35 @@ describe('TaxJar API', () => {
 
   describe('validations', () => {
 
+    it('validates an address', (done) => {
+      taxjarClient.validateAddress({
+        country: 'US',
+        state: 'AZ',
+        zip: '85297',
+        city: 'Gilbert',
+        street: '3301 South Greenfield Rd'
+      }).then(res => {
+        assert.deepEqual(res, validationMock.ADDRESS_VALIDATION_RES);
+        done();
+      });
+    });
+
+    if (process.env.TAXJAR_API_URL) {
+      it('returns successful response in sandbox', (done) => {
+        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+        taxjarClient.validateAddress({
+          country: 'US',
+          state: 'AZ',
+          zip: '85297',
+          city: 'Gilbert',
+          street: '3301 South Greenfield Rd'
+        }).then(res => {
+          assert.isOk(res.validation);
+          done();
+        });
+      }).timeout(5000);
+    }
+
     it('validates a VAT number', (done) => {
       taxjarClient.validate({
         vat: 'FR40303265045'
