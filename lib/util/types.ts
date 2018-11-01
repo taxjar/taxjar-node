@@ -138,6 +138,14 @@ export namespace TaxjarTypes {
     street?: string
   }
 
+  export interface AddressParams {
+    country?: string,
+    state?: string,
+    zip?: string,
+    city?: string,
+    street?: string
+  }
+
   export interface ValidateParams {
     vat: string
   }

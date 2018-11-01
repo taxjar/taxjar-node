@@ -187,6 +187,14 @@ class Taxjar {
     });
   }
 
+  validateAddress(params: TaxjarTypes.AddressParams): Promise<any> {
+    return this.request.api({
+      method: 'POST',
+      url: 'addresses/validate',
+      data: params
+    });
+  }
+
   validate(params: TaxjarTypes.ValidateParams): Promise<any> {
     return this.request.api({
       method: 'GET',
