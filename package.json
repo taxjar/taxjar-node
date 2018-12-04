@@ -30,14 +30,14 @@
     "eslint": "^4.19.1",
     "mocha": "~3.1.2",
     "nock": "~9.0.2",
-    "typescript": "^2.8.3"
+    "typescript": "^2.9.2"
   },
   "dependencies": {
-    "@types/bluebird": "^3.5.20",
-    "@types/request": "^2.47.0",
-    "@types/request-promise": "^4.1.41",
-    "bluebird": "^3.4.6",
-    "request": "^2.85.0",
+    "@types/bluebird": "^3.5.24",
+    "@types/request": "^2.48.1",
+    "@types/request-promise": "^4.1.42",
+    "bluebird": "^3.5.3",
+    "request": "^2.88.0",
     "request-promise": "^4.2.2"
   },
   "scripts": {
