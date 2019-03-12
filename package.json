@@ -26,11 +26,11 @@
   "main": "dist/taxjar.js",
   "types": "dist/taxjar.d.ts",
   "devDependencies": {
-    "chai": "~4.2.0",
-    "eslint": "^5.15.1",
+    "chai": "~3.5.0",
+    "eslint": "^4.19.1",
     "mocha": "~5.2.0",
-    "nock": "~10.0.6",
-    "typescript": "^3.3.3333"
+    "nock": "~9.0.2",
+    "typescript": "^2.9.2"
   },
   "dependencies": {
     "@types/bluebird": "^3.5.26",
