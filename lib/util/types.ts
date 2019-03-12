@@ -129,7 +129,7 @@ export namespace TaxjarTypes {
   export interface CustomerParams {
     customer_id: string,
     exemption_type: string,
-    exempt_regions: object,
+    exempt_regions?: object,
     name: string,
     country?: string,
     state?: string,
