@@ -74,10 +74,11 @@ class Taxjar {
     });
   }
 
-  showOrder(transactionId: string): Promise<any> {
+  showOrder(transactionId: string, params?: TaxjarTypes.TransactionShowParams): Promise<any> {
     return this.request.api({
       method: 'GET',
-      url: 'transactions/orders/' + transactionId
+      url: 'transactions/orders/' + transactionId,
+      query: params
     });
   }
 
@@ -97,10 +98,11 @@ class Taxjar {
     });
   }
 
-  deleteOrder(transactionId: string): Promise<any> {
+  deleteOrder(transactionId: string, params?: TaxjarTypes.TransactionDeleteParams): Promise<any> {
     return this.request.api({
       method: 'DELETE',
-      url: 'transactions/orders/' + transactionId
+      url: 'transactions/orders/' + transactionId,
+      query: params
     });
   }
 
@@ -112,10 +114,11 @@ class Taxjar {
     });
   }
 
-  showRefund(transactionId: string): Promise<any> {
+  showRefund(transactionId: string, params?: TaxjarTypes.TransactionShowParams): Promise<any> {
     return this.request.api({
       method: 'GET',
-      url: 'transactions/refunds/' + transactionId
+      url: 'transactions/refunds/' + transactionId,
+      query: params
     });
   }
 
@@ -135,10 +138,11 @@ class Taxjar {
     });
   }
 
-  deleteRefund(transactionId: string): Promise<any> {
+  deleteRefund(transactionId: string, params?: TaxjarTypes.TransactionDeleteParams): Promise<any> {
     return this.request.api({
       method: 'DELETE',
-      url: 'transactions/refunds/' + transactionId
+      url: 'transactions/refunds/' + transactionId,
+      query: params
     });
   }
 
