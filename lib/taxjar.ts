@@ -1,4 +1,3 @@
-import * as Promise from 'bluebird';
 import Request from './util/request';
 import { TaxjarTypes } from './util/types';
 

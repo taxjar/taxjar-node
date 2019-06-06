@@ -1,5 +1,4 @@
-import * as Promise from 'bluebird';
-import * as RequestPromise from 'request-promise';
+import * as RequestPromise from 'request-promise-native';
 import { TaxjarTypes } from './types';
 
 export default class Request {
