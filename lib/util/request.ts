@@ -1,37 +1,28 @@
-import * as RequestPromise from 'request-promise-native';
+import * as requestPromise from 'request-promise-native';
 import { TaxjarTypes } from './types';
 
-export default class Request {
-  private client: any;
+const proxyError = (result): Error => {
+  const proxiedError = new (<any>Error)();
+  proxiedError.error = result.error.error;
+  proxiedError.detail = result.error.detail;
+  proxiedError.status = result.statusCode;
+  throw proxiedError;
+};
 
-  constructor(client) {
-    this.client = client;
-  }
+export default (config: TaxjarTypes.Config): TaxjarTypes.Request => {
+  const request = requestPromise.defaults({
+    headers: Object.assign({}, config.headers || {}, {
+      Authorization: `Bearer ${config.apiKey}`,
+      'Content-Type': 'application/json'
+    }),
+    baseUrl: config.apiUrl,
+    json: true
+  });
 
-  api(params: TaxjarTypes.RequestParams) {
-    let self = this;
-
-    return new Promise((resolve, reject) => {
-      let options = Object.assign({
-        uri: self.client.getApiConfig('apiUrl') + params.url,
-        body: params.data,
-        qs: params.query,
-        json: true
-      }, params);
-
-      options.headers = self.client.getApiConfig('headers') || {};
-      options.headers['Authorization'] = 'Bearer ' + self.client.getApiConfig('apiKey');
-      options.headers['Content-Type'] = 'application/json';
-
-      RequestPromise(options.uri, options).then(result => {
-        resolve(result);
-      }).catch(result => {
-        let proxiedError = new (<any>Error)();
-        proxiedError.error = result.error.error;
-        proxiedError.detail = result.error.detail;
-        proxiedError.status = result.statusCode;
-        reject(proxiedError);
-      });
-    });
-  }
-}
+  return {
+    get: options => request.get(options.url, {qs: options.params}).catch(proxyError),
+    post: options => request.post(options.url, {body: options.params}).catch(proxyError),
+    put: options => request.put(options.url, {body: options.params}).catch(proxyError),
+    delete: options => request.delete(options.url, {qs: options.params}).catch(proxyError)
+  };
+};

@@ -1,4 +1,4 @@
-import Request from './util/request';
+import request from './util/request';
 import { TaxjarTypes } from './util/types';
 
 class Taxjar {
@@ -7,7 +7,7 @@ class Taxjar {
   public static API_VERSION = 'v2';
 
   private config: TaxjarTypes.Config;
-  private request: Request;
+  private request: TaxjarTypes.Request;
 
   constructor(config: TaxjarTypes.Config) {
     let apiUrl = Taxjar.DEFAULT_API_URL + '/' + Taxjar.API_VERSION + '/';
@@ -26,7 +26,7 @@ class Taxjar {
       headers: config['headers']
     };
 
-    this.request = new Request(this);
+    this.request = request(this.config);
   }
 
   getApiConfig(index: string): any {
@@ -39,172 +39,150 @@ class Taxjar {
     }
 
     this.config[index] = value;
-    this.request = new Request(this);
+    this.request = request(this.config);
   }
 
   categories(): Promise<any> {
-    return this.request.api({
-      method: 'GET',
+    return this.request.get({
       url: 'categories'
     });
   }
 
   ratesForLocation(zip: string, params?: TaxjarTypes.RateParams): Promise<any> {
-    return this.request.api({
-      method: 'GET',
+    return this.request.get({
       url: 'rates/' + zip,
-      query: params
+      params
     });
   }
 
   taxForOrder(params: TaxjarTypes.TaxParams): Promise<any> {
-    return this.request.api({
-      method: 'POST',
+    return this.request.post({
       url: 'taxes',
-      data: params
+      params
     });
   }
 
   listOrders(params?: TaxjarTypes.TransactionListParams): Promise<any> {
-    return this.request.api({
-      method: 'GET',
+    return this.request.get({
       url: 'transactions/orders',
-      query: params
+      params
     });
   }
 
   showOrder(transactionId: string): Promise<any> {
-    return this.request.api({
-      method: 'GET',
+    return this.request.get({
       url: 'transactions/orders/' + transactionId
     });
   }
 
   createOrder(params: TaxjarTypes.CreateOrderParams): Promise<any> {
-    return this.request.api({
-      method: 'POST',
+    return this.request.post({
       url: 'transactions/orders',
-      data: params
+      params
     });
   }
 
   updateOrder(params: TaxjarTypes.UpdateOrderParams): Promise<any> {
-    return this.request.api({
-      method: 'put',
-      url: 'transactions/orders/' + params['transaction_id'],
-      data: params
+    return this.request.put({
+      url: 'transactions/orders/' + params.transaction_id,
+      params,
     });
   }
 
   deleteOrder(transactionId: string): Promise<any> {
-    return this.request.api({
-      method: 'DELETE',
+    return this.request.delete({
       url: 'transactions/orders/' + transactionId
     });
   }
 
   listRefunds(params?: TaxjarTypes.TransactionListParams): Promise<any> {
-    return this.request.api({
-      method: 'GET',
+    return this.request.get({
       url: 'transactions/refunds',
-      query: params
+      params,
     });
   }
 
   showRefund(transactionId: string): Promise<any> {
-    return this.request.api({
-      method: 'GET',
+    return this.request.get({
       url: 'transactions/refunds/' + transactionId
     });
   }
 
   createRefund(params: TaxjarTypes.CreateRefundParams): Promise<any> {
-    return this.request.api({
-      method: 'POST',
+    return this.request.post({
       url: 'transactions/refunds',
-      data: params
+      params,
     });
   }
 
   updateRefund(params: TaxjarTypes.UpdateRefundParams): Promise<any> {
-    return this.request.api({
-      method: 'put',
-      url: 'transactions/refunds/' + params['transaction_id'],
-      data: params
+    return this.request.put({
+      url: 'transactions/refunds/' + params.transaction_id,
+      params
     });
   }
 
   deleteRefund(transactionId: string): Promise<any> {
-    return this.request.api({
-      method: 'DELETE',
+    return this.request.delete({
       url: 'transactions/refunds/' + transactionId
     });
   }
 
   listCustomers(params?: object): Promise<any> {
-    return this.request.api({
-      method: 'GET',
+    return this.request.get({
       url: 'customers',
-      query: params
+      params,
     });
   }
 
   showCustomer(customerId: string): Promise<any> {
-    return this.request.api({
-      method: 'GET',
+    return this.request.get({
       url: 'customers/' + customerId
     });
   }
 
   createCustomer(params: TaxjarTypes.CustomerParams): Promise<any> {
-    return this.request.api({
-      method: 'POST',
+    return this.request.post({
       url: 'customers',
-      data: params
+      params,
     });
   }
 
   updateCustomer(params: TaxjarTypes.CustomerParams): Promise<any> {
-    return this.request.api({
-      method: 'put',
-      url: 'customers/' + params['customer_id'],
-      data: params
+    return this.request.put({
+      url: 'customers/' + params.customer_id,
+      params,
     });
   }
 
   deleteCustomer(customerId: string): Promise<any> {
-    return this.request.api({
-      method: 'DELETE',
+    return this.request.delete({
       url: 'customers/' + customerId
     });
   }
 
   nexusRegions(): Promise<any> {
-    return this.request.api({
-      method: 'GET',
+    return this.request.get({
       url: 'nexus/regions'
     });
   }
 
   validateAddress(params: TaxjarTypes.AddressParams): Promise<any> {
-    return this.request.api({
-      method: 'POST',
+    return this.request.post({
       url: 'addresses/validate',
-      data: params
+      params,
     });
   }
 
   validate(params: TaxjarTypes.ValidateParams): Promise<any> {
-    return this.request.api({
-      method: 'GET',
+    return this.request.get({
       url: 'validation',
-      query: params
+      params
     });
   }
 
   summaryRates(): Promise<any> {
-    return this.request.api({
-      method: 'GET',
+    return this.request.get({
       url: 'summary_rates'
     });
   }
