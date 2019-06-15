@@ -85,7 +85,7 @@ class Taxjar {
   updateOrder(params: TaxjarTypes.UpdateOrderParams): Promise<any> {
     return this.request.put({
       url: 'transactions/orders/' + params.transaction_id,
-      params,
+      params
     });
   }
 
@@ -98,7 +98,7 @@ class Taxjar {
   listRefunds(params?: TaxjarTypes.TransactionListParams): Promise<any> {
     return this.request.get({
       url: 'transactions/refunds',
-      params,
+      params
     });
   }
 
@@ -111,7 +111,7 @@ class Taxjar {
   createRefund(params: TaxjarTypes.CreateRefundParams): Promise<any> {
     return this.request.post({
       url: 'transactions/refunds',
-      params,
+      params
     });
   }
 
@@ -131,7 +131,7 @@ class Taxjar {
   listCustomers(params?: object): Promise<any> {
     return this.request.get({
       url: 'customers',
-      params,
+      params
     });
   }
 
@@ -144,14 +144,14 @@ class Taxjar {
   createCustomer(params: TaxjarTypes.CustomerParams): Promise<any> {
     return this.request.post({
       url: 'customers',
-      params,
+      params
     });
   }
 
   updateCustomer(params: TaxjarTypes.CustomerParams): Promise<any> {
     return this.request.put({
       url: 'customers/' + params.customer_id,
-      params,
+      params
     });
   }
 
@@ -170,7 +170,7 @@ class Taxjar {
   validateAddress(params: TaxjarTypes.AddressParams): Promise<any> {
     return this.request.post({
       url: 'addresses/validate',
-      params,
+      params
     });
   }
 
