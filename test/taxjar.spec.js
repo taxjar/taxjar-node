@@ -40,6 +40,7 @@ describe('TaxJar API', () => {
 
       taxjarClient.categories().catch(err => {
         assert.equal(err instanceof Error, true);
+        assert.equal(err.message, `TaxJar: ${err.error} - ${err.detail}`);
         assert.equal(err.error, 'Unauthorized');
         assert.equal(err.detail, "Not authorized for route 'GET /v2/categories'");
         assert.equal(err.status, 401);

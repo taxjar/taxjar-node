@@ -27,7 +27,9 @@ export default class Request {
       RequestPromise(options.uri, options).then(result => {
         resolve(result);
       }).catch(result => {
-        let proxiedError = new (<any>Error)();
+        let proxiedError = new (<any>Error)(
+          `TaxJar: ${result.error.error} - ${result.error.detail}`
+        );
         proxiedError.error = result.error.error;
         proxiedError.detail = result.error.detail;
         proxiedError.status = result.statusCode;
