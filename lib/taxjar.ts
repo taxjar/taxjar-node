@@ -142,11 +142,10 @@ class Taxjar {
     });
   }
 
-  listCustomers(params?: object): Promise<any> {
+  listCustomers(): Promise<any> {
     return this.request.api({
       method: 'GET',
-      url: 'customers',
-      query: params
+      url: 'customers'
     });
   }
 
