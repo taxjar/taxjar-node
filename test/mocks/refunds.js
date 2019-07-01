@@ -17,6 +17,7 @@ const SHOW_REFUND_RES = {
     "user_id": 10649,
     "transaction_date": "2015-05-14T00:00:00Z",
     "transaction_reference_id": "123",
+    "exemption_type": "non_exempt",
     "to_country": "US",
     "to_zip": "90002",
     "to_state": "CA",

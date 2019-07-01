@@ -391,6 +391,7 @@ describe('TaxJar API', () => {
         'amount': 16.5,
         'shipping': 1.5,
         'sales_tax': 0.95,
+        'exemption_type': 'non_exempt',
         'line_items': [
           {
             'quantity': 1,
@@ -421,6 +422,7 @@ describe('TaxJar API', () => {
           'amount': 16.5,
           'shipping': 1.5,
           'sales_tax': 0.95,
+          'exemption_type': 'non_exempt',
           'line_items': [
             {
               'quantity': 1,
