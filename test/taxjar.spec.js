@@ -444,6 +444,7 @@ describe('TaxJar API', () => {
         'transaction_id': '321',
         'amount': 17,
         'shipping': 2.0,
+        'exemption_type': 'non_exempt',
         'line_items': [
           {
             'quantity': 1,
@@ -466,6 +467,7 @@ describe('TaxJar API', () => {
           'transaction_id': '321',
           'amount': 17,
           'shipping': 2.0,
+          'exemption_type': 'non_exempt',
           'line_items': [
             {
               'quantity': 1,
