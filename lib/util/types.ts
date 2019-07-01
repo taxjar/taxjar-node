@@ -57,6 +57,7 @@ export namespace TaxjarTypes {
     amount?: number,
     shipping: number,
     customer_id?: string,
+    exemption_type?: string,
     nexus_addresses?: NexusAddress[],
     line_items?: TaxLineItem[]
   }

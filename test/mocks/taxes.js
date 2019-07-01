@@ -11,6 +11,7 @@ const TAX_RES = {
     "has_nexus": true,
     "freight_taxable": true,
     "tax_source": "destination",
+    "exemption_type": "non_exempt",
     "breakdown": {
       "shipping": {
         "state_amount": 0.11,
@@ -57,7 +58,8 @@ nock(TEST_API_HOST)
     to_zip: '07446',
     to_state: 'NJ',
     amount: 16.5,
-    shipping: 1.5
+    shipping: 1.5,
+    exemption_type: 'non_exempt'
   })
   .reply(200, TAX_RES);
 

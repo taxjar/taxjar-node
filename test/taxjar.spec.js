@@ -143,7 +143,8 @@ describe('TaxJar API', () => {
         'to_zip': '07446',
         'to_state': 'NJ',
         'amount': 16.50,
-        'shipping': 1.5
+        'shipping': 1.5,
+        'exemption_type': 'non_exempt'
       }).then(res => {
         assert.deepEqual(res, taxMock.TAX_RES);
         done();
@@ -161,7 +162,8 @@ describe('TaxJar API', () => {
           'to_zip': '07446',
           'to_state': 'NJ',
           'amount': 16.50,
-          'shipping': 1.5
+          'shipping': 1.5,
+          'exemption_type': 'non_exempt'
         }).then(res => {
           assert.isOk(res.tax);
           done();
