@@ -16,6 +16,7 @@ const SHOW_ORDER_RES = {
     "transaction_id": "123",
     "user_id": 10649,
     "transaction_date": "2015-05-14T00:00:00Z",
+    "exemption_type": "non_exempt",
     "to_country": "US",
     "to_zip": "90002",
     "to_state": "CA",
