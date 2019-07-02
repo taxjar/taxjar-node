@@ -1,6 +1,7 @@
 'use strict';
 
-const assert = require('chai').assert;
+const chai = require('chai');
+const chaiStuff = require('chai-stuff');
 const Taxjar = require('../dist/taxjar');
 
 const rateMock = require('./mocks/rates');
@@ -12,13 +13,25 @@ const nexusRegionMock = require('./mocks/nexus_regions');
 const validationMock = require('./mocks/validations');
 const summaryRateMock = require('./mocks/summary_rates');
 
+const assert = chai.assert;
+chai.use(chaiStuff);
+
 let taxjarClient = {};
 
-beforeEach(function() {
+beforeEach(() => {
   taxjarClient = new Taxjar({
     apiKey: process.env.TAXJAR_API_KEY || 'test123',
-    apiUrl: 'https://mockapi.taxjar.com'
+    apiUrl: process.env.TAXJAR_API_URL || 'https://mockapi.taxjar.com'
   });
+});
+
+const envVars = [process.env.TAXJAR_API_KEY, process.env.TAXJAR_API_URL].filter(Boolean);
+const isLiveTestRun = envVars.length === 2;
+
+before(() => {
+  const msg = 'to test live or sandbox environments, both TAXJAR_API_KEY and TAXJAR_API_URL environment variables are required';
+
+  assert.notLengthOf(envVars, 1, msg);
 });
 
 describe('TaxJar API', () => {
@@ -26,7 +39,7 @@ describe('TaxJar API', () => {
   describe('client', () => {
 
     it('instantiates client with API token', () => {
-      assert(taxjarClient, 'no client');
+      assert(taxjarClient.config.apiKey, 'no client');
     });
 
     it('returns error with no API token', () => {
@@ -38,16 +51,17 @@ describe('TaxJar API', () => {
     it('rejects promise on API error', () => {
       const errorMocks = require('./mocks/errors');
 
-      taxjarClient.categories().catch(err => {
-        assert.equal(err instanceof Error, true);
-        assert.equal(err.error, 'Unauthorized');
-        assert.equal(err.detail, "Not authorized for route 'GET /v2/categories'");
-        assert.equal(err.status, 401);
+      return taxjarClient.categories().catch(err => {
+        assert.instanceOf(err, Error);
+        assert.sameProps(err, errorMocks.CATEGORY_ERROR_RES);
       });
     });
 
     it('gets api config', () => {
-      assert.equal(taxjarClient.getApiConfig('apiUrl'), 'https://mockapi.taxjar.com/v2/');
+      assert.equal(
+        taxjarClient.getApiConfig('apiUrl'),
+        (process.env.TAXJAR_API_URL || 'https://mockapi.taxjar.com') + '/v2/'
+      );
     });
 
     it('sets api config', () => {
@@ -62,34 +76,35 @@ describe('TaxJar API', () => {
           'X-TJ-Expected-Response': '422'
         }
       });
-      assert.include(taxjarClient.getApiConfig('headers'), { 'X-TJ-Expected-Response': '422' });
+      assert.include(taxjarClient.getApiConfig('headers'), {
+        'X-TJ-Expected-Response': '422'
+      });
     });
 
     it('sets custom headers via api config', () => {
       taxjarClient.setApiConfig('headers', { 'X-TJ-Expected-Response': '422' });
-      assert.include(taxjarClient.getApiConfig('headers'), { 'X-TJ-Expected-Response': '422' });
+      assert.include(taxjarClient.getApiConfig('headers'), {
+        'X-TJ-Expected-Response': '422'
+      });
     });
 
   });
 
   describe('categories', () => {
 
-    it('lists tax categories', (done) => {
-      const categoryMock = require('./mocks/categories');
-
-      taxjarClient.categories().then(res => {
-        assert(res, 'no categories');
-        assert.deepEqual(res, categoryMock.CATEGORY_RES);
-        done();
-      });
-    });
-
-    if (process.env.TAXJAR_API_URL) {
-      it('returns successful response in sandbox', (done) => {
-        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+    if (isLiveTestRun) {
+      it('returns successful response in sandbox', () => (
         taxjarClient.categories().then(res => {
           assert.isOk(res.categories);
-          done();
+        })
+      ));
+    } else {
+      it('lists tax categories', () => {
+        const categoryMock = require('./mocks/categories');
+
+        return taxjarClient.categories().then(res => {
+          assert(res, 'no categories');
+          assert.deepEqual(res, categoryMock.CATEGORY_RES);
         });
       });
     }
@@ -98,660 +113,487 @@ describe('TaxJar API', () => {
 
   describe('rates', () => {
 
-    it('shows tax rates for a location', (done) => {
-      taxjarClient.ratesForLocation('90002').then(res => {
-        assert(res, 'no rates');
-        assert.deepEqual(res, rateMock.RATE_RES);
-        done();
-      });
+    const getLaRate = () => taxjarClient.ratesForLocation('90002', {
+      city: 'Los Angeles',
+      country: 'US'
     });
 
-    it('shows tax rates for a location with additional params', (done) => {
-      taxjarClient.ratesForLocation('90002', {
-        city: 'Los Angeles',
-        country: 'US'
-      }).then(res => {
-        assert(res, 'no rates');
-        assert.deepEqual(res, rateMock.RATE_RES);
-        done();
-      });
-    });
-
-    if (process.env.TAXJAR_API_URL) {
-      it('returns successful response in sandbox', (done) => {
-        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
-        taxjarClient.ratesForLocation('90002', {
-          city: 'Los Angeles',
-          country: 'US'
-        }).then(res => {
+    if (isLiveTestRun) {
+      it('returns successful response in sandbox', () => (
+        getLaRate().then(res => {
           assert.isOk(res.rate);
-          done();
-        });
-      });
+        })
+      ));
+    } else {
+      it('shows tax rates for a location', () => (
+        taxjarClient.ratesForLocation('90002').then(res => {
+          assert(res, 'no rates');
+          assert.deepEqual(res, rateMock.RATE_RES);
+        })
+      ));
+
+      it('shows tax rates for a location with additional params', () => (
+        getLaRate().then(res => {
+          assert(res, 'no rates');
+          assert.deepEqual(res, rateMock.LA_RATE_RES);
+        })
+      ));
     }
 
   });
 
   describe('taxes', () => {
 
-    it('calculates sales tax for an order', (done) => {
-      taxjarClient.taxForOrder({
-        'from_country': 'US',
-        'from_zip': '07001',
-        'from_state': 'NJ',
-        'to_country': 'US',
-        'to_zip': '07446',
-        'to_state': 'NJ',
-        'amount': 16.50,
-        'shipping': 1.5,
-        'exemption_type': 'non_exempt'
-      }).then(res => {
-        assert.deepEqual(res, taxMock.TAX_RES);
-        done();
-      });
+    const taxForOrder = () => taxjarClient.taxForOrder({
+      'from_country': 'US',
+      'from_zip': '07001',
+      'from_state': 'NJ',
+      'to_country': 'US',
+      'to_zip': '07446',
+      'to_state': 'NJ',
+      'amount': 16.50,
+      'shipping': 1.5,
+      'exemption_type': 'non_exempt'
     });
 
-    if (process.env.TAXJAR_API_URL) {
-      it('returns successful response in sandbox', (done) => {
-        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
-        taxjarClient.taxForOrder({
-          'from_country': 'US',
-          'from_zip': '07001',
-          'from_state': 'NJ',
-          'to_country': 'US',
-          'to_zip': '07446',
-          'to_state': 'NJ',
-          'amount': 16.50,
-          'shipping': 1.5,
-          'exemption_type': 'non_exempt'
-        }).then(res => {
+    if (isLiveTestRun) {
+      it('returns successful response in sandbox', () => (
+        taxForOrder().then(res => {
           assert.isOk(res.tax);
-          done();
-        });
-      });
+        })
+      ));
+    } else {
+      it('calculates sales tax for an order', () => (
+        taxForOrder().then(res => {
+          assert.deepEqual(res, taxMock.TAX_RES);
+        })
+      ));
     }
 
   });
 
   describe('transactions', () => {
 
-    it('lists order transactions', (done) => {
-      taxjarClient.listOrders({
-        'from_transaction_date': '2015/05/01',
-        'to_transaction_date': '2015/05/31'
-      }).then(res => {
-        assert.deepEqual(res, orderMock.LIST_ORDER_RES);
-        done();
-      });
+    const listOrders = () => taxjarClient.listOrders({
+      'from_transaction_date': '2015/05/01',
+      'to_transaction_date': '2015/05/31'
     });
 
-    if (process.env.TAXJAR_API_URL) {
-      it('listOrders returns successful response in sandbox', (done) => {
-        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
-        taxjarClient.listOrders({
-          'from_transaction_date': '2015/05/01',
-          'to_transaction_date': '2015/05/31'
-        }).then(res => {
+    if (isLiveTestRun) {
+      it('listOrders returns successful response in sandbox', () => (
+        listOrders().then(res => {
           assert.isOk(res.orders);
-          done();
-        });
-      });
+        })
+      ));
+    } else {
+      it('lists order transactions', () => (
+        listOrders().then(res => {
+          assert.deepEqual(res, orderMock.LIST_ORDER_RES);
+        })
+      ));
     }
 
-    it('shows an order transaction', (done) => {
-      taxjarClient.showOrder('123').then(res => {
-        assert.deepEqual(res, orderMock.SHOW_ORDER_RES);
-        done();
-      });
-    });
-
-    if (process.env.TAXJAR_API_URL) {
-      it('showOrder returns successful response in sandbox', (done) => {
-        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+    if (isLiveTestRun) {
+      it('showOrder returns successful response in sandbox', () => (
         taxjarClient.showOrder('123').then(res => {
           assert.isOk(res.order);
-          done();
-        });
-      });
+        })
+      ));
+    } else {
+      it('shows an order transaction', () => (
+        taxjarClient.showOrder('123').then(res => {
+          assert.deepEqual(res, orderMock.SHOW_ORDER_RES);
+        })
+      ));
     }
 
-    it('creates an order transaction', (done) => {
-      taxjarClient.createOrder({
-        'transaction_id': '123',
-        'transaction_date': '2015/05/14',
-        'to_country': 'US',
-        'to_zip': '90002',
-        'to_state': 'CA',
-        'to_city': 'Los Angeles',
-        'to_street': '123 Palm Grove Ln',
-        'amount': 16.5,
-        'shipping': 1.5,
-        'sales_tax': 0.95,
-        'exemption_type': 'non_exempt',
-        'line_items': [
-          {
-            'quantity': 1,
-            'product_identifier': '12-34243-9',
-            'description': 'Fuzzy Widget',
-            'unit_price': 15.0,
-            'sales_tax': 0.95
-          }
-        ]
-      }).then(res => {
-        assert.deepEqual(res, orderMock.CREATE_ORDER_RES);
-        done();
-      });
+    const createOrder = () => taxjarClient.createOrder({
+      'transaction_id': '123',
+      'transaction_date': '2015/05/14',
+      'to_country': 'US',
+      'to_zip': '90002',
+      'to_state': 'CA',
+      'to_city': 'Los Angeles',
+      'to_street': '123 Palm Grove Ln',
+      'amount': 16.5,
+      'shipping': 1.5,
+      'sales_tax': 0.95,
+      'exemption_type': 'non_exempt',
+      'line_items': [
+        {
+          'quantity': 1,
+          'product_identifier': '12-34243-9',
+          'description': 'Fuzzy Widget',
+          'unit_price': 15.0,
+          'sales_tax': 0.95
+        }
+      ]
     });
 
-    if (process.env.TAXJAR_API_URL) {
-      it('createOrder returns successful response in sandbox', (done) => {
-        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
-        taxjarClient.createOrder({
-          'transaction_id': '123',
-          'transaction_date': '2015/05/14',
-          'to_country': 'US',
-          'to_zip': '90002',
-          'to_state': 'CA',
-          'to_city': 'Los Angeles',
-          'to_street': '123 Palm Grove Ln',
-          'amount': 16.5,
-          'shipping': 1.5,
-          'sales_tax': 0.95,
-          'exemption_type': 'non_exempt',
-          'line_items': [
-            {
-              'quantity': 1,
-              'product_identifier': '12-34243-9',
-              'description': 'Fuzzy Widget',
-              'unit_price': 15.0,
-              'sales_tax': 0.95
-            }
-          ]
-        }).then(res => {
+    if (isLiveTestRun) {
+      it('createOrder returns successful response in sandbox', () => (
+        createOrder().then(res => {
           assert.isOk(res.order);
-          done();
-        });
-      });
+        })
+      ));
+    } else {
+      it('creates an order transaction', () => (
+        createOrder().then(res => {
+          assert.deepEqual(res, orderMock.CREATE_ORDER_RES);
+        })
+      ));
     }
 
-    it('updates an order transaction', (done) => {
-      taxjarClient.updateOrder({
-        'transaction_id': '123',
-        'amount': 16.5,
-        'shipping': 1.5,
-        'exemption_type': 'non_exempt',
-        'line_items': [
-          {
-            'quantity': 1,
-            'product_identifier': '12-34243-0',
-            'description': 'Heavy Widget',
-            'unit_price': 15.0,
-            'discount': 0.0,
-            'sales_tax': 0.95
-          }
-        ]
-      }).then(res => {
-        assert.deepEqual(res, orderMock.UPDATE_ORDER_RES);
-        done();
-      });
+    const updateOrder = () => taxjarClient.updateOrder({
+      'transaction_id': '123',
+      'amount': 16.5,
+      'shipping': 1.5,
+      'exemption_type': 'non_exempt',
+      'line_items': [
+        {
+          'quantity': 1,
+          'product_identifier': '12-34243-0',
+          'description': 'Heavy Widget',
+          'unit_price': 15.0,
+          'discount': 0.0,
+          'sales_tax': 0.95
+        }
+      ]
     });
 
-    if (process.env.TAXJAR_API_URL) {
-      it('updateOrder returns successful response in sandbox', (done) => {
-        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
-        taxjarClient.updateOrder({
-          'transaction_id': '123',
-          'amount': 16.5,
-          'shipping': 1.5,
-          'exemption_type': 'non_exempt',
-          'line_items': [
-            {
-              'quantity': 1,
-              'product_identifier': '12-34243-0',
-              'description': 'Heavy Widget',
-              'unit_price': 15.0,
-              'discount': 0.0,
-              'sales_tax': 0.95
-            }
-          ]
-        }).then(res => {
+    if (isLiveTestRun) {
+      it('updateOrder returns successful response in sandbox', () => (
+        updateOrder().then(res => {
           assert.isOk(res.order);
-          done();
-        });
-      });
+        })
+      ));
+    } else {
+      it('updates an order transaction', () => (
+        updateOrder().then(res => {
+          assert.deepEqual(res, orderMock.UPDATE_ORDER_RES);
+        })
+      ));
     }
 
-    it('deletes an order transaction', (done) => {
-      taxjarClient.deleteOrder('123').then(res => {
-        assert.deepEqual(res, orderMock.DELETE_ORDER_RES);
-        done();
-      });
-    });
-
-    if (process.env.TAXJAR_API_URL) {
-      it('deleteOrder returns successful response in sandbox', (done) => {
-        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+    if (isLiveTestRun) {
+      it('deleteOrder returns successful response in sandbox', () => (
         taxjarClient.deleteOrder('123').then(res => {
           assert.isOk(res.order);
-          done();
-        });
-      });
+        })
+      ));
+    } else {
+      it('deletes an order transaction', () => (
+        taxjarClient.deleteOrder('123').then(res => {
+          assert.deepEqual(res, orderMock.DELETE_ORDER_RES);
+        })
+      ));
     }
 
-    it('lists refund transactions', (done) => {
-      taxjarClient.listRefunds({
-        'from_transaction_date': '2015/05/01',
-        'to_transaction_date': '2015/05/31'
-      }).then(res => {
-        assert.deepEqual(res, refundMock.LIST_REFUND_RES);
-        done();
-      });
+    const listRefunds = () => taxjarClient.listRefunds({
+      'from_transaction_date': '2015/05/01',
+      'to_transaction_date': '2015/05/31'
     });
 
-    if (process.env.TAXJAR_API_URL) {
-      it('listRefunds returns successful response in sandbox', (done) => {
-        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
-        taxjarClient.listRefunds({
-          'from_transaction_date': '2015/05/01',
-          'to_transaction_date': '2015/05/31'
-        }).then(res => {
+    if (isLiveTestRun) {
+      it('listRefunds returns successful response in sandbox', () => (
+        listRefunds().then(res => {
           assert.isOk(res.refunds);
-          done();
-        });
-      });
+        })
+      ));
+    } else {
+      it('lists refund transactions', () => (
+        listRefunds().then(res => {
+          assert.deepEqual(res, refundMock.LIST_REFUND_RES);
+        })
+      ));
     }
 
-    it('shows a refund transaction', (done) => {
-      taxjarClient.showRefund('321').then(res => {
-        assert.deepEqual(res, refundMock.SHOW_REFUND_RES);
-        done();
-      });
-    });
-
-    if (process.env.TAXJAR_API_URL) {
-      it('showRefund returns successful response in sandbox', (done) => {
-        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+    if (isLiveTestRun) {
+      it('showRefund returns successful response in sandbox', () => (
         taxjarClient.showRefund('321').then(res => {
           assert.isOk(res.refund);
-          done();
-        });
-      });
+        })
+      ));
+    } else {
+      it('shows a refund transaction', () => (
+        taxjarClient.showRefund('321').then(res => {
+          assert.deepEqual(res, refundMock.SHOW_REFUND_RES);
+        })
+      ));
     }
 
-    it('creates a refund transaction', (done) => {
-      taxjarClient.createRefund({
-        'transaction_id': '123',
-        'transaction_date': '2015/05/14',
-        'transaction_reference_id': '123',
-        'to_country': 'US',
-        'to_zip': '90002',
-        'to_state': 'CA',
-        'to_city': 'Los Angeles',
-        'to_street': '123 Palm Grove Ln',
-        'amount': 16.5,
-        'shipping': 1.5,
-        'sales_tax': 0.95,
-        'exemption_type': 'non_exempt',
-        'line_items': [
-          {
-            'quantity': 1,
-            'product_identifier': '12-34243-9',
-            'description': 'Fuzzy Widget',
-            'unit_price': 15.0,
-            'sales_tax': 0.95
-          }
-        ]
-      }).then(res => {
-        assert.deepEqual(res, refundMock.CREATE_REFUND_RES);
-        done();
-      });
+    const createRefund = () => taxjarClient.createRefund({
+      'transaction_id': '123',
+      'transaction_date': '2015/05/14',
+      'transaction_reference_id': '123',
+      'to_country': 'US',
+      'to_zip': '90002',
+      'to_state': 'CA',
+      'to_city': 'Los Angeles',
+      'to_street': '123 Palm Grove Ln',
+      'amount': 16.5,
+      'shipping': 1.5,
+      'sales_tax': 0.95,
+      'exemption_type': 'non_exempt',
+      'line_items': [
+        {
+          'quantity': 1,
+          'product_identifier': '12-34243-9',
+          'description': 'Fuzzy Widget',
+          'unit_price': 15.0,
+          'sales_tax': 0.95
+        }
+      ]
     });
 
-    if (process.env.TAXJAR_API_URL) {
-      it('createRefund returns successful response in sandbox', (done) => {
-        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
-        taxjarClient.createRefund({
-          'transaction_id': '123',
-          'transaction_date': '2015/05/14',
-          'transaction_reference_id': '123',
-          'to_country': 'US',
-          'to_zip': '90002',
-          'to_state': 'CA',
-          'to_city': 'Los Angeles',
-          'to_street': '123 Palm Grove Ln',
-          'amount': 16.5,
-          'shipping': 1.5,
-          'sales_tax': 0.95,
-          'exemption_type': 'non_exempt',
-          'line_items': [
-            {
-              'quantity': 1,
-              'product_identifier': '12-34243-9',
-              'description': 'Fuzzy Widget',
-              'unit_price': 15.0,
-              'sales_tax': 0.95
-            }
-          ]
-        }).then(res => {
+    if (isLiveTestRun) {
+      it('createRefund returns successful response in sandbox', () => (
+        createRefund().then(res => {
           assert.isOk(res.refund);
-          done();
-        });
-      });
+        })
+      ));
+    } else {
+      it('creates a refund transaction', () => (
+        createRefund().then(res => {
+          assert.deepEqual(res, refundMock.CREATE_REFUND_RES);
+        })
+      ));
     }
 
-    it('updates a refund transaction', (done) => {
-      taxjarClient.updateRefund({
-        'transaction_id': '321',
-        'amount': 17,
-        'shipping': 2.0,
-        'exemption_type': 'non_exempt',
-        'line_items': [
-          {
-            'quantity': 1,
-            'product_identifier': '12-34243-0',
-            'description': 'Heavy Widget',
-            'unit_price': 15.0,
-            'sales_tax': 0.95
-          }
-        ]
-      }).then(res => {
-        assert.deepEqual(res, refundMock.UPDATE_REFUND_RES);
-        done();
-      });
+    const updateRefund = () => taxjarClient.updateRefund({
+      'transaction_id': '321',
+      'amount': 17,
+      'shipping': 2.0,
+      'exemption_type': 'non_exempt',
+      'line_items': [
+        {
+          'quantity': 1,
+          'product_identifier': '12-34243-0',
+          'description': 'Heavy Widget',
+          'unit_price': 15.0,
+          'sales_tax': 0.95
+        }
+      ]
     });
 
-    if (process.env.TAXJAR_API_URL) {
-      it('updateRefund returns successful response in sandbox', (done) => {
-        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
-        taxjarClient.updateRefund({
-          'transaction_id': '321',
-          'amount': 17,
-          'shipping': 2.0,
-          'exemption_type': 'non_exempt',
-          'line_items': [
-            {
-              'quantity': 1,
-              'product_identifier': '12-34243-0',
-              'description': 'Heavy Widget',
-              'unit_price': 15.0,
-              'sales_tax': 0.95
-            }
-          ]
-        }).then(res => {
+    if (isLiveTestRun) {
+      it('updateRefund returns successful response in sandbox', () => (
+        updateRefund().then(res => {
           assert.isOk(res.refund);
-          done();
-        });
-      });
+        })
+      ));
+    } else {
+      it('updates a refund transaction', () => (
+        updateRefund().then(res => {
+          assert.deepEqual(res, refundMock.UPDATE_REFUND_RES);
+        })
+      ));
     }
 
-    it('deletes a refund transaction', (done) => {
-      taxjarClient.deleteRefund('321').then(res => {
-        assert.deepEqual(res, refundMock.DELETE_REFUND_RES);
-        done();
-      });
-    });
-
-    if (process.env.TAXJAR_API_URL) {
-      it('deleteRefund returns successful response in sandbox', (done) => {
-        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+    if (isLiveTestRun) {
+      it('deleteRefund returns successful response in sandbox', () => (
         taxjarClient.deleteRefund('321').then(res => {
           assert.isOk(res.refund);
-          done();
-        });
-      });
+        })
+      ));
+    } else {
+      it('deletes a refund transaction', () => (
+        taxjarClient.deleteRefund('321').then(res => {
+          assert.deepEqual(res, refundMock.DELETE_REFUND_RES);
+        })
+      ));
     }
 
   });
 
   describe('customers', () => {
 
-    it('lists customers', (done) => {
-      taxjarClient.listCustomers().then(res => {
-        assert.deepEqual(res, customerMock.LIST_CUSTOMER_RES);
-        done();
-      });
+    if (isLiveTestRun) {
+      it.skip('listCustomers returns successful response in sandbox', () => (
+        taxjarClient.listCustomers().then(res => {
+          assert.isOk(res.customers);
+        })
+      ));
+    } else {
+      it('lists customers', () => (
+        taxjarClient.listCustomers().then(res => {
+          assert.deepEqual(res, customerMock.LIST_CUSTOMER_RES);
+        })
+      ));
+    }
+
+    if (isLiveTestRun) {
+      it.skip('showCustomer returns successful response in sandbox', () => (
+        taxjarClient.showCustomer('123').then(res => {
+          assert.isOk(res.customer);
+        })
+      ));
+    } else {
+      it('shows a customer', () => (
+        taxjarClient.showCustomer('123').then(res => {
+          assert.deepEqual(res, customerMock.SHOW_CUSTOMER_RES);
+        })
+      ));
+    }
+
+    const createCustomer = () => taxjarClient.createCustomer({
+      customer_id: '123',
+      exemption_type: 'wholesale',
+      name: 'Dunder Mifflin Paper Company',
+      exempt_regions: [
+        {
+          country: 'US',
+          state: 'FL'
+        },
+        {
+          country: 'US',
+          state: 'PA'
+        }
+      ],
+      country: 'US',
+      state: 'PA',
+      zip: '18504',
+      city: 'Scranton',
+      street: '1725 Slough Avenue'
     });
 
-    // if (process.env.TAXJAR_API_URL) {
-    //   it('listCustomers returns successful response in sandbox', (done) => {
-    //     taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
-    //     taxjarClient.listCustomers().then(res => {
-    //       assert.isOk(res.customers);
-    //       done();
-    //     });
-    //   });
-    // }
+    if (isLiveTestRun) {
+      it.skip('createCustomer returns successful response in sandbox', () => (
+        createCustomer().then(res => {
+          assert.isOk(res.customer);
+        })
+      ));
+    } else {
+      it('creates a customer', () => (
+        createCustomer().then(res => {
+          assert.deepEqual(res, customerMock.CREATE_CUSTOMER_RES);
+        })
+      ));
+    }
 
-    it('shows a customer', (done) => {
-      taxjarClient.showCustomer('123').then(res => {
-        assert.deepEqual(res, customerMock.SHOW_CUSTOMER_RES);
-        done();
-      });
+    const updateCustomer = () => taxjarClient.updateCustomer({
+      customer_id: '123',
+      exemption_type: 'wholesale',
+      name: 'Sterling Cooper',
+      exempt_regions: [
+        {
+          country: 'US',
+          state: 'NY'
+        }
+      ],
+      country: 'US',
+      state: 'NY',
+      zip: '10010',
+      city: 'New York',
+      street: '405 Madison Ave'
     });
 
-    // if (process.env.TAXJAR_API_URL) {
-    //   it('showCustomer returns successful response in sandbox', (done) => {
-    //     taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
-    //     taxjarClient.showCustomer('123').then(res => {
-    //       assert.isOk(res.customer);
-    //       done();
-    //     });
-    //   });
-    // }
+    if (isLiveTestRun) {
+      it.skip('updateCustomer returns successful response in sandbox', () => (
+        updateCustomer().then(res => {
+          assert.isOk(res.customer);
+        })
+      ));
+    } else {
+      it('updates a customer', () => (
+        updateCustomer().then(res => {
+          assert.deepEqual(res, customerMock.UPDATE_CUSTOMER_RES);
+        })
+      ));
+    }
 
-    it('creates a customer', (done) => {
-      taxjarClient.createCustomer({
-        customer_id: '123',
-        exemption_type: 'wholesale',
-        name: 'Dunder Mifflin Paper Company',
-        exempt_regions: [
-          {
-            country: 'US',
-            state: 'FL'
-          },
-          {
-            country: 'US',
-            state: 'PA'
-          }
-        ],
-        country: 'US',
-        state: 'PA',
-        zip: '18504',
-        city: 'Scranton',
-        street: '1725 Slough Avenue'
-      }).then(res => {
-        assert.deepEqual(res, customerMock.CREATE_CUSTOMER_RES);
-        done();
-      });
-    });
-
-    // if (process.env.TAXJAR_API_URL) {
-    //   it('createCustomer returns successful response in sandbox', (done) => {
-    //     taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
-    //     taxjarClient.createCustomer({
-    //       customer_id: '123',
-    //       exemption_type: 'wholesale',
-    //       name: 'Dunder Mifflin Paper Company',
-    //       exempt_regions: [
-    //         {
-    //           country: 'US',
-    //           state: 'FL'
-    //         },
-    //         {
-    //           country: 'US',
-    //           state: 'PA'
-    //         }
-    //       ],
-    //       country: 'US',
-    //       state: 'PA',
-    //       zip: '18504',
-    //       city: 'Scranton',
-    //       street: '1725 Slough Avenue'
-    //     }).then(res => {
-    //       assert.isOk(res.customer);
-    //       done();
-    //     });
-    //   });
-    // }
-
-    it('updates a customer', (done) => {
-      taxjarClient.updateCustomer({
-        customer_id: '123',
-        exemption_type: 'wholesale',
-        name: 'Sterling Cooper',
-        exempt_regions: [
-          {
-            country: 'US',
-            state: 'NY'
-          }
-        ],
-        country: 'US',
-        state: 'NY',
-        zip: '10010',
-        city: 'New York',
-        street: '405 Madison Ave'
-      }).then(res => {
-        assert.deepEqual(res, customerMock.UPDATE_CUSTOMER_RES);
-        done();
-      });
-    });
-
-    // if (process.env.TAXJAR_API_URL) {
-    //   it('updateCustomer returns successful response in sandbox', (done) => {
-    //     taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
-    //     taxjarClient.updateCustomer({
-    //       customer_id: '123',
-    //       exemption_type: 'wholesale',
-    //       name: 'Sterling Cooper',
-    //       exempt_regions: [
-    //         {
-    //           country: 'US',
-    //           state: 'NY'
-    //         }
-    //       ],
-    //       country: 'US',
-    //       state: 'NY',
-    //       zip: '10010',
-    //       city: 'New York',
-    //       street: '405 Madison Ave'
-    //     }).then(res => {
-    //       assert.isOk(res.customer);
-    //       done();
-    //     });
-    //   });
-    // }
-
-    it('deletes a customer', (done) => {
-      taxjarClient.deleteCustomer('123').then(res => {
-        assert.deepEqual(res, customerMock.DELETE_CUSTOMER_RES);
-        done();
-      });
-    });
-
-    // if (process.env.TAXJAR_API_URL) {
-    //   it('deleteCustomer returns successful response in sandbox', (done) => {
-    //     taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
-    //     taxjarClient.deleteCustomer('123').then(res => {
-    //       assert.isOk(res.customer);
-    //       done();
-    //     });
-    //   });
-    // }
+    if (isLiveTestRun) {
+      it.skip('deleteCustomer returns successful response in sandbox', () => (
+        taxjarClient.deleteCustomer('123').then(res => {
+          assert.isOk(res.customer);
+        })
+      ));
+    } else {
+      it('deletes a customer', () => (
+        taxjarClient.deleteCustomer('123').then(res => {
+          assert.deepEqual(res, customerMock.DELETE_CUSTOMER_RES);
+        })
+      ));
+    }
 
   });
 
   describe('nexus', () => {
 
-    it('lists nexus regions', (done) => {
-      taxjarClient.nexusRegions().then(res => {
-        assert.deepEqual(res, nexusRegionMock.NEXUS_REGIONS_RES);
-        done();
-      });
-    });
-
-    if (process.env.TAXJAR_API_URL) {
-      it('returns successful response in sandbox', (done) => {
-        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+    if (isLiveTestRun) {
+      it('returns successful response in sandbox', () => (
         taxjarClient.nexusRegions().then(res => {
           assert.isOk(res.regions);
-          done();
-        });
-      });
+        })
+      ));
+    } else {
+      it('lists nexus regions', () => (
+        taxjarClient.nexusRegions().then(res => {
+          assert.deepEqual(res, nexusRegionMock.NEXUS_REGIONS_RES);
+        })
+      ));
     }
 
   });
 
   describe('validations', () => {
 
-    it('validates an address', (done) => {
-      taxjarClient.validateAddress({
-        country: 'US',
-        state: 'AZ',
-        zip: '85297',
-        city: 'Gilbert',
-        street: '3301 South Greenfield Rd'
-      }).then(res => {
-        assert.deepEqual(res, validationMock.ADDRESS_VALIDATION_RES);
-        done();
-      });
+    const validateAddress = () => taxjarClient.validateAddress({
+      country: 'US',
+      state: 'AZ',
+      zip: '85297',
+      city: 'Gilbert',
+      street: '3301 South Greenfield Rd'
     });
 
-    if (process.env.TAXJAR_API_URL) {
-      it('returns successful response in sandbox', (done) => {
-        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
-        taxjarClient.validateAddress({
-          country: 'US',
-          state: 'AZ',
-          zip: '85297',
-          city: 'Gilbert',
-          street: '3301 South Greenfield Rd'
-        }).then(res => {
+    if (isLiveTestRun) {
+      it.skip('returns successful response in sandbox', () => (
+        validateAddress().then(res => {
           assert.isOk(res.validation);
-          done();
-        });
-      }).timeout(5000);
+        })
+      )).timeout(5000);
+    } else {
+      it('validates an address', () => (
+        validateAddress().then(res => {
+          assert.deepEqual(res, validationMock.ADDRESS_VALIDATION_RES);
+        })
+      ));
     }
 
-    it('validates a VAT number', (done) => {
-      taxjarClient.validate({
-        vat: 'FR40303265045'
-      }).then(res => {
-        assert.deepEqual(res, validationMock.VALIDATION_RES);
-        done();
-      });
-    });
-
-    if (process.env.TAXJAR_API_URL) {
-      it('returns successful response in sandbox', (done) => {
-        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+    if (isLiveTestRun) {
+      it('returns successful response in sandbox', () => (
         taxjarClient.validate({
           vat: 'FR40303265045'
         }).then(res => {
           assert.isOk(res.validation);
-          done();
-        });
-      }).timeout(5000);
+        })
+      )).timeout(5000);
+    } else {
+      it('validates a VAT number', () => (
+        taxjarClient.validate({
+          vat: 'FR40303265045'
+        }).then(res => {
+          assert.deepEqual(res, validationMock.VALIDATION_RES);
+        })
+      ));
     }
 
   });
 
   describe('summarized rates', () => {
 
-    it('lists summarized rates', (done) => {
-      taxjarClient.summaryRates().then(res => {
-        assert.deepEqual(res, summaryRateMock.SUMMARY_RATES_RES);
-        done();
-      });
-    });
-
-    if (process.env.TAXJAR_API_URL) {
-      it('returns successful response in sandbox', (done) => {
-        taxjarClient.setApiConfig('apiUrl', process.env.TAXJAR_API_URL);
+    if (isLiveTestRun) {
+      it('returns successful response in sandbox', () => (
         taxjarClient.summaryRates().then(res => {
           assert.isOk(res.summary_rates);
-          done();
-        });
-      });
+        })
+      ));
+    } else {
+      it('lists summarized rates', () => (
+        taxjarClient.summaryRates().then(res => {
+          assert.deepEqual(res, summaryRateMock.SUMMARY_RATES_RES);
+        })
+      ));
     }
 
   });
