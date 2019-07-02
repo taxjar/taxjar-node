@@ -5,12 +5,16 @@ export namespace TaxjarTypes {
     headers?: object
   }
 
-  export interface RequestParams {
-    method: string,
+  interface RequestOptions {
     url: string,
-    data?: object,
-    query?: object,
-    headers?: object
+    params?: object
+  }
+
+  export interface Request {
+    get(options: RequestOptions): Promise<any>,
+    post(options: RequestOptions): Promise<any>,
+    put(options: RequestOptions): Promise<any>,
+    delete(options: RequestOptions): Promise<any>
   }
 
   export interface RateParams {
