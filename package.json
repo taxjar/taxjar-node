@@ -24,9 +24,11 @@
     "node": ">= 4"
   },
   "main": "dist/taxjar.js",
+  "files": ["dist/**"],
   "types": "dist/taxjar.d.ts",
   "devDependencies": {
-    "chai": "~3.5.0",
+    "chai": "^4.2.0",
+    "chai-stuff": "^0.3.2",
     "eslint": "^4.19.1",
     "mocha": "~5.2.0",
     "nock": "~9.0.2",

@@ -20,6 +20,29 @@ export namespace TaxjarTypes {
     country?: string
   }
 
+  interface NexusAddress {
+    id?: string,
+    country?: string,
+    zip?: string,
+    state?: string,
+    city?: string,
+    street?: string
+  }
+
+  interface TaxLineItem {
+    id?: string,
+    quantity?: number,
+    product_tax_code?: string,
+    unit_price?: number,
+    discount?: number
+  }
+
+  interface LineItem extends TaxLineItem {
+    product_identifier?: string,
+    description?: string,
+    sales_tax?: number
+  }
+
   export interface TaxParams {
     from_country?: string,
     from_zip?: string,
@@ -34,8 +57,8 @@ export namespace TaxjarTypes {
     amount?: number,
     shipping: number,
     customer_id?: string,
-    nexus_addresses?: object,
-    line_items?: object
+    nexus_addresses?: NexusAddress[],
+    line_items?: TaxLineItem[]
   }
 
   export interface TransactionListParams {
@@ -61,7 +84,7 @@ export namespace TaxjarTypes {
     shipping: number,
     sales_tax: number,
     customer_id?: string,
-    line_items?: object
+    line_items?: LineItem[]
   }
 
   export interface UpdateOrderParams {
@@ -81,7 +104,7 @@ export namespace TaxjarTypes {
     shipping?: number,
     sales_tax?: number,
     customer_id?: string,
-    line_items?: object
+    line_items?: LineItem[]
   }
 
   export interface CreateRefundParams {
@@ -102,7 +125,7 @@ export namespace TaxjarTypes {
     shipping: number,
     sales_tax: number,
     customer_id?: string,
-    line_items?: object
+    line_items?: LineItem[]
   }
 
   export interface UpdateRefundParams {
@@ -123,13 +146,18 @@ export namespace TaxjarTypes {
     shipping?: number,
     sales_tax?: number,
     customer_id?: string,
-    line_items?: object
+    line_items?: LineItem[]
+  }
+
+  interface ExemptRegion {
+    country?: string,
+    state?: string
   }
 
   export interface CustomerParams {
     customer_id: string,
     exemption_type: string,
-    exempt_regions?: object,
+    exempt_regions?: ExemptRegion[],
     name: string,
     country?: string,
     state?: string,
