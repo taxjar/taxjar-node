@@ -18,6 +18,10 @@ const RATE_RES = {
   }
 };
 
+const LA_RATE_RES = {
+  "rate": Object.assign({}, RATE_RES.rate, {"city": "LOS ANGELES"})
+};
+
 nock(TEST_API_HOST)
   .matchHeader('Authorization', /Bearer.*/)
   .get('/v2/rates/' + RATE_RES.rate.zip)
@@ -31,6 +35,9 @@ nock(TEST_API_HOST)
     city: 'Los Angeles',
     country: 'US'
   })
-  .reply(200, RATE_RES);
+  .reply(200, LA_RATE_RES);
 
-module.exports.RATE_RES = RATE_RES;
+module.exports = {
+  RATE_RES: RATE_RES,
+  LA_RATE_RES: LA_RATE_RES
+};

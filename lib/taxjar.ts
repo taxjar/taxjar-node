@@ -128,10 +128,9 @@ class Taxjar {
     });
   }
 
-  listCustomers(params?: object): Promise<any> {
+  listCustomers(): Promise<any> {
     return this.request.get({
-      url: 'customers',
-      params
+      url: 'customers'
     });
   }
 
