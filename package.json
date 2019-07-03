@@ -29,6 +29,8 @@
   ],
   "types": "dist/taxjar.d.ts",
   "devDependencies": {
+    "@types/request": "^2.48.1",
+    "@types/request-promise-native": "^1.0.16",
     "chai": "^4.2.0",
     "chai-stuff": "^0.3.2",
     "eslint": "^4.19.1",
@@ -37,12 +39,8 @@
     "typescript": "^2.9.2"
   },
   "dependencies": {
-    "@types/bluebird": "^3.5.26",
-    "@types/request": "^2.48.1",
-    "@types/request-promise": "^4.1.42",
-    "bluebird": "^3.5.3",
     "request": "^2.88.0",
-    "request-promise": "^4.2.4"
+    "request-promise-native": "^1.0.7"
   },
   "scripts": {
     "prepublish": "npm run build",
