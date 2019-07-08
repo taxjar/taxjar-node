@@ -152,7 +152,8 @@ describe('TaxJar API', () => {
       'to_zip': '07446',
       'to_state': 'NJ',
       'amount': 16.50,
-      'shipping': 1.5
+      'shipping': 1.5,
+      'exemption_type': 'non_exempt'
     });
 
     if (isLiveTestRun) {
@@ -219,6 +220,7 @@ describe('TaxJar API', () => {
       'amount': 16.5,
       'shipping': 1.5,
       'sales_tax': 0.95,
+      'exemption_type': 'non_exempt',
       'line_items': [
         {
           'quantity': 1,
@@ -248,6 +250,7 @@ describe('TaxJar API', () => {
       'transaction_id': '123',
       'amount': 16.5,
       'shipping': 1.5,
+      'exemption_type': 'non_exempt',
       'line_items': [
         {
           'quantity': 1,
@@ -335,6 +338,7 @@ describe('TaxJar API', () => {
       'amount': 16.5,
       'shipping': 1.5,
       'sales_tax': 0.95,
+      'exemption_type': 'non_exempt',
       'line_items': [
         {
           'quantity': 1,
@@ -364,6 +368,7 @@ describe('TaxJar API', () => {
       'transaction_id': '321',
       'amount': 17,
       'shipping': 2.0,
+      'exemption_type': 'non_exempt',
       'line_items': [
         {
           'quantity': 1,

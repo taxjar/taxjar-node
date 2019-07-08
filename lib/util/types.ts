@@ -61,6 +61,7 @@ export namespace TaxjarTypes {
     amount?: number,
     shipping: number,
     customer_id?: string,
+    exemption_type?: string,
     nexus_addresses?: NexusAddress[],
     line_items?: TaxLineItem[]
   }
@@ -96,6 +97,7 @@ export namespace TaxjarTypes {
     shipping: number,
     sales_tax: number,
     customer_id?: string,
+    exemption_type?: string,
     line_items?: LineItem[]
   }
 
@@ -116,6 +118,7 @@ export namespace TaxjarTypes {
     shipping?: number,
     sales_tax?: number,
     customer_id?: string,
+    exemption_type?: string,
     line_items?: LineItem[]
   }
 
@@ -138,6 +141,7 @@ export namespace TaxjarTypes {
     shipping: number,
     sales_tax: number,
     customer_id?: string,
+    exemption_type?: string,
     line_items?: LineItem[]
   }
 
@@ -159,6 +163,7 @@ export namespace TaxjarTypes {
     shipping?: number,
     sales_tax?: number,
     customer_id?: string,
+    exemption_type?: string,
     line_items?: LineItem[]
   }
 
