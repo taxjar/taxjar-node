@@ -2,7 +2,9 @@ import * as requestPromise from 'request-promise-native';
 import { TaxjarTypes } from './types';
 
 const proxyError = (result): Error => {
-  const proxiedError = new (<any>Error)();
+  const proxiedError = new (<any>Error)(
+    `TaxJar: ${result.error.error} - ${result.error.detail}`
+  );
   proxiedError.error = result.error.error;
   proxiedError.detail = result.error.detail;
   proxiedError.status = result.statusCode;
