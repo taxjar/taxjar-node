@@ -68,12 +68,20 @@ export namespace TaxjarTypes {
   export interface TransactionListParams {
     transaction_date?: string,
     from_transaction_date?: string,
-    to_transaction_date?: string
+    to_transaction_date?: string,
+    provider?: string
   }
+
+  export interface TransactionShowParams {
+    provider?: string
+  }
+
+  export interface TransactionDeleteParams extends TransactionShowParams {}
 
   export interface CreateOrderParams {
     transaction_id: string,
     transaction_date: string,
+    provider?: string,
     from_country?: string,
     from_zip?: string,
     from_state?: string,
@@ -115,6 +123,7 @@ export namespace TaxjarTypes {
     transaction_id: string,
     transaction_reference_id: string,
     transaction_date: string,
+    provider?: string,
     from_country?: string,
     from_zip?: string,
     from_state?: string,
