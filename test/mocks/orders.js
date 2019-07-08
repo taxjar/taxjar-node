@@ -16,6 +16,7 @@ const SHOW_ORDER_RES = {
     "transaction_id": "123",
     "user_id": 10649,
     "transaction_date": "2015-05-14T00:00:00Z",
+    "provider": "api",
     "exemption_type": "non_exempt",
     "to_country": "US",
     "to_zip": "90002",
@@ -52,6 +53,7 @@ nock(TEST_API_HOST)
 nock(TEST_API_HOST)
   .matchHeader('Authorization', /Bearer.*/)
   .get('/v2/transactions/orders/' + SHOW_ORDER_RES.order.transaction_id)
+  .query(true)
   .reply(200, SHOW_ORDER_RES);
 
 nock(TEST_API_HOST)
@@ -69,6 +71,7 @@ nock(TEST_API_HOST)
 nock(TEST_API_HOST)
   .matchHeader('Authorization', /Bearer.*/)
   .delete('/v2/transactions/orders/' + DELETE_ORDER_RES.order.transaction_id)
+  .query(true)
   .reply(200, DELETE_ORDER_RES);
 
 module.exports.LIST_ORDER_RES = LIST_ORDER_RES;

@@ -176,7 +176,8 @@ describe('TaxJar API', () => {
 
     const listOrders = () => taxjarClient.listOrders({
       'from_transaction_date': '2015/05/01',
-      'to_transaction_date': '2015/05/31'
+      'to_transaction_date': '2015/05/31',
+      'provider': 'api'
     });
 
     if (isLiveTestRun) {
@@ -195,13 +196,13 @@ describe('TaxJar API', () => {
 
     if (isLiveTestRun) {
       it('showOrder returns successful response in sandbox', () => (
-        taxjarClient.showOrder('123').then(res => {
+        taxjarClient.showOrder('123', {provider: 'api'}).then(res => {
           assert.isOk(res.order);
         })
       ));
     } else {
       it('shows an order transaction', () => (
-        taxjarClient.showOrder('123').then(res => {
+        taxjarClient.showOrder('123', {provider: 'api'}).then(res => {
           assert.deepEqual(res, orderMock.SHOW_ORDER_RES);
         })
       ));
@@ -210,6 +211,7 @@ describe('TaxJar API', () => {
     const createOrder = () => taxjarClient.createOrder({
       'transaction_id': '123',
       'transaction_date': '2015/05/14',
+      'provider': 'api',
       'to_country': 'US',
       'to_zip': '90002',
       'to_state': 'CA',
@@ -277,13 +279,13 @@ describe('TaxJar API', () => {
 
     if (isLiveTestRun) {
       it('deleteOrder returns successful response in sandbox', () => (
-        taxjarClient.deleteOrder('123').then(res => {
+        taxjarClient.deleteOrder('123', {provider: 'api'}).then(res => {
           assert.isOk(res.order);
         })
       ));
     } else {
       it('deletes an order transaction', () => (
-        taxjarClient.deleteOrder('123').then(res => {
+        taxjarClient.deleteOrder('123', {provider: 'api'}).then(res => {
           assert.deepEqual(res, orderMock.DELETE_ORDER_RES);
         })
       ));
@@ -291,7 +293,8 @@ describe('TaxJar API', () => {
 
     const listRefunds = () => taxjarClient.listRefunds({
       'from_transaction_date': '2015/05/01',
-      'to_transaction_date': '2015/05/31'
+      'to_transaction_date': '2015/05/31',
+      'provider': 'api'
     });
 
     if (isLiveTestRun) {
@@ -310,13 +313,13 @@ describe('TaxJar API', () => {
 
     if (isLiveTestRun) {
       it('showRefund returns successful response in sandbox', () => (
-        taxjarClient.showRefund('321').then(res => {
+        taxjarClient.showRefund('321', {provider: 'api'}).then(res => {
           assert.isOk(res.refund);
         })
       ));
     } else {
       it('shows a refund transaction', () => (
-        taxjarClient.showRefund('321').then(res => {
+        taxjarClient.showRefund('321', {provider: 'api'}).then(res => {
           assert.deepEqual(res, refundMock.SHOW_REFUND_RES);
         })
       ));
@@ -326,6 +329,7 @@ describe('TaxJar API', () => {
       'transaction_id': '123',
       'transaction_date': '2015/05/14',
       'transaction_reference_id': '123',
+      'provider': 'api',
       'to_country': 'US',
       'to_zip': '90002',
       'to_state': 'CA',
@@ -392,13 +396,13 @@ describe('TaxJar API', () => {
 
     if (isLiveTestRun) {
       it('deleteRefund returns successful response in sandbox', () => (
-        taxjarClient.deleteRefund('321').then(res => {
+        taxjarClient.deleteRefund('321', {provider: 'api'}).then(res => {
           assert.isOk(res.refund);
         })
       ));
     } else {
       it('deletes a refund transaction', () => (
-        taxjarClient.deleteRefund('321').then(res => {
+        taxjarClient.deleteRefund('321', {provider: 'api'}).then(res => {
           assert.deepEqual(res, refundMock.DELETE_REFUND_RES);
         })
       ));

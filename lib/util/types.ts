@@ -5,12 +5,16 @@ export namespace TaxjarTypes {
     headers?: object
   }
 
-  export interface RequestParams {
-    method: string,
+  interface RequestOptions {
     url: string,
-    data?: object,
-    query?: object,
-    headers?: object
+    params?: object
+  }
+
+  export interface Request {
+    get(options: RequestOptions): Promise<any>,
+    post(options: RequestOptions): Promise<any>,
+    put(options: RequestOptions): Promise<any>,
+    delete(options: RequestOptions): Promise<any>
   }
 
   export interface RateParams {
@@ -65,12 +69,20 @@ export namespace TaxjarTypes {
   export interface TransactionListParams {
     transaction_date?: string,
     from_transaction_date?: string,
-    to_transaction_date?: string
+    to_transaction_date?: string,
+    provider?: string
   }
+
+  export interface TransactionShowParams {
+    provider?: string
+  }
+
+  export interface TransactionDeleteParams extends TransactionShowParams {}
 
   export interface CreateOrderParams {
     transaction_id: string,
     transaction_date: string,
+    provider?: string,
     from_country?: string,
     from_zip?: string,
     from_state?: string,
@@ -114,6 +126,7 @@ export namespace TaxjarTypes {
     transaction_id: string,
     transaction_reference_id: string,
     transaction_date: string,
+    provider?: string,
     from_country?: string,
     from_zip?: string,
     from_state?: string,
