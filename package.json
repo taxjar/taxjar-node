@@ -25,7 +25,8 @@
   },
   "main": "dist/taxjar.js",
   "files": [
-    "dist/**"
+    "dist/**",
+    "!dist/.DS_Store"
   ],
   "types": "dist/taxjar.d.ts",
   "devDependencies": {
