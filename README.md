@@ -1,6 +1,6 @@
-# TaxJar Sales Tax API for Node [![NPM Module](http://img.shields.io/npm/v/taxjar.svg?style=flat-square)](https://npmjs.org/package/taxjar) [![Build Status](http://img.shields.io/travis/taxjar/taxjar-node.svg?style=flat-square)](https://travis-ci.org/taxjar/taxjar-node) [![Known Vulnerabilities](https://snyk.io/test/github/taxjar/taxjar-node/badge.svg)](https://snyk.io/test/github/taxjar/taxjar-node)
+# TaxJar Sales Tax API for Node [![NPM Module](https://img.shields.io/npm/v/taxjar.svg?style=flat-square)](https://npmjs.org/package/taxjar) [![Build Status](https://img.shields.io/travis/taxjar/taxjar-node.svg?style=flat-square)](https://travis-ci.org/taxjar/taxjar-node) [![Known Vulnerabilities](https://snyk.io/test/github/taxjar/taxjar-node/badge.svg)](https://snyk.io/test/github/taxjar/taxjar-node)
 
-<a href="http://developers.taxjar.com"><img src="http://www.taxjar.com/img/TJ_logo_color_office_png.png" alt="TaxJar" width="220"></a>
+<a href="https://developers.taxjar.com"><img src="https://www.taxjar.com/img/TJ_logo_color_office_png.png" alt="TaxJar" width="220"></a>
 
 Official Node client for Sales Tax API v2. For the API documentation, please visit [https://developers.taxjar.com/api/reference/](https://developers.taxjar.com/api/reference/?javascript).
 
