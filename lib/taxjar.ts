@@ -1,5 +1,5 @@
 import request from './util/request';
-import { TaxjarTypes } from './util/types';
+import TaxjarError, * as TaxjarTypes from './util/types';
 
 class Taxjar {
   public static DEFAULT_API_URL = 'https://api.taxjar.com';
@@ -42,149 +42,149 @@ class Taxjar {
     this.request = request(this.config);
   }
 
-  categories(): Promise<any> {
+  categories(): Promise<TaxjarTypes.CategoriesRes | TaxjarError> {
     return this.request.get({
       url: 'categories'
     });
   }
 
-  ratesForLocation(zip: string, params?: TaxjarTypes.RateParams): Promise<any> {
-    return this.request.get({
-      url: 'rates/' + zip,
-      params
-    });
-  }
-
-  taxForOrder(params: TaxjarTypes.TaxParams): Promise<any> {
+  taxForOrder(params: TaxjarTypes.TaxParams): Promise<TaxjarTypes.TaxForOrderRes | TaxjarError> {
     return this.request.post({
       url: 'taxes',
       params
     });
   }
 
-  listOrders(params?: TaxjarTypes.TransactionListParams): Promise<any> {
+  listOrders(params?: TaxjarTypes.TransactionListParams): Promise<TaxjarTypes.ListOrdersRes | TaxjarError> {
     return this.request.get({
       url: 'transactions/orders',
       params
     });
   }
 
-  showOrder(transactionId: string, params?: TaxjarTypes.TransactionShowParams): Promise<any> {
+  showOrder(transactionId: string, params?: TaxjarTypes.TransactionShowParams): Promise<TaxjarTypes.ShowOrderRes | TaxjarError> {
     return this.request.get({
       url: 'transactions/orders/' + transactionId,
       params
     });
   }
 
-  createOrder(params: TaxjarTypes.CreateOrderParams): Promise<any> {
+  createOrder(params: TaxjarTypes.CreateOrderParams): Promise<TaxjarTypes.CreateOrderRes | TaxjarError> {
     return this.request.post({
       url: 'transactions/orders',
       params
     });
   }
 
-  updateOrder(params: TaxjarTypes.UpdateOrderParams): Promise<any> {
+  updateOrder(params: TaxjarTypes.UpdateOrderParams): Promise<TaxjarTypes.UpdateOrderRes | TaxjarError> {
     return this.request.put({
       url: 'transactions/orders/' + params.transaction_id,
       params
     });
   }
 
-  deleteOrder(transactionId: string, params?: TaxjarTypes.TransactionDeleteParams): Promise<any> {
+  deleteOrder(transactionId: string, params?: TaxjarTypes.TransactionDeleteParams): Promise<TaxjarTypes.DeleteOrderRes | TaxjarError> {
     return this.request.delete({
       url: 'transactions/orders/' + transactionId,
       params
     });
   }
 
-  listRefunds(params?: TaxjarTypes.TransactionListParams): Promise<any> {
+  listRefunds(params?: TaxjarTypes.TransactionListParams): Promise<TaxjarTypes.ListRefundsRes | TaxjarError> {
     return this.request.get({
       url: 'transactions/refunds',
       params
     });
   }
 
-  showRefund(transactionId: string, params?: TaxjarTypes.TransactionShowParams): Promise<any> {
+  showRefund(transactionId: string, params?: TaxjarTypes.TransactionShowParams): Promise<TaxjarTypes.ShowRefundRes | TaxjarError> {
     return this.request.get({
       url: 'transactions/refunds/' + transactionId,
       params
     });
   }
 
-  createRefund(params: TaxjarTypes.CreateRefundParams): Promise<any> {
+  createRefund(params: TaxjarTypes.CreateRefundParams): Promise<TaxjarTypes.CreateRefundRes | TaxjarError> {
     return this.request.post({
       url: 'transactions/refunds',
       params
     });
   }
 
-  updateRefund(params: TaxjarTypes.UpdateRefundParams): Promise<any> {
+  updateRefund(params: TaxjarTypes.UpdateRefundParams): Promise<TaxjarTypes.UpdateRefundRes | TaxjarError> {
     return this.request.put({
       url: 'transactions/refunds/' + params.transaction_id,
       params
     });
   }
 
-  deleteRefund(transactionId: string, params?: TaxjarTypes.TransactionDeleteParams): Promise<any> {
+  deleteRefund(transactionId: string, params?: TaxjarTypes.TransactionDeleteParams): Promise<TaxjarTypes.DeleteRefundRes | TaxjarError> {
     return this.request.delete({
       url: 'transactions/refunds/' + transactionId,
       params
     });
   }
 
-  listCustomers(): Promise<any> {
+  listCustomers(): Promise<TaxjarTypes.ListCustomersRes | TaxjarError> {
     return this.request.get({
       url: 'customers'
     });
   }
 
-  showCustomer(customerId: string): Promise<any> {
+  showCustomer(customerId: string): Promise<TaxjarTypes.ShowCustomerRes | TaxjarError> {
     return this.request.get({
       url: 'customers/' + customerId
     });
   }
 
-  createCustomer(params: TaxjarTypes.CustomerParams): Promise<any> {
+  createCustomer(params: TaxjarTypes.CustomerParams): Promise<TaxjarTypes.CreateCustomerRes | TaxjarError> {
     return this.request.post({
       url: 'customers',
       params
     });
   }
 
-  updateCustomer(params: TaxjarTypes.CustomerParams): Promise<any> {
+  updateCustomer(params: TaxjarTypes.CustomerParams): Promise<TaxjarTypes.UpdateCustomerRes | TaxjarError> {
     return this.request.put({
       url: 'customers/' + params.customer_id,
       params
     });
   }
 
-  deleteCustomer(customerId: string): Promise<any> {
+  deleteCustomer(customerId: string): Promise<TaxjarTypes.DeleteCustomerRes | TaxjarError> {
     return this.request.delete({
       url: 'customers/' + customerId
     });
   }
 
-  nexusRegions(): Promise<any> {
+  ratesForLocation (zip: string, params?: TaxjarTypes.RateParams): Promise<TaxjarTypes.RatesForLocationRes | TaxjarError> {
+    return this.request.get({
+      url: 'rates/' + zip,
+      params
+    });
+  }
+
+  nexusRegions(): Promise<TaxjarTypes.NexusRegionsRes | TaxjarError> {
     return this.request.get({
       url: 'nexus/regions'
     });
   }
 
-  validateAddress(params: TaxjarTypes.AddressParams): Promise<any> {
+  validateAddress(params: TaxjarTypes.AddressParams): Promise<TaxjarTypes.ValidateAddressRes | TaxjarError> {
     return this.request.post({
       url: 'addresses/validate',
       params
     });
   }
 
-  validate(params: TaxjarTypes.ValidateParams): Promise<any> {
+  validate(params: TaxjarTypes.ValidateParams): Promise<TaxjarTypes.ValidateRes | TaxjarError> {
     return this.request.get({
       url: 'validation',
       params
     });
   }
 
-  summaryRates(): Promise<any> {
+  summaryRates(): Promise<TaxjarTypes.SummaryRatesRes | TaxjarError> {
     return this.request.get({
       url: 'summary_rates'
     });

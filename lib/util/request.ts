@@ -1,7 +1,7 @@
 import * as requestPromise from 'request-promise-native';
-import { TaxjarTypes } from './types';
+import TaxjarError, { Config, Request } from '../util/types';
 
-const proxyError = (result): Error => {
+const proxyError = (result): TaxjarError => {
   const proxiedError = new (<any>Error)(
     `TaxJar: ${result.error.error} - ${result.error.detail}`
   );
@@ -11,7 +11,7 @@ const proxyError = (result): Error => {
   throw proxiedError;
 };
 
-export default (config: TaxjarTypes.Config): TaxjarTypes.Request => {
+export default (config: Config): Request => {
   const request = requestPromise.defaults({
     headers: Object.assign({}, config.headers || {}, {
       Authorization: `Bearer ${config.apiKey}`,
