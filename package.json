@@ -1,13 +1,14 @@
 {
   "name": "taxjar",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "description": "TaxJar Sales Tax API for Node",
   "homepage": "https://github.com/taxjar/taxjar-node",
   "author": "TaxJar <jake@taxjar.com> (http://www.taxjar.com/)",
   "license": "MIT",
   "bugs": "https://github.com/taxjar/taxjar-node/issues",
   "contributors": [
-    "Jake Johnson <jake@taxjar.com>"
+    "Jake Johnson <jake@taxjar.com>",
+    "Scott Rudiger <scott.rudiger@taxjar.com>"
   ],
   "keywords": [
     "taxjar",

@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.0.0] - 2019-11-08
+- Add specific return types to all methods (previously `Promise<any>`)
+
 ## [2.3.0] - 2019-07-08
 - Support `exemption_type` param for order-level exemptions
 - Support `provider` param for marketplace exempt transactions
@@ -73,7 +76,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.0.0] - 2015-07-22
 - Initial release
 
-[Unreleased]: https://github.com/taxjar/taxjar-node/compare/v2.3.0...HEAD
+[Unreleased]: https://github.com/taxjar/taxjar-node/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/taxjar/taxjar-node/compare/v2.3.0...v3.0.0
 [2.3.0]: https://github.com/taxjar/taxjar-node/compare/v2.2.2...v2.3.0
 [2.2.2]: https://github.com/taxjar/taxjar-node/compare/v2.2.1...v2.2.2
 [2.2.1]: https://github.com/taxjar/taxjar-node/compare/v2.2.0...v2.2.1
