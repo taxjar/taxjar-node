@@ -7,7 +7,8 @@
   "license": "MIT",
   "bugs": "https://github.com/taxjar/taxjar-node/issues",
   "contributors": [
-    "Jake Johnson <jake@taxjar.com>"
+    "Jake Johnson <jake@taxjar.com>",
+    "Scott Rudiger <scott.rudiger@taxjar.com>"
   ],
   "keywords": [
     "taxjar",
