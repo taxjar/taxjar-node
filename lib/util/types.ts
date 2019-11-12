@@ -19,8 +19,13 @@ export interface Request {
   delete (options: RequestOptions): Promise<any>
 }
 
-export default interface TaxjarError extends Error {
-  error: string,
-  detail: string,
-  status: number
+export class TaxjarError extends Error {
+  constructor(
+    public error: string,
+    public detail: string,
+    public status: number
+  ) {
+    super(`TaxJar: ${error} - ${detail}`);
+    Object.setPrototypeOf(this, TaxjarError.prototype);
+  }
 }

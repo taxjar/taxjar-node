@@ -1,14 +1,14 @@
 import * as requestPromise from 'request-promise-native';
-import TaxjarError, { Config, Request } from '../util/types';
+import { Config, Request, TaxjarError } from '../util/types';
 
-const proxyError = (result): TaxjarError => {
-  const proxiedError = new (<any>Error)(
-    `TaxJar: ${result.error.error} - ${result.error.detail}`
+const proxyError = (result): Promise<never> => {
+  return Promise.reject(
+    new TaxjarError(
+      result.error.error,
+      result.error.detail,
+      result.statusCode,
+    )
   );
-  proxiedError.error = result.error.error;
-  proxiedError.detail = result.error.detail;
-  proxiedError.status = result.statusCode;
-  throw proxiedError;
 };
 
 export default (config: Config): Request => {

@@ -513,6 +513,19 @@ client.taxForOrder({
 });
 ```
 
+In typescript, you may need to first verify the error type before handling:
+```ts
+client.taxForOrder(/* ... */)
+  .catch((err) => {
+    if (err instanceof Taxjar.Error) {
+      err.detail; // Error detail
+      err.status; // Error status code
+    } else {
+      // handle non-taxjar error
+    }
+  });
+```
+
 ## Testing
 
 ```
