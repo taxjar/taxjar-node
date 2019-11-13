@@ -25,7 +25,12 @@ export class TaxjarError extends Error {
     public detail: string,
     public status: number
   ) {
-    super(`TaxJar: ${error} - ${detail}`);
-    Object.setPrototypeOf(this, TaxjarError.prototype);
+    super(`${error} - ${detail}`);
   }
 }
+ 
+Object.defineProperty(TaxjarError.prototype, 'name', {
+  value: 'TaxjarError',
+  configurable: true,
+  writable: true
+});

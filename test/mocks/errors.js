@@ -5,7 +5,7 @@ const nock = require('nock');
 const TEST_API_HOST = 'https://mockapi.taxjar.com';
 
 const CATEGORY_ERROR_RES = {
-  "message": "TaxJar: Unauthorized - Not authorized for route 'GET /v2/categories'",
+  "message": "Unauthorized - Not authorized for route 'GET /v2/categories'",
   "error": "Unauthorized",
   "detail": "Not authorized for route 'GET /v2/categories'",
   "status": 401

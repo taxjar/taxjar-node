@@ -2,12 +2,10 @@ import * as requestPromise from 'request-promise-native';
 import { Config, Request, TaxjarError } from '../util/types';
 
 const proxyError = (result): Promise<never> => {
-  return Promise.reject(
-    new TaxjarError(
-      result.error.error,
-      result.error.detail,
-      result.statusCode,
-    )
+  throw new TaxjarError(
+    result.error.error,
+    result.error.detail,
+    result.statusCode,
   );
 };
 
