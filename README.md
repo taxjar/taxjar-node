@@ -513,7 +513,8 @@ client.taxForOrder({
 });
 ```
 
-In TypeTcript, you will need to first check the error's type before handling:
+In TypeScript, you may want to first check the error's type before handling:
+
 ```ts
 client.taxForOrder(/* ... */)
   .catch(err => {
