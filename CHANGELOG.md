@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.1.0] - 2019-11-14
+- New `Taxjar.Error` type supports use with `instanceof`
+- Add `name` property to `Taxjar.Error` / `TaxjarError`
+- Remove union return types from each method
+
 ## [3.0.0] - 2019-11-08
 - Add specific return types to all methods (previously `Promise<any>`)
 
@@ -76,7 +81,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.0.0] - 2015-07-22
 - Initial release
 
-[Unreleased]: https://github.com/taxjar/taxjar-node/compare/v3.0.0...HEAD
+[Unreleased]: https://github.com/taxjar/taxjar-node/compare/v3.1.0...HEAD
+[3.1.0]: https://github.com/taxjar/taxjar-node/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/taxjar/taxjar-node/compare/v2.3.0...v3.0.0
 [2.3.0]: https://github.com/taxjar/taxjar-node/compare/v2.2.2...v2.3.0
 [2.2.2]: https://github.com/taxjar/taxjar-node/compare/v2.2.1...v2.2.2
