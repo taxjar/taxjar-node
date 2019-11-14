@@ -53,6 +53,7 @@ describe('TaxJar API', () => {
 
       return taxjarClient.categories().catch(err => {
         assert.instanceOf(err, Error);
+        assert.instanceOf(err, Taxjar.Error);
         assert.sameProps(err, errorMocks.CATEGORY_ERROR_RES);
       });
     });
