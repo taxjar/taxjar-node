@@ -58,6 +58,17 @@ describe('TaxJar API', () => {
       });
     });
 
+    it('rejects promise on non-API error', () => {
+      const errorMocks = require('./mocks/errors');
+      taxjarClient.setApiConfig('apiUrl', 'invalidApiUrl');
+
+      return taxjarClient.nexusRegions().catch(err => {
+        assert.instanceOf(err, Error);
+        assert.notInstanceOf(err, Taxjar.Error);
+        assert.include(err, errorMocks.NEXUS_REGIONS_ERROR_RES);
+      });
+    });
+
     it('gets api config', () => {
       assert.equal(
         taxjarClient.getApiConfig('apiUrl'),
