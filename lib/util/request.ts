@@ -3,6 +3,7 @@ import { Config, Request, TaxjarError } from '../util/types';
 
 const proxyError = (result): never => {
   const isTaxjarError = result.statusCode && result.error && result.error.error && result.error.detail;
+
   if (isTaxjarError) {
     throw new TaxjarError(
       result.error.error,
@@ -10,6 +11,7 @@ const proxyError = (result): never => {
       result.statusCode
     );
   }
+
   throw result;
 };
 
