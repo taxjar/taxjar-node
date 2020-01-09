@@ -2,11 +2,17 @@ import * as requestPromise from 'request-promise-native';
 import { Config, Request, TaxjarError } from '../util/types';
 
 const proxyError = (result): never => {
-  throw new TaxjarError(
-    result.error.error,
-    result.error.detail,
-    result.statusCode,
-  );
+  const isTaxjarError = result.statusCode && result.error && result.error.error && result.error.detail;
+
+  if (isTaxjarError) {
+    throw new TaxjarError(
+      result.error.error,
+      result.error.detail,
+      result.statusCode
+    );
+  }
+
+  throw result;
 };
 
 export default (config: Config): Request => {

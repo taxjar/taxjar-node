@@ -11,9 +11,22 @@ const CATEGORY_ERROR_RES = {
   "status": 401
 };
 
+const NEXUS_REGIONS_ERROR_RES = {
+  name: 'RequestError',
+  message: 'Error: Invalid URI "invalidApiUrl/v2/nexus/regions"'
+};
+
 nock(TEST_API_HOST)
   .matchHeader('Authorization', /Bearer.*/)
   .get('/v2/categories')
   .reply(401, CATEGORY_ERROR_RES);
 
-module.exports.CATEGORY_ERROR_RES = CATEGORY_ERROR_RES;
+nock('invalidApiUrl')
+  .matchHeader('Authorization', /Bearer.*/)
+  .get('/v2/nexus/regions')
+  .replyWithError(NEXUS_REGIONS_ERROR_RES);
+
+module.exports = {
+  CATEGORY_ERROR_RES,
+  NEXUS_REGIONS_ERROR_RES
+};
