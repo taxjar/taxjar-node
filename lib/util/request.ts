@@ -18,19 +18,22 @@ const proxyError = (result): never => {
   throw result;
 };
 
-const userAgent = `TaxJar/Node (${[
-  os.version && os.version() || process.platform,
-  os.arch(),
-  `${process.release.name} ${process.versions.node}`,
-  `OpenSSL/${process.versions.openssl}`
-].join('; ')}) taxjar-node/${require('../../package.json').version}`;
+const getUserAgent = (): string => {
+  const platform = os.version && os.version() || process.platform;
+  const arch = os.arch();
+  const nodeVersion = `${process.release.name} ${process.versions.node}`;
+  const openSslVersion = `OpenSSL/${process.versions.openssl}`;
+  const pkgVersion = `taxjar-node/${require('../../package.json').version}`;
+
+  return `TaxJar/Node (${[platform, arch, nodeVersion, openSslVersion].join('; ')}) ${pkgVersion}`;
+}
 
 export default (config: Config): Request => {
   const request = requestPromise.defaults({
     headers: Object.assign({}, config.headers || {}, {
       Authorization: `Bearer ${config.apiKey}`,
       'Content-Type': 'application/json',
-      'User-Agent': userAgent
+      'User-Agent': getUserAgent()
     }),
     baseUrl: config.apiUrl,
     json: true
