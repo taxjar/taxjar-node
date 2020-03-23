@@ -87,8 +87,10 @@ describe('TaxJar API', () => {
         assert.match(this.req.headers.authorization, /^Bearer \w+$/);
         assert.equal(this.req.headers['content-type'], 'application/json');
         assert.match(this.req.headers['user-agent'], /^TaxJar\/Node (.*) taxjar-node\/\d+\.\d+\.\d+$/);
+
         return [200, {}];
       });
+
       return taxjarClient.ratesForLocation('12345');
     });
 
