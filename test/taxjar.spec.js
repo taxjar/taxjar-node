@@ -2,6 +2,7 @@
 
 const chai = require('chai');
 const chaiStuff = require('chai-stuff');
+const nock = require('nock');
 const Taxjar = require('../dist/taxjar');
 
 const rateMock = require('./mocks/rates');
@@ -79,6 +80,16 @@ describe('TaxJar API', () => {
     it('sets api config', () => {
       taxjarClient.setApiConfig('apiUrl', 'https://api.sandbox.taxjar.com');
       assert.equal(taxjarClient.getApiConfig('apiUrl'), 'https://api.sandbox.taxjar.com/v2/');
+    });
+
+    it('includes appropriate headers', () => {
+      nock(taxjarClient.getApiConfig('apiUrl'), {allowUnmocked: true}).get('/rates/12345').reply(function() {
+        assert.match(this.req.headers.authorization, /^Bearer \w+$/);
+        assert.equal(this.req.headers['content-type'], 'application/json');
+        assert.match(this.req.headers['user-agent'], /^TaxJar\/Node (.*) taxjar-node\/\d+\.\d+\.\d+$/);
+        return [200, {}];
+      });
+      return taxjarClient.ratesForLocation('12345');
     });
 
     it('sets custom headers via instantiation', () => {
