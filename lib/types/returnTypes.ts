@@ -24,7 +24,7 @@ export interface TaxForOrderRes {
       state?: string,
       county?: string,
       city?: string
-    }[]
+    },
     breakdown?: Breakdown
   }
 }
