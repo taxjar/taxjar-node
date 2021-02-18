@@ -5,7 +5,7 @@ export interface RateParams {
   country?: string
 }
 
-interface NexusAddress {
+export interface NexusAddress {
   id?: string,
   country?: string,
   zip?: string,
@@ -14,7 +14,7 @@ interface NexusAddress {
   street?: string
 }
 
-interface TaxLineItem {
+export interface TaxLineItem {
   id?: string,
   quantity?: number,
   product_tax_code?: string,
@@ -22,7 +22,7 @@ interface TaxLineItem {
   discount?: number
 }
 
-interface LineItem extends TaxLineItem {
+export interface LineItem extends TaxLineItem {
   product_identifier?: string,
   description?: string,
   sales_tax?: number
@@ -148,7 +148,7 @@ export interface UpdateRefundParams {
   line_items?: LineItem[]
 }
 
-interface ExemptRegion {
+export interface ExemptRegion {
   country?: string,
   state?: string
 }
