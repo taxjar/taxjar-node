@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.2.1] - 2021-02-17
+- Fix `jurisdiction` type in `TaxForOrderRes` interface
+- Export all param interfaces
+
 ## [3.2.0] - 2020-03-25
 - Include custom user agent for debugging and informational purposes
 - Patch vulnerabilities in minimist and acorn developer dependencies
@@ -91,7 +95,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.0.0] - 2015-07-22
 - Initial release
 
-[Unreleased]: https://github.com/taxjar/taxjar-node/compare/v3.2.0...HEAD
+[Unreleased]: https://github.com/taxjar/taxjar-node/compare/v3.2.1...HEAD
+[3.2.1]: https://github.com/taxjar/taxjar-node/compare/v3.2.0...v3.2.1
 [3.2.0]: https://github.com/taxjar/taxjar-node/compare/v3.1.2...v3.2.0
 [3.1.2]: https://github.com/taxjar/taxjar-node/compare/v3.1.1...v3.1.2
 [3.1.1]: https://github.com/taxjar/taxjar-node/compare/v3.1.0...v3.1.1
