@@ -1,6 +1,6 @@
 {
   "name": "taxjar",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "TaxJar Sales Tax API for Node",
   "homepage": "https://github.com/taxjar/taxjar-node",
   "author": "TaxJar <jake@taxjar.com> (https://www.taxjar.com/)",
