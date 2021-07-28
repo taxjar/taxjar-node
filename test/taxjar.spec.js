@@ -219,20 +219,6 @@ describe('TaxJar API', () => {
       ));
     }
 
-    if (isLiveTestRun) {
-      it('showOrder returns successful response in sandbox', () => (
-        taxjarClient.showOrder('123', {provider: 'api'}).then(res => {
-          assert.isOk(res.order);
-        })
-      ));
-    } else {
-      it('shows an order transaction', () => (
-        taxjarClient.showOrder('123', {provider: 'api'}).then(res => {
-          assert.deepEqual(res, orderMock.SHOW_ORDER_RES);
-        })
-      ));
-    }
-
     const createOrder = () => taxjarClient.createOrder({
       'transaction_id': '123',
       'transaction_date': '2015/05/14',
@@ -267,6 +253,20 @@ describe('TaxJar API', () => {
       it('creates an order transaction', () => (
         createOrder().then(res => {
           assert.deepEqual(res, orderMock.CREATE_ORDER_RES);
+        })
+      ));
+    }
+
+    if (isLiveTestRun) {
+      it('showOrder returns successful response in sandbox', () => (
+        taxjarClient.showOrder('123', {provider: 'api'}).then(res => {
+          assert.isOk(res.order);
+        })
+      ));
+    } else {
+      it('shows an order transaction', () => (
+        taxjarClient.showOrder('123', {provider: 'api'}).then(res => {
+          assert.deepEqual(res, orderMock.SHOW_ORDER_RES);
         })
       ));
     }
@@ -336,22 +336,8 @@ describe('TaxJar API', () => {
       ));
     }
 
-    if (isLiveTestRun) {
-      it('showRefund returns successful response in sandbox', () => (
-        taxjarClient.showRefund('321', {provider: 'api'}).then(res => {
-          assert.isOk(res.refund);
-        })
-      ));
-    } else {
-      it('shows a refund transaction', () => (
-        taxjarClient.showRefund('321', {provider: 'api'}).then(res => {
-          assert.deepEqual(res, refundMock.SHOW_REFUND_RES);
-        })
-      ));
-    }
-
     const createRefund = () => taxjarClient.createRefund({
-      'transaction_id': '123',
+      'transaction_id': '321',
       'transaction_date': '2015/05/14',
       'transaction_reference_id': '123',
       'provider': 'api',
@@ -385,6 +371,20 @@ describe('TaxJar API', () => {
       it('creates a refund transaction', () => (
         createRefund().then(res => {
           assert.deepEqual(res, refundMock.CREATE_REFUND_RES);
+        })
+      ));
+    }
+
+    if (isLiveTestRun) {
+      it('showRefund returns successful response in sandbox', () => (
+        taxjarClient.showRefund('321', {provider: 'api'}).then(res => {
+          assert.isOk(res.refund);
+        })
+      ));
+    } else {
+      it('shows a refund transaction', () => (
+        taxjarClient.showRefund('321', {provider: 'api'}).then(res => {
+          assert.deepEqual(res, refundMock.SHOW_REFUND_RES);
         })
       ));
     }
