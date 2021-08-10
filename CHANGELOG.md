@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.0.0] - 2021-08-10
+- Update dependencies to patch vulnerabilities
+- Fix test suite to work using TaxJar production API token
+
 ## [3.2.2] - 2021-02-18
 - Fix NPM release build for v3.2.1 changes
 
@@ -98,7 +102,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.0.0] - 2015-07-22
 - Initial release
 
-[Unreleased]: https://github.com/taxjar/taxjar-node/compare/v3.2.2...HEAD
+[Unreleased]: https://github.com/taxjar/taxjar-node/compare/v4.0.0...HEAD
+[4.0.0]: https://github.com/taxjar/taxjar-node/compare/v3.2.2...v4.0.0
 [3.2.2]: https://github.com/taxjar/taxjar-node/compare/v3.2.1...v3.2.2
 [3.2.1]: https://github.com/taxjar/taxjar-node/compare/v3.2.0...v3.2.1
 [3.2.0]: https://github.com/taxjar/taxjar-node/compare/v3.1.2...v3.2.0
