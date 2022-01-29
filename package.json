@@ -45,9 +45,7 @@
     "request-promise-native": "^1.0.9"
   },
   "overrides": {
-    "jsprim": {
-      "version": "^1.4.2"
-    }
+    "jsprim": "^1.4.2"
   },
   "scripts": {
     "prepublish": "npm run build",
