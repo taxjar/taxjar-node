@@ -1,7 +1,5 @@
 # TaxJar Sales Tax API for Node [![NPM Module](https://img.shields.io/npm/v/taxjar.svg?style=flat-square)](https://npmjs.org/package/taxjar) [![Build Status](https://img.shields.io/travis/taxjar/taxjar-node.svg?style=flat-square)](https://travis-ci.org/taxjar/taxjar-node) [![Known Vulnerabilities](https://snyk.io/test/github/taxjar/taxjar-node/badge.svg)](https://snyk.io/test/github/taxjar/taxjar-node)
 
-<a href="https://developers.taxjar.com"><img src="https://www.taxjar.com/img/TJ_logo_color_office_png.png" alt="TaxJar" width="220"></a>
-
 Official Node client for Sales Tax API v2. For the API documentation, please visit [https://developers.taxjar.com/api/reference/](https://developers.taxjar.com/api/reference/?javascript).
 
 <hr>
@@ -10,6 +8,7 @@ Official Node client for Sales Tax API v2. For the API documentation, please vis
 [Installation](#installation)<br>
 [Authentication](#authentication)<br>
 [Usage](#usage)<br>
+[Custom Options](#custom-options)<br>
 [Sandbox Environment](#sandbox-environment)<br>
 [Error Handling](#error-handling)<br>
 [Testing](#testing)
@@ -450,6 +449,17 @@ client.validate({
 ```javascript
 client.summaryRates().then(res => {
   res.summary_rates; // Array of summarized rates
+});
+```
+
+## Custom Options
+### API Version
+> By default, TaxJar's API will respond to requests with the [latest API version](https://developers.taxjar.com/api/reference/#changelog) when a version header is not present on the request.
+>
+> To request a specific API version, include the `x-api-version` header with the desired version string.
+```javascript
+client.setApiConfig('headers', {
+  'x-api-version': '2020-08-07'
 });
 ```
 
