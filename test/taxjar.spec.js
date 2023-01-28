@@ -61,12 +61,12 @@ describe('TaxJar API', () => {
 
     it('rejects promise on non-API error', () => {
       const errorMocks = require('./mocks/errors');
-      taxjarClient.setApiConfig('apiUrl', 'invalidApiUrl');
+      taxjarClient.setApiConfig('apiUrl', 'http://invalidApiUrl');
 
       return taxjarClient.nexusRegions().catch(err => {
         assert.instanceOf(err, Error);
         assert.notInstanceOf(err, Taxjar.Error);
-        assert.include(err, errorMocks.NEXUS_REGIONS_ERROR_RES);
+        assert.match(err.message, new RegExp(`${errorMocks.NEXUS_REGIONS_ERROR_RES}`));
       });
     });
 

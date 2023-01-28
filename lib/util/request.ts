@@ -1,10 +1,10 @@
-import * as requestPromise from 'request-promise-native';
+import fetch, { RequestInfo, RequestInit } from 'node-fetch';
 
-import { Config, Request, TaxjarError } from '../util/types';
+import { Config, Request, TaxjarError } from './types';
 
 const os = require('os');
 
-const proxyError = (result): never => {
+const proxyError = (result: any): never => {
   const isTaxjarError = result.statusCode && result.error && result.error.error && result.error.detail;
 
   if (isTaxjarError) {
@@ -29,20 +29,45 @@ const getUserAgent = (): string => {
 }
 
 export default (config: Config): Request => {
-  const request = requestPromise.defaults({
+  const defaultOptions = {
     headers: Object.assign({}, config.headers || {}, {
       Authorization: `Bearer ${config.apiKey}`,
       'Content-Type': 'application/json',
       'User-Agent': getUserAgent()
     }),
-    baseUrl: config.apiUrl,
-    json: true
-  });
+  };
+
+  const getRequestBodyOptions = (body: object) => ({...defaultOptions, body: JSON.stringify(body)})
+
+  const makeRequest = async (url: string, method: RequestInit['method'], queryParams?: Record<string, string>, options?: RequestInit): Promise<any> => {
+    const requestUrl = new URL(url, config.apiUrl);
+    if (queryParams) {
+      requestUrl.search = new URLSearchParams(queryParams).toString();
+    }
+
+    const response = await fetch(requestUrl, { method, ...options });
+  
+    if (!response.ok) {
+      const errorResponse = await response.text();
+
+      const errorResult = { statusCode: response.status, error: errorResponse };
+      try {
+        // if there's JSON, attempt to parse it
+        errorResult.error = JSON.parse(errorResponse);
+      } catch (err) {
+        // otherwise just use the raw text
+      }
+
+      proxyError(errorResult);
+    }
+  
+    return response.json();
+  }
 
   return {
-    get: options => request.get(options.url, {qs: options.params}).catch(proxyError),
-    post: options => request.post(options.url, {body: options.params}).catch(proxyError),
-    put: options => request.put(options.url, {body: options.params}).catch(proxyError),
-    delete: options => request.delete(options.url, {qs: options.params}).catch(proxyError)
+    get: ({ url, params }) => makeRequest(url, 'GET', params, defaultOptions).catch(proxyError),
+    post: ({ url, params }) => makeRequest(url, 'POST', undefined, getRequestBodyOptions(params)).catch(proxyError),
+    put: ({ url, params }) => makeRequest(url, 'PUT', undefined, getRequestBodyOptions(params)).catch(proxyError),
+    delete: ({ url, params }) => makeRequest(url, 'DELETE', params, defaultOptions).catch(proxyError)
   };
 };

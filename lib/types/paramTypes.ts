@@ -1,4 +1,4 @@
-export interface RateParams {
+export interface RateParams extends Record<string, string> {
   street?: string,
   city?: string,
   state?: string,
@@ -47,14 +47,14 @@ export interface TaxParams {
   line_items?: TaxLineItem[]
 }
 
-export interface TransactionListParams {
+export interface TransactionListParams extends Record<string, string> {
   transaction_date?: string,
   from_transaction_date?: string,
   to_transaction_date?: string,
   provider?: string
 }
 
-export interface TransactionShowParams {
+export interface TransactionShowParams extends Record<string, string> {
   provider?: string
 }
 
@@ -173,6 +173,6 @@ export interface AddressParams {
   street?: string
 }
 
-export interface ValidateParams {
+export interface ValidateParams extends Record<string, string> {
   vat: string
 }
