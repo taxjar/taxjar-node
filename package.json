@@ -22,7 +22,7 @@
     "url": "git://github.com/taxjar/taxjar-node.git"
   },
   "engines": {
-    "node": ">= 4"
+    "node": ">= 10"
   },
   "main": "dist/taxjar.js",
   "files": [
@@ -31,27 +31,21 @@
   ],
   "types": "dist/taxjar.d.ts",
   "devDependencies": {
-    "@types/request": "^2.48.6",
-    "@types/request-promise-native": "^1.0.18",
-    "chai": "^4.3.4",
+    "@types/node-fetch": "^2.6.2",
+    "chai": "^4.3.7",
     "chai-stuff": "^0.3.3",
-    "eslint": "^7.32.0",
-    "mocha": "^9.2.0",
-    "nock": "^13.1.1",
-    "typescript": "^4.3.5"
+    "eslint": "^8.32.0",
+    "mocha": "^10.2.0",
+    "nock": "^13.3.0",
+    "typescript": "~4.9.4"
   },
   "dependencies": {
-    "request": "^2.88.2",
-    "request-promise-native": "^1.0.9"
-  },
-  "overrides": {
-    "request": {
-      "jsprim": "1.4.2"
-    }
+    "node-fetch": "^2.6.8"
   },
   "scripts": {
     "prepublish": "npm run build",
     "build": "tsc",
+    "lint": "eslint",
     "test": "tsc && mocha"
   }
 }

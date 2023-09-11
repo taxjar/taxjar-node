@@ -7,16 +7,21 @@ export interface Config {
   headers?: object
 }
 
-interface RequestOptions {
+interface QueryRequestOptions {
+  url: string,
+  params?: Record<string, string>
+}
+
+interface BodyRequestOptions {
   url: string,
   params?: object
 }
 
 export interface Request {
-  get (options: RequestOptions): Promise<any>,
-  post (options: RequestOptions): Promise<any>,
-  put (options: RequestOptions): Promise<any>,
-  delete (options: RequestOptions): Promise<any>
+  get (options: QueryRequestOptions): Promise<any>,
+  post (options: BodyRequestOptions): Promise<any>,
+  put (options: BodyRequestOptions): Promise<any>,
+  delete (options: QueryRequestOptions): Promise<any>
 }
 
 export class TaxjarError extends Error {

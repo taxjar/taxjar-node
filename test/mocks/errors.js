@@ -12,8 +12,8 @@ const CATEGORY_ERROR_RES = {
 };
 
 const NEXUS_REGIONS_ERROR_RES = {
-  name: 'RequestError',
-  message: 'Error: Invalid URI "invalidApiUrl/v2/nexus/regions"'
+  name: 'FetchError',
+  message: 'Error: Invalid URI "http://invalidApiUrl/v2/nexus/regions"'
 };
 
 nock(TEST_API_HOST)
@@ -21,7 +21,7 @@ nock(TEST_API_HOST)
   .get('/v2/categories')
   .reply(401, CATEGORY_ERROR_RES);
 
-nock('invalidApiUrl')
+nock('http://invalidApiUrl')
   .matchHeader('Authorization', /Bearer.*/)
   .get('/v2/nexus/regions')
   .replyWithError(NEXUS_REGIONS_ERROR_RES);
