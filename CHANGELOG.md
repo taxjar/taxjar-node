@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.1.0] - 2023-09-11
+- Switches from using request and request-promise-native libraries, to the node-fetch library
+- Updates minimum Node version to 10
+
 ## [4.0.1] - 2022-02-09
 - Patch vulnerability in json-schema dependency
 - Patch vulnerabilities in Mocha and ESLint developer dependencies
@@ -106,7 +110,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.0.0] - 2015-07-22
 - Initial release
 
-[Unreleased]: https://github.com/taxjar/taxjar-node/compare/v4.0.1...HEAD
+[Unreleased]: https://github.com/taxjar/taxjar-node/compare/v4.1.0...HEAD
+[4.1.0]: https://github.com/taxjar/taxjar-node/compare/v4.0.1...v4.1.0
 [4.0.1]: https://github.com/taxjar/taxjar-node/compare/v4.0.0...v4.0.1
 [4.0.0]: https://github.com/taxjar/taxjar-node/compare/v3.2.2...v4.0.0
 [3.2.2]: https://github.com/taxjar/taxjar-node/compare/v3.2.1...v3.2.2
