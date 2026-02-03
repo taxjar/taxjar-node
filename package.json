@@ -1,6 +1,6 @@
 {
   "name": "taxjar",
-  "version": "4.1.0",
+  "version": "5.0.0",
   "description": "TaxJar Sales Tax API for Node",
   "homepage": "https://github.com/taxjar/taxjar-node",
   "author": "TaxJar <jake@taxjar.com> (https://www.taxjar.com/)",
@@ -22,7 +22,7 @@
     "url": "git://github.com/taxjar/taxjar-node.git"
   },
   "engines": {
-    "node": ">= 10"
+    "node": ">= 18"
   },
   "main": "dist/taxjar.js",
   "files": [
@@ -31,17 +31,15 @@
   ],
   "types": "dist/taxjar.d.ts",
   "devDependencies": {
-    "@types/node-fetch": "^2.6.2",
+    "@types/node": "^18.0.0",
     "chai": "^4.3.7",
     "chai-stuff": "^0.3.3",
     "eslint": "^8.32.0",
     "mocha": "^10.2.0",
-    "nock": "^13.3.0",
+    "nock": "^14.0.0",
     "typescript": "~4.9.4"
   },
-  "dependencies": {
-    "node-fetch": "^2.6.8"
-  },
+  "dependencies": {},
   "scripts": {
     "prepublish": "npm run build",
     "build": "tsc",

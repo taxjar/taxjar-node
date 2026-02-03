@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [5.0.0] - 2026-02-03
+### Breaking Changes
+- **BREAKING:** Minimum Node.js version increased to v18.0
+- **BREAKING:** Removed `node-fetch` dependency in favor of native `fetch` API
+- Eliminates punycode deprecation warnings
+
+### Changed
+- Now uses Node.js native fetch (available in Node 18+)
+- Updated `nock` to v14 for better native fetch support in tests
+- Added `@types/node` v18 as dev dependency
+
+### Migration Guide
+If you're using Node.js v18 or later, no code changes are required. Simply update the package version. If you're using an older version of Node.js (10-16), you'll need to upgrade to Node.js 18+ before updating to v5.0.0.
+
 ## [4.1.0] - 2023-09-11
 - Switches from using request and request-promise-native libraries, to the node-fetch library
 - Updates minimum Node version to 10
