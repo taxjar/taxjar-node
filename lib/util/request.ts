@@ -1,5 +1,3 @@
-import fetch, { RequestInfo, RequestInit } from 'node-fetch';
-
 import { Config, Request, TaxjarError } from './types';
 
 const os = require('os');
